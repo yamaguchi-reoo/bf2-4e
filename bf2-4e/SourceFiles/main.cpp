@@ -1,7 +1,7 @@
-﻿#include "main.h"
-#include "DxLib.h"
+﻿#include "DxLib.h"
 #include "SceneManager.h"
 #include "Title.h"
+#include "main.h"
 
 /********************************
 * メインプログラム 開始
