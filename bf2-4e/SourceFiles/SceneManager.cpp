@@ -1,6 +1,3 @@
-/********************************
-* シーンマネージャー
-********************************/
 #include "SceneManager.h"
 
 AbstractScene* SceneManager::Update() {

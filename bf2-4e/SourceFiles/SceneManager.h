@@ -1,12 +1,5 @@
-/********************************
-* シーンマネージャー
-********************************/
 #pragma once
-
 #include "AbstractScene.h"
-
-// シーンマネージャークラス
-// 各シーンの切り替えを管理。
 
 class SceneManager : public AbstractScene {
 private:

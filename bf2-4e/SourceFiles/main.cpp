@@ -1,15 +1,13 @@
 ﻿#include "DxLib.h"
 #include "SceneManager.h"
 #include "Title.h"
-#include "main.h"
+#include "Define.h"
 
-/********************************
-* メインプログラム 開始
-********************************/
+
+ //メインプログラム 開始
+
 int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR LpCmdLine, _In_ int NCmdShow) {
-    SetMainWindowText(GAME_NAME);         // ウィンドウタイトルを設定
-
-    SetMainWindowClassName(GAME_NAME);             // 他のDxLibと競合しないようにウィンドウクラスを設定
+    SetMainWindowText("bf");         // ウィンドウタイトルを設定
 
     ChangeWindowMode(TRUE);                        // ウインドウモードで起動
 

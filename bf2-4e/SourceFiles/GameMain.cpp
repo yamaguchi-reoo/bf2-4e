@@ -1,7 +1,5 @@
-/********************************
-* ƒQ[ƒ€ƒƒCƒ“ 
-********************************/
-#include "main.h"
+#include "GameMain.h"
+#include"DxLib.h"
 
 GameMain::GameMain() {
     // ‰Šú‰»ˆ—

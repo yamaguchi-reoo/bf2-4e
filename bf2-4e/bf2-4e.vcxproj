@@ -19,10 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="define.h" />
     <ClInclude Include="SourceFiles\AbstractScene.h" />
     <ClInclude Include="SourceFiles\GameMain.h" />
-    <ClInclude Include="SourceFiles\main.h" />
+    <ClInclude Include="SourceFiles\Define.h" />
     <ClInclude Include="SourceFiles\SceneManager.h" />
     <ClInclude Include="SourceFiles\Title.h" />
   </ItemGroup>
