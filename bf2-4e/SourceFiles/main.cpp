@@ -1,14 +1,22 @@
 ﻿#include "main.h"
+#include "DxLib.h"
+#include "SceneManager.h"
+#include "Title.h"
 
 /********************************
 * メインプログラム 開始
 ********************************/
 int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR LpCmdLine, _In_ int NCmdShow) {
-    SetMainWindowText(GAME_NAME);                  // ウィンドウタイトルを設定
+    SetMainWindowText(GAME_NAME);         // ウィンドウタイトルを設定
+
     SetMainWindowClassName(GAME_NAME);             // 他のDxLibと競合しないようにウィンドウクラスを設定
+
     ChangeWindowMode(TRUE);                        // ウインドウモードで起動
+
     SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32); // ウインドウのサイズ
+
     if (DxLib_Init() == -1) return -1;             // DXライブラリの初期化処理
+
     SetDrawScreen(DX_SCREEN_BACK);                 // 描画先画面を裏にする（ダブルバッファリング）
 
     // タイトル シーンオブジェクト作成

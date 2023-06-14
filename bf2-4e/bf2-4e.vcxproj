@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="define.h" />
     <ClInclude Include="SourceFiles\AbstractScene.h" />
     <ClInclude Include="SourceFiles\GameMain.h" />
     <ClInclude Include="SourceFiles\main.h" />
