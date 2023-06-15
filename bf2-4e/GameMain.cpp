@@ -1,5 +1,6 @@
 #include "GameMain.h"
-#include"DxLib.h"
+#include "DxLib.h"
+#include "PadInput.h"
 
 GameMain::GameMain() {
     // ‰Šú‰»ˆ—

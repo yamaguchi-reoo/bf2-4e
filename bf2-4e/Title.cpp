@@ -1,5 +1,7 @@
 #include "Title.h"
 #include "DxLib.h"
+#include "PadInput.h"
+#include "GameMain.h"
 
 Title::Title() {
     // 初期化処理
@@ -11,7 +13,9 @@ Title::~Title() {
 };
 
 AbstractScene* Title::Update() { // ここで値の更新など、処理
-
+    if (PAD_INPUT::OnButton(XINPUT_BUTTON_A)) {
+        return new GameMain();
+    }
     return this; // シーン継続
 };
 
