@@ -29,6 +29,10 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         // シーンマネジャーでシーンの描画開始
         sceneMng->Draw();
 
+        if (PAD_INPUT::OnButton(XINPUT_BUTTON_BACK))
+        {
+            break;
+        }
         ScreenFlip(); // 裏画面の内容を表画面に反映する
     };
 
