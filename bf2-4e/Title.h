@@ -4,6 +4,8 @@
 class Title : public AbstractScene {
 private:
     int state = 0;
+    int FlashTime;        //ポーズ中の文字点滅用
+    bool FlashFlg;      //ポーズ中の文字点滅用
 public:
     // コンストラクタ
     Title();
