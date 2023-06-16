@@ -8,7 +8,6 @@ Title::Title() {
     state = 0;
     FlashTime = 0;
     FlashFlg = FALSE;
-
 };
 
 Title::~Title() {
@@ -22,6 +21,7 @@ AbstractScene* Title::Update() { // ここで値の更新など、処理
         FlashFlg = !FlashFlg;
         FlashTime = 0;
     }
+    //Aボタンでゲームメインへ
     if (PAD_INPUT::OnButton(XINPUT_BUTTON_A)) {
         return new GameMain();
     }
@@ -38,11 +38,10 @@ void Title::Draw() const { // やることは描画のみ、絶対に値の更新はしない
 
     SetFontSize(32);
     if (FlashFlg == TRUE) {
-        DrawString(150, 290, "A   1-PLAYER  GAME", 0xffffff);
+        DrawString(150, 400, "A   1-PLAYER  GAME", 0xffffff);
     }
     else
     {
-        DrawString(150, 290, "A   1-PLAYER  GAME", 0x000000);
+        DrawString(150, 400, "A   1-PLAYER  GAME", 0xff0000);
     }
-    
 };
