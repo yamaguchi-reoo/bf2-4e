@@ -19,19 +19,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractScene.h" />
-    <ClInclude Include="common.h" />
-    <ClInclude Include="GameMain.h" />
-    <ClInclude Include="PadInput.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Title.h" />
+    <ClInclude Include="source\AbstractScene.h" />
+    <ClInclude Include="source\common.h" />
+    <ClInclude Include="source\GameMain.h" />
+    <ClInclude Include="source\PadInput.h" />
+    <ClInclude Include="source\SceneManager.h" />
+    <ClInclude Include="source\Title.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameMain.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="PadInput.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Title.cpp" />
+    <ClCompile Include="source\GameMain.cpp" />
+    <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\PadInput.cpp" />
+    <ClCompile Include="source\SceneManager.cpp" />
+    <ClCompile Include="source\Title.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="source\Log.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

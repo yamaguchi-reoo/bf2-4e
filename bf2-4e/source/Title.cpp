@@ -1,4 +1,5 @@
 #include "Title.h"
+
 #include "DxLib.h"
 #include "PadInput.h"
 #include "GameMain.h"
@@ -8,6 +9,20 @@ Title::Title() {
     state = 0;
     FlashTime = 0;
     FlashFlg = FALSE;
+
+    try
+    {
+        image = LoadGraph("source/Resource/images/Title/Title_Logo.png");
+        if (image == -1) 
+        {
+            throw "source/Resource/images/Title/Title_Logo.png";
+        }
+    }
+    catch(int& err)
+    {
+        printf("エラーコード%d\n", err);
+    }
+
 };
 
 Title::~Title() {
@@ -33,8 +48,10 @@ AbstractScene* Title::Update() { // ここで値の更新など、処理
 void Title::Draw() const { // やることは描画のみ、絶対に値の更新はしない
     SetFontSize(100);
 
-    DrawString(155, 40, "BLLOOM", 0xffffff);
-    DrawString(185, 140, "FIGHT", 0xffffff);
+    //DrawString(155, 40, "BLLOOM", 0xffffff);
+    //DrawString(185, 140, "FIGHT", 0xffffff);
+
+    DrawGraph(0, 0, image, TRUE);
 
     SetFontSize(32);
     if (FlashFlg == TRUE) {
