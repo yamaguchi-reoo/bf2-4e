@@ -3,10 +3,9 @@
 
 class Title : public AbstractScene {
 private:
-    int state = 0;
-    int image;
-    int FlashTime;        //ポーズ中の文字点滅用
-    bool FlashFlg;      //ポーズ中の文字点滅用
+    int LogoImage;      //ロゴ画像
+    int SelectImage;    //セレクト画像
+    int CreditImage;    //クレジット画像
 public:
     // コンストラクタ
     Title();
