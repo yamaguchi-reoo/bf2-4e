@@ -25,6 +25,7 @@
     <ClInclude Include="source\PadInput.h" />
     <ClInclude Include="source\SceneManager.h" />
     <ClInclude Include="source\Title.h" />
+    <ClInclude Include="Stage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\GameMain.cpp" />
@@ -32,6 +33,7 @@
     <ClCompile Include="source\PadInput.cpp" />
     <ClCompile Include="source\SceneManager.cpp" />
     <ClCompile Include="source\Title.cpp" />
+    <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="source\Log.txt" />

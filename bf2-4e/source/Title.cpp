@@ -4,7 +4,8 @@
 #include "PadInput.h"
 #include "GameMain.h"
 
-Title::Title() {
+Title::Title()
+{
     // 初期化処理
     try
     {
@@ -31,20 +32,23 @@ Title::Title() {
     }
 };
 
-Title::~Title() {
+Title::~Title() 
+{
     // 終了処理
 };
 
 AbstractScene* Title::Update() { // ここで値の更新など、処理
     //Aボタンでゲームメインへ
-    if (PAD_INPUT::OnButton(XINPUT_BUTTON_A)|| CheckHitKey(KEY_INPUT_Z)){
+    if (PAD_INPUT::OnButton(XINPUT_BUTTON_A)|| CheckHitKey(KEY_INPUT_Z))
+    {
         return new GameMain();
     }
 
     return this; // シーン継続
 };
 
-void Title::Draw() const { // やることは描画のみ、絶対に値の更新はしない
+void Title::Draw() const 
+{ // やることは描画のみ、絶対に値の更新はしない
     //画像描画
     DrawGraph(45, 20, LogoImage, TRUE);      //ロゴ
     DrawGraph(155, 270, SelectImage, TRUE); //セレクト

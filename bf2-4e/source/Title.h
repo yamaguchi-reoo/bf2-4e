@@ -1,7 +1,8 @@
 #pragma once
 #include "AbstractScene.h"
 
-class Title : public AbstractScene {
+class Title : public AbstractScene 
+{
 private:
     int LogoImage;      //ƒƒS‰æ‘œ
     int SelectImage;    //ƒZƒŒƒNƒg‰æ‘œ

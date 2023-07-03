@@ -22,12 +22,13 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     SceneManager* sceneMng = new SceneManager((AbstractScene*) new Title());
 
     // ゲームループし、シーンマネジャーでシーンの更新
-    while ((ProcessMessage() == 0) && (sceneMng->Update() != nullptr)) {
+    while ((ProcessMessage() == 0) && (sceneMng->Update() != nullptr)) 
+    {
         ClearDrawScreen(); // 画面の初期化
-        PAD_INPUT::UpdateKey();
+        PAD_INPUT::UpdateKey();//入力処理
         // シーンマネジャーでシーンの描画開始
         sceneMng->Draw();
-
+        //強制終了
         if (PAD_INPUT::OnButton(XINPUT_BUTTON_BACK))
         {
             break;
