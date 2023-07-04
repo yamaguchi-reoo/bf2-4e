@@ -1,9 +1,10 @@
 #pragma once
 #include "AbstractScene.h"
+#include"Stage.h"
 
 class GameMain : public AbstractScene {
 private:
-    int state;
+    Stage* stage;
 public:
     // コンストラクタ
     GameMain();
