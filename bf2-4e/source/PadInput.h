@@ -18,9 +18,6 @@ private:
 	static XINPUT_STATE Input; //パッド
 	static Stick Rstick; //右スティック
 	static Stick Lstick; //左スティック
-private:
-	//コンストラクタ
-	PAD_INPUT() = default;
 public:
 	//パッド情報の更新
 	static void UpdateKey()

@@ -3,6 +3,12 @@
 class Stage 
 {
 private:
+	int stage_number;//ステージ数用変数
+
+	int stage_image01;
+	int stage_image02;
+	int stage_image03;
+	int stage_image04;
 public:
 	//コンストラクタ
 	Stage();
