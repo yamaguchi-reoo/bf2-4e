@@ -9,6 +9,7 @@
     <ClCompile Include="source\Title.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\Player.cpp" />
+    <ClCompile Include="PlayerCollision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\AbstractScene.h" />
@@ -20,6 +21,7 @@
     <ClInclude Include="source\Title.h" />
     <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\Player.h" />
+    <ClInclude Include="PlayerCollision.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="source\Log.txt" />

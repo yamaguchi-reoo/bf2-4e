@@ -28,4 +28,6 @@ void GameMain::Draw() const
     DrawFormatString(20, 50, 0xffffff, "Game Main");
 
     stage->Draw();
+
+    player.Draw();         //ƒvƒŒƒCƒ„[‰æ‘œ‚Ì•`‰æˆ—
 };

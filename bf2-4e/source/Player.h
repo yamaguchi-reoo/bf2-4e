@@ -2,8 +2,12 @@
 
 class Player
 {
-public:
+private:
 	int PlayerImages[30];
+
+public:
+	void PlayerDash();
+	void PlayerFlight();
 
 public:
 	Player();			//コンストラクタ
