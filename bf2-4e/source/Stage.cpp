@@ -29,7 +29,7 @@ Stage::~Stage()
 void Stage::Update() 
 {
 	//Aボタンでステージ遷移
-	if (PAD_INPUT::OnButton(XINPUT_BUTTON_A||CheckHitKey(KEY_INPUT_Z))) {
+	if (PAD_INPUT::OnButton(XINPUT_BUTTON_A)) {
 		stage_number++;
 	}
 
