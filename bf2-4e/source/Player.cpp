@@ -27,6 +27,6 @@ void Player::PlayerDash()
 {
 	if (PAD_INPUT::OnButton(XINPUT_BUTTON_A) == 1)
 	{
-		PlayerImages
+		PlayerImages;
 	}
 }
