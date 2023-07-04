@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="source\AbstractScene.h" />
     <ClInclude Include="source\common.h" />
     <ClInclude Include="source\GameMain.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="Stage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="source\GameMain.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\PadInput.cpp" />
