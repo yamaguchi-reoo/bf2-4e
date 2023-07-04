@@ -12,3 +12,15 @@ Enemy::~Enemy()
 {
 
 }
+
+// •`‰æˆÈŠO‚ÌXV‚ğÀ‘•
+void Enemy::Update()
+{
+
+}
+
+// •`‰æ‚ÉŠÖ‚·‚é‚±‚Æ‚ğÀ‘•
+void Enemy::Draw() const
+{
+
+}

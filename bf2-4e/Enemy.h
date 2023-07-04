@@ -9,7 +9,16 @@ private:
 	int enemy_red_image[19];				// 赤色の敵の画像
 
 public:
-	Enemy();					// コンストラクタ
-	~Enemy();					// デストラクタ
+	// コンストラクタ
+	Enemy();
+	// デストラクタ
+	~Enemy();
+
+	// 描画以外の更新を実装
+	void Update();
+
+	// 描画に関することを実装
+	void  Draw() const;
+
 };
 
