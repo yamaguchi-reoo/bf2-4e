@@ -14,6 +14,11 @@ struct Erea			//”ÍˆÍ
 };
 class BoxCollider
 {
+private:
+	Location location;
+	Erea erea;
+
+public:
 
 };
 
