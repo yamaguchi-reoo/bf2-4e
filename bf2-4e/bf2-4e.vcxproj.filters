@@ -22,6 +22,7 @@
     <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\Player.h" />
     <ClInclude Include="source\Collision.h" />
+    <ClInclude Include="source\Fps.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="source\Log.txt" />

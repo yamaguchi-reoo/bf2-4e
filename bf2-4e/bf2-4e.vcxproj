@@ -23,6 +23,7 @@
     <ClInclude Include="source\AbstractScene.h" />
     <ClInclude Include="source\common.h" />
     <ClInclude Include="source\Enemy.h" />
+    <ClInclude Include="source\Fps.h" />
     <ClInclude Include="source\GameMain.h" />
     <ClInclude Include="source\PadInput.h" />
     <ClInclude Include="source\Player.h" />
