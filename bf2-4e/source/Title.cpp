@@ -40,7 +40,7 @@ Title::~Title()
 AbstractScene* Title::Update() 
 { // ここで値の更新など、処理
     //Aボタンでゲームメインへ
-    if (PAD_INPUT::OnButton(XINPUT_BUTTON_A)|| CheckHitKey(KEY_INPUT_Z))
+    if (PadInput::OnButton(XINPUT_BUTTON_A)|| CheckHitKey(KEY_INPUT_Z))
     {
         return new GameMain();
     }

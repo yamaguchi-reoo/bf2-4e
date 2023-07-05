@@ -21,11 +21,11 @@ void Player::Update()
 }
 void Player::Draw()const
 {
-	DrawRotaGraph(250, 250, 1, 0, PlayerImages[0], TRUE, FALSE);
+	DrawRotaGraph(250, 250, 1, 0, PlayerImages[29], TRUE, FALSE);
 }
 void Player::PlayerDash()
 {
-	if (PAD_INPUT::OnButton(XINPUT_BUTTON_A) == 1)
+	if (PadInput::OnButton(XINPUT_BUTTON_A) == 1)
 	{
 		PlayerImages;
 	}

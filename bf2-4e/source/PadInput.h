@@ -10,7 +10,7 @@ struct Stick
 	short ThumbY;	//c²’l
 };
 
-class PAD_INPUT
+class PadInput
 {
 private:
 	static char NowKey[BUTTONS]; //¡‰ñ‚Ì“ü—ÍƒL[
