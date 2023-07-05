@@ -30,4 +30,6 @@ void GameMain::Draw() const
     stage->Draw();
 
     player.Draw();         //プレイヤー画像の描画処理
+
+    enemy.Draw();         //プレイヤー画像の描画処理
 };
