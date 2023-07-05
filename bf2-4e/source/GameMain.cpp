@@ -5,7 +5,7 @@
 GameMain::GameMain() 
 {
     // 初期化処理
-    state = 0;
+    stage = new Stage();
 };
 
 GameMain::~GameMain() 
@@ -16,6 +16,8 @@ GameMain::~GameMain()
 AbstractScene* GameMain::Update() 
 { // ここで値の更新など、処理
 
+    stage->Update();
+
     return this; // シーン継続
 };
 
@@ -24,4 +26,8 @@ void GameMain::Draw() const
     SetFontSize(16);
 
     DrawFormatString(20, 50, 0xffffff, "Game Main");
+
+    stage->Draw();
+
+    player.Draw();         //プレイヤー画像の描画処理
 };

@@ -10,7 +10,7 @@ struct Stick
 	short ThumbY;	//縦軸値
 };
 
-class PAD_INPUT
+class PadInput
 {
 private:
 	static char NowKey[BUTTONS]; //今回の入力キー
@@ -18,9 +18,6 @@ private:
 	static XINPUT_STATE Input; //パッド
 	static Stick Rstick; //右スティック
 	static Stick Lstick; //左スティック
-private:
-	//コンストラクタ
-	PAD_INPUT() = default;
 public:
 	//パッド情報の更新
 	static void UpdateKey()

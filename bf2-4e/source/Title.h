@@ -4,9 +4,9 @@
 class Title : public AbstractScene 
 {
 private:
-    int LogoImage;      //ロゴ画像
-    int SelectImage;    //セレクト画像
-    int CreditImage;    //クレジット画像
+    int logo_image;      //ロゴ画像
+    int select_image;    //セレクト画像
+    int credit_image;    //クレジット画像
 public:
     // コンストラクタ
     Title();
