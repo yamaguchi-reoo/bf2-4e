@@ -19,6 +19,7 @@ private:
 	Erea erea;
 
 public:
-
+	BoxCollider();		//コンストラクタ
+	~BoxCollider();		//デストラクタ
+	void Update();		//描画以外に関することを実装する
 };
-
