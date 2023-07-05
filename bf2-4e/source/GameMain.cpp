@@ -18,6 +18,8 @@ AbstractScene* GameMain::Update()
 
     stage->Update();
 
+    enemy.Update();
+
     return this; // ƒV[ƒ“Œp‘±
 };
 

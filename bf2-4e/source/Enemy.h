@@ -3,10 +3,13 @@
 class Enemy
 {
 private:
-	// 画像変数
+	// 画像用変数
 	int enemy_pink_image[19];				// 桃色の敵の画像
 	int enemy_green_image[19];				// 緑色の敵の画像
 	int enemy_red_image[19];				// 赤色の敵の画像
+
+	int fps_count;							// fpsのカウント
+	int animation_pattern_number;			// アニメーションパターンの番号
 
 public:
 	// コンストラクタ
@@ -19,6 +22,9 @@ public:
 
 	// 描画に関することを実装
 	void  Draw() const;
+
+	// 風船を膨らませるアニメーション処理
+	void InflatBealloon();
 
 };
 
