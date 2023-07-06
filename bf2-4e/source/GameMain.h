@@ -2,11 +2,13 @@
 #include "AbstractScene.h"
 #include"Stage.h"
 #include "Player.h"
+#include "Enemy.h"
 
 class GameMain : public AbstractScene {
 private:
     Stage* stage;
     Player player;      //プレイヤークラスのオブジェクト化
+    Enemy enemy;        // Enemyクラスのオブジェクト化
 
 public:
     // コンストラクタ
