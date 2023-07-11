@@ -10,7 +10,7 @@ struct Stick
 	short ThumbY;	//縦軸値
 };
 
-class PAD_INPUT
+class PadInput
 {
 private:
 	static char NowKey[BUTTONS]; //今回の入力キー
@@ -18,9 +18,6 @@ private:
 	static XINPUT_STATE Input; //パッド
 	static Stick Rstick; //右スティック
 	static Stick Lstick; //左スティック
-private:
-	//コンストラクタ
-	PAD_INPUT() = default;
 public:
 	//パッド情報の更新
 	static void UpdateKey()
@@ -32,10 +29,6 @@ public:
 			OldKey[i] = NowKey[i];
 			NowKey[i] = Input.Buttons[i];
 		}
-
-		//右スティック
-		Rstick.ThumbX = Input.ThumbRX;
-		Rstick.ThumbY = Input.ThumbRY;
 
 		//左スティック
 		Lstick.ThumbX = Input.ThumbLX;
@@ -61,12 +54,6 @@ public:
 	{
 		bool ret = (NowKey[button] == 0 && OldKey[button] == 1);
 		return ret;
-	}
-
-	//右スティックの取得
-	static Stick GetRStick()
-	{
-		return Rstick;
 	}
 
 	//左スティックの取得
