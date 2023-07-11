@@ -33,5 +33,5 @@ public:
 
 	Erea GetErea()const;
 
-	void SetLocation()const;
+	void SetLocation(Location location);
 };

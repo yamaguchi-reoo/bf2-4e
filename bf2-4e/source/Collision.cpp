@@ -2,7 +2,7 @@
 
 bool BoxCollider::HitBox(BoxCollider* bCollider)
 {
-	bool ret = false;
+	bool ret = false;	//返り値
 
 	//プレイヤーの当たり判定の範囲
 	float player_x1 = location.x - (erea.width * erea.width_rate);
@@ -33,19 +33,30 @@ bool BoxCollider::HitBox(BoxCollider* bCollider)
 	}
 	
 	//エネミーとプレイヤーの当たり判定
-
-
-
 	return false;
+
+	if ((player_x1 < enemy_x2) && (enemy_x1 < player_x2) && (player_y1 < enemy_y2) && (enemy_y1 < player_y2))
+	{
+		return true;
+	}
+	return ret;
 }
 
+//中心座標の取得
 Location BoxCollider::GetLocation() const
 {
 	Location ret = { location.x,location.y };
 	return ret;
 }
 
+//半径の取得
 Erea BoxCollider::GetErea()const
 {
 	return erea;
+}
+
+//中心座標の設定
+void BoxCollider::SetLocation(Location location)
+{
+	this->location = location;
 }

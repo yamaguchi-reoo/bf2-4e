@@ -19,6 +19,8 @@ AbstractScene* GameMain::Update()
 
     stage->Update();
 
+    player.Update();
+
     return this; // ƒV[ƒ“Œp‘±
 };
 
