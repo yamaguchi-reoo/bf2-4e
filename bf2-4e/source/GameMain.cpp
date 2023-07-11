@@ -27,9 +27,9 @@ void GameMain::Draw() const
 
     DrawFormatString(20, 50, 0xffffff, "Game Main");
 
-    stage->Draw();
+    stage->Draw();        //ステージ画像の描画処理
 
-    player.Draw();         //プレイヤー画像の描画処理
+    player.Draw();        //プレイヤー画像の描画処理
 
     enemy.Draw();         //プレイヤー画像の描画処理
 };
