@@ -15,12 +15,12 @@ Enemy::Enemy()
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_G_Animation.png", 19, 8, 3, 64, 64, enemy_green_image);
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 19, 8, 3, 64, 64, enemy_red_image);
 
-	enemy_x = 32;
+	enemy_x = 0;
 	enemy_y = 0;
 	enemy_speed = 0;
 
 	fps_count = 0;
-	animation_pattern_number = 0;
+	//animation_pattern_number = 0;
 	second = 0;
 
 	inflat_bealloon_count = 0;
@@ -59,12 +59,16 @@ void Enemy::Update()
 			InflatBealloon();
 			break;
 		case EnemyState::kFlight:
+			Flight();
 			break;
 		case EnemyState::kParachute:
+			Parachute();
 			break;
 		case EnemyState::kUpright:
+			Upright();
 			break;
 		case EnemyState::kDeath:
+			Death();
 			break;
 		default:
 			break;
@@ -82,7 +86,7 @@ void Enemy::Draw() const
 	{
 	case Enemy::EnemyState::kInflatBealloon:
 		// 風船を膨らまし切ると浮き上がる
-		DrawRotaGraph(200, 252 - enemy_y, 1, 0, enemy_pink_image[animation_pattern_number], TRUE, FALSE);
+		DrawRotaGraph(200, 252 - enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, FALSE);
 		break;
 	case Enemy::EnemyState::kFlight:
 		break;
@@ -100,17 +104,30 @@ void Enemy::Draw() const
 
 }
 
+// 敵の上下左右移動処理
+void Enemy::EnemyMove()
+{
+	
+}
+
+// 敵の回避行動処理
+void Enemy::Avoidance()
+{
+
+}
+
 // 風船を膨らませるアニメーション処理
 void Enemy::InflatBealloon()
 {
 	inflat_bealloon_count++;
 
+	// 22フレーム毎に画像を切り替える
 	next_image = inflat_bealloon_count / 22;
 
 	if (now_image != next_image)
 	{
 		now_image = next_image;
-		animation_pattern_number = next_image;
+		//animation_pattern_number = next_image;
 	}
 
 	if (inflat_bealloon_count >= 180 && enemy_y <= 20)
@@ -119,7 +136,7 @@ void Enemy::InflatBealloon()
 		enemy_y++;
 
 		// 浮上時の画像へ切り替え
-		animation_pattern_number = 8;
+		now_image = 8;
 	}
 	else if(inflat_bealloon_count >= 180)
 	{
@@ -130,4 +147,31 @@ void Enemy::InflatBealloon()
 		enemy_state = EnemyState::kFlight;
 	}
 
+}
+
+// 空中で羽ばたくアニメーション処理
+void Enemy::Flight()
+{
+
+}
+
+// パラシュート状態のアニメーション処理
+void Enemy::Parachute()
+{
+
+}
+
+// 直立状態の処理
+void Enemy::Upright()
+{
+	// 直立状態の画像
+	now_image = 0;
+}
+
+// 死亡時のアニメーション処理
+void Enemy::Death()
+{
+	now_image = 13;
+
+	//next_image = 
 }

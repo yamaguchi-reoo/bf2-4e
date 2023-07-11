@@ -13,7 +13,7 @@ private:
 	int enemy_speed;						// 敵のスピード
 
 	int fps_count;							// fpsのカウント
-	int animation_pattern_number;			// アニメーションパターンの番号
+	//int animation_pattern_number;			// アニメーションパターンの番号
 	int second;								// 秒数のカウント
 
 	int inflat_bealloon_count;				// 風船を膨らましきるまでのカウント
@@ -44,8 +44,25 @@ public:
 	// 描画に関することを実装
 	void  Draw() const;
 
+	// 敵の上下左右移動処理
+	void EnemyMove();
+
+	// 敵の回避行動処理
+	void Avoidance();
+
 	// 風船を膨らませるアニメーション処理
 	void InflatBealloon();
 
+	// 空中で羽ばたくアニメーション処理
+	void Flight();
+
+	// パラシュート状態のアニメーション処理
+	void Parachute();
+
+	// 直立状態の処理
+	void Upright();
+
+	// 死亡時のアニメーション処理
+	void Death();
 };
 
