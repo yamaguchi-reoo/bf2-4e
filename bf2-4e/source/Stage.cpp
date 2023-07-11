@@ -35,6 +35,11 @@ void Stage::Update()
 	{
 		stage_number++;
 	}
+	//Aボタンでステージ遷移
+	if (PadInput::OnButton(XINPUT_BUTTON_B))
+	{
+		stage_number--;
+	}
 
 	//オブジェクト配置
 	switch (stage_number)
@@ -184,25 +189,35 @@ void Stage::Draw()const
 	{
 	case 0://ステージ1
 		DrawGraph(stage_location[0].x, stage_location[0].y , stage_location[0].image, TRUE);
+		//デバッグ用ボックス
+		DrawBoxAA(stage[0].x, stage[0].y, stage[0].x + stage[0].w, stage[0].y + stage[0].h, 0xffffff, FALSE);
 		break;
 	case 1:	//ステージ2
 		for (int i = 0; i <= 3; i++) {
 			DrawGraph(stage_location[i].x, stage_location[i].y, stage_location[i].image, TRUE);
+			//デバッグ用ボックス
+			DrawBoxAA(stage[i].x, stage[i].y, stage[i].x + stage[i].w, stage[i].y + stage[i].h, 0xffffff, FALSE);
 		}
 		break;
 	case 2: //ステージ3
 		for (int i = 0; i <= 4; i++) {
 			DrawGraph(stage_location[i].x, stage_location[i].y, stage_location[i].image, TRUE);
+			//デバッグ用ボックス
+			DrawBoxAA(stage[i].x, stage[i].y, stage[i].x + stage[i].w, stage[i].y + stage[i].h, 0xffffff, FALSE);
 		}
 		break;
 	case 3: //ステージ4
 		for (int i = 0; i <= 4; i++) {
 			DrawGraph(stage_location[i].x, stage_location[i].y, stage_location[i].image, TRUE);
+			//デバッグ用ボックス
+			DrawBoxAA(stage[i].x, stage[i].y, stage[i].x + stage[i].w, stage[i].y + stage[i].h, 0xffffff, FALSE);
 		}
 		break;
 	case 4: //ステージ5
 		for (int i = 0; i <= 5; i++) {
 			DrawGraph(stage_location[i].x, stage_location[i].y, stage_location[i].image, TRUE);
+			//デバッグ用ボックス
+			DrawBoxAA(stage[i].x, stage[i].y, stage[i].x + stage[i].w, stage[i].y + stage[i].h, 0xffffff, FALSE);
 		}
 		break;
 	default:
@@ -211,6 +226,8 @@ void Stage::Draw()const
 	//ステージ数が4になったら色変更
 	for (int i = 6; i <= 7; i++) {
 		DrawGraph(stage_location[i].x, stage_location[i].y, stage_location[i].image, TRUE);
+		//デバッグ用ボックス
+		DrawBoxAA(stage[i].x, stage[i].y, stage[i].x + stage[i].w, stage[i].y + stage[i].h, 0xffffff, FALSE);
 	}
 	//海
 	DrawGraph(160, 444, sea_image, TRUE);
@@ -225,60 +242,64 @@ void Stage::SetPosition(int posX, int posY, int num, int image)
 
 	if (image == floor_image01) 
 	{
-		stage_location[num].w = 280;
-		stage_location[num].h = 17;
+		SetObjectErea(280, 17, stage_location[num].x, stage_location[num].y, num);
 	}
 	if (image == floor_image02)
 	{
-		stage_location[num].w = 122;
-		stage_location[num].h = 17;
+
+		SetObjectErea(122, 17, stage_location[num].x, stage_location[num].y, num);
 	}
 	if (image == floor_image03)
 	{
-		stage_location[num].w = 81;
-		stage_location[num].h = 17;
+
+		SetObjectErea(81, 17, stage_location[num].x, stage_location[num].y, num);
 	}
 	if (image == floor_image04)
 	{
-		stage_location[num].w = 62;
-		stage_location[num].h = 32;
+
+		SetObjectErea(62, 32, stage_location[num].x, stage_location[num].y, num);
 	}
 	if (image == floor_image05)
 	{
-		stage_location[num].w = 42;
-		stage_location[num].h = 17;
+	
+		SetObjectErea(42, 17, stage_location[num].x, stage_location[num].y, num);
 	}
 	if (image == floor_image06)
 	{
-		stage_location[num].w = 62;
-		stage_location[num].h = 17;
+	
+		SetObjectErea(62, 17, stage_location[num].x, stage_location[num].y, num);
 	}
 	if (image == floor_image07)
 	{
-		stage_location[num].w = 22;
-		stage_location[num].h = 51;
+		SetObjectErea(22, 51, stage_location[num].x, stage_location[num].y, num);
 	}
 	if (image == floor_image08)
 	{
-		stage_location[num].w = 22;
-		stage_location[num].h = 67;
+
+		SetObjectErea(22, 67, stage_location[num].x, stage_location[num].y, num);
 	}
 
 	if (image == floor_image02)
 	{
-		stage_location[num].w = 122;
-		stage_location[num].h = 17;
+
+		SetObjectErea(122, 17, stage_location[num].x, stage_location[num].y, num);
 	}
 
 	if (image == floor_left_image01 || image == floor_left_image02)
 	{
-		stage_location[num].w = 160;
-		stage_location[num].h = 32;
+
+		SetObjectErea(160, 32, stage_location[num].x, stage_location[num].y, num);
 	}
 	if (image == floor_right_image01 || image == floor_right_image02)
 	{
-		stage_location[num].w = 160;
-		stage_location[num].h = 32;
+
+		SetObjectErea(160, 32, stage_location[num].x, stage_location[num].y, num);
 	}
 }
-
+void Stage::SetObjectErea(int _w, int _h, int _x, int _y, int _num) 
+{
+	stage[_num].x= (float)stage_location[_num].x;
+	stage[_num].y = (float)stage_location[_num].y;
+	stage[_num].w = (float)_w;
+	stage[_num].h = (float)_h;
+}

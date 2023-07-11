@@ -16,7 +16,24 @@ bool BoxCollider::HitBox(BoxCollider* bCollider)
 	float enemy_x2 = enemy_x1 + bCollider->erea.width;
 	float enemy_y2 = enemy_y1 + bCollider->erea.height;
 
+
+	//ステージの当たり判定の範囲
+	for (int i = 0; i < 7; i++) {
+		float stage_x1 = bCollider->stage[i].x;
+		float stage_y1 = bCollider->stage[i].y;
+		float stage_x2 = stage_x1 + bCollider->stage[i].w;
+		float stage_y2 = stage_y1 + bCollider->stage[i].h;
+
+		//ステージとプレイヤーの当たり判定
+		if ((player_x1 < stage_x2) && (stage_x1 < player_x2) && (player_y1 < stage_x2) && (player_y1 < stage_y2)) //当たり判定
+		{
+			ret = true;
+		}
+
+	}
+	
 	//エネミーとプレイヤーの当たり判定
+
 
 
 	return false;
@@ -26,4 +43,9 @@ Location BoxCollider::GetLocation() const
 {
 	Location ret = { location.x,location.y };
 	return ret;
+}
+
+Erea BoxCollider::GetErea()const
+{
+	return erea;
 }

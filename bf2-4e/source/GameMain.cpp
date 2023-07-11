@@ -10,11 +10,12 @@ GameMain::GameMain()
 
 GameMain::~GameMain() 
 {
+    delete stage;
     // 終了処理
 };
 
 AbstractScene* GameMain::Update() 
-{ // ここで値の更新など、処理
+{ // ここで値の更新など、処理)
 
     stage->Update();
 
