@@ -5,6 +5,10 @@
 struct STAGE {
 	int x;
 	int y;
+	//int tx;//t字オブジェクト専用
+	//int ty;//t字オブジェクト専用
+	//int tw;//t字オブジェクト専用
+	//int th;//t字オブジェクト専用
 	int w;
 	int h;
 	int image;
@@ -13,7 +17,7 @@ class Stage :public BoxCollider
 {
 private:
 	int stage_number;//ステージ数用変数
-	struct STAGE stage_location[6];//構造体用配列
+	struct STAGE stage_location[8];//構造体用配列
 	int stage_object;//オブジェクト数
 
 	//画像用変数
@@ -44,12 +48,5 @@ public:
 	void  Draw() const;
 
 	// オブジェクトの位置設定する関数
-	void SetPosition(int posX, int posY,int num,int image) 
-	{
-		stage_location[num].x = posX;
-		stage_location[num].y = posY;
-
-		stage_location[num].image = image;
-	}
-
+	void SetPosition(int posX, int posY, int num, int image);
 };

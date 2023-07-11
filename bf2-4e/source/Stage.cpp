@@ -147,7 +147,36 @@ void Stage::Update()
 	default:
 		break;
 	}
-
+	//床（左右）
+	//ステージ数が4になったら色変更
+	if (stage_number < 3)
+	{
+		for (stage_object = 6; stage_object <= 7; stage_object++)
+		{
+			if (stage_object == 6)
+			{
+				SetPosition(0, 416, stage_object, floor_left_image01);
+			}
+			if (stage_object == 7)
+			{
+				SetPosition(480, 416, stage_object, floor_right_image01);
+			}
+		}
+	}
+	else
+	{
+		for (stage_object = 6; stage_object <= 7; stage_object++)
+		{
+			if (stage_object == 6)
+			{
+				SetPosition(0, 416, stage_object, floor_left_image02);
+			}
+			if (stage_object == 7)
+			{
+				SetPosition(480, 416, stage_object, floor_right_image02);
+			}
+		}
+	}
 }
 void Stage::Draw()const 
 {
@@ -180,17 +209,76 @@ void Stage::Draw()const
 		break;
 	}
 	//ステージ数が4になったら色変更
-	if (stage_number < 3)
-	{
-		DrawGraph(0, 416, floor_left_image01, TRUE);
-		DrawGraph(480, 416, floor_right_image01, TRUE);
-	}
-	else
-	{
-		DrawGraph(0, 416, floor_left_image02, TRUE);
-		DrawGraph(480, 416, floor_right_image02, TRUE);
+	for (int i = 6; i <= 7; i++) {
+		DrawGraph(stage_location[i].x, stage_location[i].y, stage_location[i].image, TRUE);
 	}
 	//海
 	DrawGraph(160, 444, sea_image, TRUE);
+}
+// オブジェクトの位置設定する関数
+void Stage::SetPosition(int posX, int posY, int num, int image)
+{
+	stage_location[num].x = posX;
+	stage_location[num].y = posY;
+
+	stage_location[num].image = image;
+
+	if (image == floor_image01) 
+	{
+		stage_location[num].w = 280;
+		stage_location[num].h = 17;
+	}
+	if (image == floor_image02)
+	{
+		stage_location[num].w = 122;
+		stage_location[num].h = 17;
+	}
+	if (image == floor_image03)
+	{
+		stage_location[num].w = 81;
+		stage_location[num].h = 17;
+	}
+	if (image == floor_image04)
+	{
+		stage_location[num].w = 62;
+		stage_location[num].h = 32;
+	}
+	if (image == floor_image05)
+	{
+		stage_location[num].w = 42;
+		stage_location[num].h = 17;
+	}
+	if (image == floor_image06)
+	{
+		stage_location[num].w = 62;
+		stage_location[num].h = 17;
+	}
+	if (image == floor_image07)
+	{
+		stage_location[num].w = 22;
+		stage_location[num].h = 51;
+	}
+	if (image == floor_image08)
+	{
+		stage_location[num].w = 22;
+		stage_location[num].h = 67;
+	}
+
+	if (image == floor_image02)
+	{
+		stage_location[num].w = 122;
+		stage_location[num].h = 17;
+	}
+
+	if (image == floor_left_image01 || image == floor_left_image02)
+	{
+		stage_location[num].w = 160;
+		stage_location[num].h = 32;
+	}
+	if (image == floor_right_image01 || image == floor_right_image02)
+	{
+		stage_location[num].w = 160;
+		stage_location[num].h = 32;
+	}
 }
 
