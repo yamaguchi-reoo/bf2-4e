@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "DxLib.h"
+#include <math.h>
 
 // コンストラクタ
 Enemy::Enemy()
@@ -29,6 +30,9 @@ Enemy::Enemy()
 	next_image = 0;
 
 	enemy_state = EnemyState::kInflatBealloon;
+
+	mouse_x = 0;
+	mouse_y = 0;
 }
 
 // デストラクタ
@@ -40,8 +44,10 @@ Enemy::~Enemy()
 // 描画以外の更新を実装
 void Enemy::Update()
 {
-	fps_count++;
+	// マウスの座標の取得（のちにプレイヤーの座標に変わる）
+	GetMousePoint(&mouse_x, &mouse_y);
 
+	fps_count++;
 
 	if (fps_count >= 60)
 	{
@@ -59,6 +65,7 @@ void Enemy::Update()
 			InflatBealloon();
 			break;
 		case EnemyState::kFlight:
+			EnemyMove();
 			Flight();
 			break;
 		case EnemyState::kParachute:
@@ -82,6 +89,16 @@ void Enemy::Draw() const
 	// ステージ１に敵の画像の描画
 	//DrawRotaGraph(200, 252, 1, 0, enemy_pink_image[animation_pattern_number], TRUE, FALSE);
 
+	// 秒数の描画
+	DrawFormatString(10, 10, 0xFFFFFF, "秒数%5d", second);
+
+	// マウスの座標の描画
+	DrawFormatString(10, 100, 0xffffff, "mouse_x = %3d, mouse_y = %3d", mouse_x, mouse_y);
+
+	// 桃色の敵画像の描画
+	//DrawRotaGraph(200 + enemy_x, 252 + enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, FALSE);
+
+
 	switch (enemy_state)
 	{
 	case Enemy::EnemyState::kInflatBealloon:
@@ -89,6 +106,7 @@ void Enemy::Draw() const
 		DrawRotaGraph(200, 252 - enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, FALSE);
 		break;
 	case Enemy::EnemyState::kFlight:
+		DrawRotaGraph(200 + enemy_x, 252 + enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, FALSE);
 		break;
 	case Enemy::EnemyState::kParachute:
 		break;
@@ -100,20 +118,24 @@ void Enemy::Draw() const
 		break;
 	}
 
-	DrawFormatString(10, 10, 0xFFFFFF, "秒数%5d", second);
-
 }
 
 // 敵の上下左右移動処理
 void Enemy::EnemyMove()
 {
 	
+	enemy_x = 0;
+	enemy_y = 0;
 }
 
 // 敵の回避行動処理
 void Enemy::Avoidance()
 {
+	// 敵が右を向いているとき
+	enemy_x++;
 
+	// 敵が左を向いているとき
+	enemy_x--;
 }
 
 // 風船を膨らませるアニメーション処理
@@ -174,4 +196,12 @@ void Enemy::Death()
 	now_image = 13;
 
 	//next_image = 
+
+	// 敵の落下
+	enemy_y++;
+	// 現在の座標 + enemy_y >= 480 にする必要がある
+	if (enemy_y >= 480)
+	{
+
+	}
 }

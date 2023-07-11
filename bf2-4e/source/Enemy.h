@@ -30,7 +30,11 @@ private:
 		kDeath								// 死亡
 	};
 
-	EnemyState enemy_state;						// 敵の状態
+	EnemyState enemy_state;					// 敵の状態
+
+	int mouse_x;							// マウスのX座標
+	int mouse_y;							// マウスのY座標
+
 
 public:
 	// コンストラクタ
