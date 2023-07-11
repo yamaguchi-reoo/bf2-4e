@@ -3,8 +3,8 @@
 class UI
 {
 private:
-	int Score;	//スコア
-
+	int score;	//スコア
+	
 
 public:
 	//コンストラクタ
