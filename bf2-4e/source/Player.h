@@ -1,12 +1,17 @@
 #pragma once
+#include "Collision.h"
 
-class Player
+class Player :public BoxCollider
 {
 private:
-	int PlayerImages[30];
+	int player_images[30];
+	int player_flg; //0:’n–Ê‚É‚¢‚éó‘Ô@‚PF—‰ºó‘Ô
+	float player_x1;
+	float player_y1;
+	float player_x2;
+	float player_y2;
 
 public:
-	void PlayerDash();
 	void PlayerFlight();
 
 public:

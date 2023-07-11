@@ -23,7 +23,7 @@ public:
 
 	Location GetLocation()const;
 
-	void GetErea()const;
+	Erea GetErea()const;
 
-	void SetLocation()const;
+	void SetLocation(Location location);
 };
