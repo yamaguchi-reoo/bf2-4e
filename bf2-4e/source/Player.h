@@ -13,10 +13,12 @@ private:
 
 public:
 	void PlayerFlight();
+	void PlayerFall();	//プレイヤーの落下処理
+	void PlayerGroundWalk();	//プレイヤーの地面での動作
 
 public:
 	Player();			//コンストラクタ
-	~Player();			//デストラクタ
+	~Player();			//デストラクタ	
 	void Update();		//描画以外に関することを実装する
 	void Draw()const;	//描画に関することを実装する
 };

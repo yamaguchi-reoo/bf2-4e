@@ -11,7 +11,7 @@ Player::Player()
 	}
 	LoadDivGraph("Source/Resource/images/Player/Player_Animation.png",30,8,4,64,64, player_images);
 	
-	player_flg = 0;
+	player_flg = 1;
 	location.x = 100.0;
 	location.y = 400.0;
 	erea.width = 64.0;
@@ -33,19 +33,38 @@ void Player::Update()
 	player_y1 = location.y - ((erea.height/2) * erea.height_rate);
 	player_x2 = player_x1 + erea.width;
 	player_y2 = player_y1 + erea.height;
+	PlayerGroundWalk();
+	PlayerFlight();
+	PlayerFall();
 }
 void Player::Draw()const
 {
-	DrawRotaGraph(location.x, location.y, 1, 0, player_images[0], TRUE, FALSE);
+	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, player_images[0], TRUE, FALSE);
 
 	DrawFormatString(100, 100, 0xffffff, "x1:%f y1:%f,x2:%f y2:%f", player_x1, player_y1, player_x2, player_y2);
 
 	DrawBox(player_x1, player_y1, player_x2, player_y2, 0xff0000, FALSE);
 }
+void Player::PlayerGroundWalk()
+{
+	player_flg = 0;
+	if(PadInput::OnButton(XINPUT_BUTTON_X) == 0 && player_flg == 0)
+	{
+		player_images[1];
+	}
+}
 void Player::PlayerFlight()
 {
-	if (PadInput::OnButton(XINPUT_BUTTON_A) == 1)
+	if (PadInput::OnButton(XINPUT_BUTTON_X) == 1)
 	{
 		player_flg = 1;
+		location.y -= 2;
+	}
+}
+void Player::PlayerFall()
+{
+	if (player_flg == 1)
+	{
+		location.y += 3;
 	}
 }
