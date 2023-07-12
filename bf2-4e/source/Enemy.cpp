@@ -16,9 +16,11 @@ Enemy::Enemy()
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_G_Animation.png", 19, 8, 3, 64, 64, enemy_green_image);
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 19, 8, 3, 64, 64, enemy_red_image);
 
-	enemy_x = 0;
-	enemy_y = 0;
+	enemy_x = 200;
+	enemy_y = 252;
 	enemy_speed = 0;
+	enemy_angle = 0;
+	c = 0.0f;
 
 	fps_count = 0;
 	second = 0;
@@ -96,7 +98,13 @@ void Enemy::Draw() const
 	DrawFormatString(10, 10, 0xFFFFFF, "•b”%5d", second);
 
 	// ƒ}ƒEƒX‚ÌÀ•W‚Ì•`‰æ
-	DrawFormatString(10, 100, 0xffffff, "mouse_x = %3d, mouse_y = %3d", mouse_x, mouse_y);
+	DrawFormatString(10, 50, 0xffffff, "mouse_x = %3d, mouse_y = %3d", mouse_x, mouse_y);
+	DrawFormatString(10, 150, 0xffffff, "enemy_x = %3d, enemy_y = %3d", enemy_x, enemy_y);
+	DrawFormatString(10, 200, 0xffffff, "move_x = %3d, move_y = %3d", move_x, move_y);
+	//DrawFormatString(200, 250, 0xff0000, "¡c = %f", c);
+	DrawFormatString(200, 250, 0xff0000, "radian = %f", radian);
+
+
 
 	// “F‚Ì“G‰æ‘œ‚Ì•`‰æ
 	//DrawRotaGraph(200 + enemy_x, 252 + enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, FALSE);
@@ -105,11 +113,11 @@ void Enemy::Draw() const
 	{
 	case EnemyState::kInflatBealloon:
 		// •—‘D‚ð–c‚ç‚Ü‚µØ‚é‚Æ•‚‚«ã‚ª‚é
-		DrawRotaGraph(200, 252 - enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+		DrawRotaGraph(enemy_x, enemy_y - move_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 		break;
 	case EnemyState::kFlight:
 		//DrawRotaGraph(200 + move_x, 252 + move_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
-		DrawRotaGraph(200 + move_x, 252 + move_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+		DrawRotaGraph(enemy_x, enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 		break;
 	case EnemyState::kParachute:
 		break;
@@ -127,12 +135,27 @@ void Enemy::Draw() const
 void Enemy::EnemyMove()
 {
 	// ƒ}ƒEƒX‚Æ“G‚ÌŠp“x‚ðŒvŽZ‚·‚é
-	radian = atan2(mouse_x - enemy_x, mouse_y - enemy_y);
+	radian = atan2f((float)mouse_y - (float)enemy_y, (float)mouse_x - (float)enemy_x);
+
+	int x = 0, y ;
+
+	move_x = mouse_x - enemy_x;
+	move_y = mouse_y - enemy_y;
+
+	c = sqrtf(pow((float)move_x, 2) + pow((float)move_y, 2));
+
+	// x,yÀ•W‚ª“¯‚¶‚¾‚Æ1ƒsƒNƒZƒ‹‚¸‚Â’Ç‚¢‚©‚¯‚Ä‚­‚éic‚Æ‰¡‚É‚µ‚©ˆÚ“®‚µ‚È‚¢j
+	if (c != 0)
+	{
+		x = move_x / (int)c;
+		y = move_y / (int)c;
+	}
+
+	enemy_x += x;
+	enemy_y += y;
 
 
 
-	enemy_x = 0;
-	enemy_y = 0;
 }
 
 // “G‚Ì‰ñ”ðs“®ˆ—
@@ -163,10 +186,10 @@ void Enemy::InflatBealloon()
 		now_image = next_image;
 	}
 
-	if (inflat_bealloon_count >= 180 && enemy_y <= 20)
+	if (inflat_bealloon_count >= 180 && move_y <= 20)
 	{
 		// “G‚ð•‚ã‚³‚¹‚é
-		enemy_y++;
+		move_y++;
 
 		// •‚ãŽž‚Ì‰æ‘œ‚ÖØ‚è‘Ö‚¦
 		now_image = 8;
@@ -175,6 +198,9 @@ void Enemy::InflatBealloon()
 	{
 		// ƒJƒEƒ“ƒg‚ð0‚É–ß‚·
 		inflat_bealloon_count = 0;
+
+		// enemy_y‚ðŒ»Ý‚ÌÀ•W‚É‚·‚é
+		enemy_y -= move_y;
 
 		// “G‚Ìó‘Ô‘JˆÚ
 		enemy_state = EnemyState::kFlight;

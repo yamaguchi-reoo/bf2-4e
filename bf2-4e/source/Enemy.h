@@ -20,6 +20,8 @@ private:
 	int enemy_x;							// 敵のX座標
 	int enemy_y;							// 敵のY座標
 	int enemy_speed;						// 敵のスピード
+	int enemy_angle;						// 敵の移動角度
+	float c;
 
 	int fps_count;							// fpsのカウント
 	int second;								// 秒数のカウント
