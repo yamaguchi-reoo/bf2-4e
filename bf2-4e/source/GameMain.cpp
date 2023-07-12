@@ -5,18 +5,21 @@
 GameMain::GameMain() 
 {
     // 初期化処理
-    stage = new Stage();
+    object = new Stage();
 };
 
 GameMain::~GameMain() 
 {
+    delete object;
     // 終了処理
 };
 
 AbstractScene* GameMain::Update() 
-{ // ここで値の更新など、処理
+{ // ここで値の更新など、処理)
 
-    stage->Update();
+    object->Update();
+
+    player.Update();
 
     enemy.Update();
 
@@ -29,9 +32,9 @@ void GameMain::Draw() const
 
     DrawFormatString(20, 50, 0xffffff, "Game Main");
 
-    stage->Draw();
+    object->Draw();        //ステージ画像の描画処理
 
-    player.Draw();         //プレイヤー画像の描画処理
+    player.Draw();        //プレイヤー画像の描画処理
 
     enemy.Draw();         //プレイヤー画像の描画処理
 };
