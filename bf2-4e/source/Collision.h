@@ -12,19 +12,19 @@ struct Erea				//範囲
 	float height_rate;	//高さの倍率
 	float width_rate;	//幅の倍率
 };
-struct Object 
+struct Object			//オブジェクト
 {
-	float x;
-	float y;
-	float h;
-	float w;
+	float x;			//横
+	float y;			//縦
+	float h;			//高さ
+	float w;			//幅
 };
 class BoxCollider
 {
 protected:
 	Location location;
 	Erea erea;
-	Object stage[8];
+	Object object[8];
 
 public:
 	bool HitBox(BoxCollider* bCollider);

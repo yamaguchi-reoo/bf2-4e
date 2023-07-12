@@ -19,10 +19,10 @@ bool BoxCollider::HitBox(BoxCollider* bCollider)
 
 	//ステージの当たり判定の範囲
 	for (int i = 0; i < 7; i++) {
-		float stage_x1 = bCollider->stage[i].x;
-		float stage_y1 = bCollider->stage[i].y;
-		float stage_x2 = stage_x1 + bCollider->stage[i].w;
-		float stage_y2 = stage_y1 + bCollider->stage[i].h;
+		float stage_x1 = bCollider->object[i].x;
+		float stage_y1 = bCollider->object[i].y;
+		float stage_x2 = stage_x1 + bCollider->object[i].w;
+		float stage_y2 = stage_y1 + bCollider->object[i].h;
 
 		//ステージとプレイヤーの当たり判定
 		if ((player_x1 < stage_x2) && (stage_x1 < player_x2) && (player_y1 < stage_x2) && (player_y1 < stage_y2)) //当たり判定

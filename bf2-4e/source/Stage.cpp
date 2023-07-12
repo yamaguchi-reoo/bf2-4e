@@ -4,9 +4,7 @@
 
 Stage::Stage() 
 {
-	
 	stage_number = 0;
-
 
 	floor_image01 = LoadGraph("source/Resource/images/Stage/Stage_Footing01.png");
 	floor_image02 = LoadGraph("source/Resource/images/Stage/Stage_Footing02.png");
@@ -30,12 +28,12 @@ Stage::~Stage()
 }
 void Stage::Update()
 {
-	//Aボタンでステージ遷移
+	//Aボタンで次のステージへ
 	if (PadInput::OnButton(XINPUT_BUTTON_A))
 	{
 		stage_number++;
 	}
-	//Aボタンでステージ遷移
+	//Bボタンで前のステージへ
 	if (PadInput::OnButton(XINPUT_BUTTON_B))
 	{
 		stage_number--;
@@ -190,34 +188,34 @@ void Stage::Draw()const
 	case 0://ステージ1
 		DrawGraph(stage_location[0].x, stage_location[0].y , stage_location[0].image, TRUE);
 		//デバッグ用ボックス
-		DrawBoxAA(stage[0].x, stage[0].y, stage[0].x + stage[0].w, stage[0].y + stage[0].h, 0xffffff, FALSE);
+		DrawBoxAA(object[0].x, object[0].y, object[0].x + object[0].w, object[0].y + object[0].h, 0xffffff, FALSE);
 		break;
 	case 1:	//ステージ2
 		for (int i = 0; i <= 3; i++) {
 			DrawGraph(stage_location[i].x, stage_location[i].y, stage_location[i].image, TRUE);
 			//デバッグ用ボックス
-			DrawBoxAA(stage[i].x, stage[i].y, stage[i].x + stage[i].w, stage[i].y + stage[i].h, 0xffffff, FALSE);
+			DrawBoxAA(object[i].x, object[i].y, object[i].x + object[i].w, object[i].y + object[i].h, 0xffffff, FALSE);
 		}
 		break;
 	case 2: //ステージ3
 		for (int i = 0; i <= 4; i++) {
 			DrawGraph(stage_location[i].x, stage_location[i].y, stage_location[i].image, TRUE);
 			//デバッグ用ボックス
-			DrawBoxAA(stage[i].x, stage[i].y, stage[i].x + stage[i].w, stage[i].y + stage[i].h, 0xffffff, FALSE);
+			DrawBoxAA(object[i].x, object[i].y, object[i].x + object[i].w, object[i].y + object[i].h, 0xffffff, FALSE);
 		}
 		break;
 	case 3: //ステージ4
 		for (int i = 0; i <= 4; i++) {
 			DrawGraph(stage_location[i].x, stage_location[i].y, stage_location[i].image, TRUE);
 			//デバッグ用ボックス
-			DrawBoxAA(stage[i].x, stage[i].y, stage[i].x + stage[i].w, stage[i].y + stage[i].h, 0xffffff, FALSE);
+			DrawBoxAA(object[i].x, object[i].y, object[i].x + object[i].w, object[i].y + object[i].h, 0xffffff, FALSE);
 		}
 		break;
 	case 4: //ステージ5
 		for (int i = 0; i <= 5; i++) {
 			DrawGraph(stage_location[i].x, stage_location[i].y, stage_location[i].image, TRUE);
 			//デバッグ用ボックス
-			DrawBoxAA(stage[i].x, stage[i].y, stage[i].x + stage[i].w, stage[i].y + stage[i].h, 0xffffff, FALSE);
+			DrawBoxAA(object[i].x, object[i].y, object[i].x + object[i].w, object[i].y + object[i].h, 0xffffff, FALSE);
 		}
 		break;
 	default:
@@ -227,79 +225,79 @@ void Stage::Draw()const
 	for (int i = 6; i <= 7; i++) {
 		DrawGraph(stage_location[i].x, stage_location[i].y, stage_location[i].image, TRUE);
 		//デバッグ用ボックス
-		DrawBoxAA(stage[i].x, stage[i].y, stage[i].x + stage[i].w, stage[i].y + stage[i].h, 0xffffff, FALSE);
+		DrawBoxAA(object[i].x, object[i].y, object[i].x + object[i].w, object[i].y + object[i].h, 0xffffff, FALSE);
 	}
 	//海
 	DrawGraph(160, 444, sea_image, TRUE);
 }
 // オブジェクトの位置設定する関数
-void Stage::SetPosition(int posX, int posY, int num, int image)
+void Stage::SetPosition(int position_x, int position_y, int number, int image)
 {
-	stage_location[num].x = posX;
-	stage_location[num].y = posY;
+	stage_location[number].x = position_x;
+	stage_location[number].y = position_y;
 
-	stage_location[num].image = image;
+	stage_location[number].image = image;
 
 	if (image == floor_image01) 
 	{
-		SetObjectErea(280, 17, stage_location[num].x, stage_location[num].y, num);
+		GetObjectErea(280, 17, stage_location[number].x, stage_location[number].y, number);
 	}
 	if (image == floor_image02)
 	{
 
-		SetObjectErea(122, 17, stage_location[num].x, stage_location[num].y, num);
+		GetObjectErea(122, 17, stage_location[number].x, stage_location[number].y, number);
 	}
 	if (image == floor_image03)
 	{
 
-		SetObjectErea(81, 17, stage_location[num].x, stage_location[num].y, num);
+		GetObjectErea(81, 17, stage_location[number].x, stage_location[number].y, number);
 	}
 	if (image == floor_image04)
 	{
 
-		SetObjectErea(62, 32, stage_location[num].x, stage_location[num].y, num);
+		GetObjectErea(62, 32, stage_location[number].x, stage_location[number].y, number);
 	}
 	if (image == floor_image05)
 	{
 	
-		SetObjectErea(42, 17, stage_location[num].x, stage_location[num].y, num);
+		GetObjectErea(42, 17, stage_location[number].x, stage_location[number].y, number);
 	}
 	if (image == floor_image06)
 	{
 	
-		SetObjectErea(62, 17, stage_location[num].x, stage_location[num].y, num);
+		GetObjectErea(62, 17, stage_location[number].x, stage_location[number].y, number);
 	}
 	if (image == floor_image07)
 	{
-		SetObjectErea(22, 51, stage_location[num].x, stage_location[num].y, num);
+		GetObjectErea(22, 51, stage_location[number].x, stage_location[number].y, number);
 	}
 	if (image == floor_image08)
 	{
 
-		SetObjectErea(22, 67, stage_location[num].x, stage_location[num].y, num);
+		GetObjectErea(22, 67, stage_location[number].x, stage_location[number].y, number);
 	}
 
 	if (image == floor_image02)
 	{
 
-		SetObjectErea(122, 17, stage_location[num].x, stage_location[num].y, num);
+		GetObjectErea(122, 17, stage_location[number].x, stage_location[number].y, number);
 	}
 
 	if (image == floor_left_image01 || image == floor_left_image02)
 	{
 
-		SetObjectErea(160, 32, stage_location[num].x, stage_location[num].y, num);
+		GetObjectErea(160, 32, stage_location[number].x, stage_location[number].y, number);
 	}
 	if (image == floor_right_image01 || image == floor_right_image02)
 	{
 
-		SetObjectErea(160, 32, stage_location[num].x, stage_location[num].y, num);
+		GetObjectErea(160, 32, stage_location[number].x, stage_location[number].y, number);
 	}
 }
-void Stage::SetObjectErea(int _w, int _h, int _x, int _y, int _num) 
+void Stage::GetObjectErea(int _width, int _height, int _x, int _y, int _number) 
 {
-	stage[_num].x= (float)stage_location[_num].x;
-	stage[_num].y = (float)stage_location[_num].y;
-	stage[_num].w = (float)_w;
-	stage[_num].h = (float)_h;
+	object[_number].x = (float)stage_location[_number].x;
+	object[_number].y = (float)stage_location[_number].y;
+	object[_number].w = (float)_width;
+	object[_number].h = (float)_height;
 }

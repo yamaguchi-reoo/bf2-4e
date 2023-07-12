@@ -44,7 +44,8 @@ public:
 	void  Draw() const;
 
 	// オブジェクトの位置設定する関数
-	void SetPosition(int posX, int posY, int num, int image);
+	void SetPosition(int position_x, int position_y, int number, int image);
 
-	void SetObjectErea(int _w, int _h, int _x, int _y,int _num);
+	//オブジェクトの位置を受け取る関数
+	void GetObjectErea(int _width, int _height, int _x, int _y,int _number);
 };
