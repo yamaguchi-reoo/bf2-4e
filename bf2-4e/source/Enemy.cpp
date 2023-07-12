@@ -21,7 +21,6 @@ Enemy::Enemy()
 	enemy_speed = 0;
 
 	fps_count = 0;
-	//animation_pattern_number = 0;
 	second = 0;
 
 	inflat_bealloon_count = 0;
@@ -33,6 +32,13 @@ Enemy::Enemy()
 
 	mouse_x = 0;
 	mouse_y = 0;
+
+	radian = 0.0f;
+
+	move_x = 0;
+	move_y = 0;
+
+	turn_flg = FALSE;
 }
 
 // ƒfƒXƒgƒ‰ƒNƒ^
@@ -86,9 +92,6 @@ void Enemy::Update()
 // •`‰æ‚ÉŠÖ‚·‚é‚±‚Æ‚ğÀ‘•
 void Enemy::Draw() const
 {
-	// ƒXƒe[ƒW‚P‚É“G‚Ì‰æ‘œ‚Ì•`‰æ
-	//DrawRotaGraph(200, 252, 1, 0, enemy_pink_image[animation_pattern_number], TRUE, FALSE);
-
 	// •b”‚Ì•`‰æ
 	DrawFormatString(10, 10, 0xFFFFFF, "•b”%5d", second);
 
@@ -98,21 +101,21 @@ void Enemy::Draw() const
 	// “F‚Ì“G‰æ‘œ‚Ì•`‰æ
 	//DrawRotaGraph(200 + enemy_x, 252 + enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, FALSE);
 
-
 	switch (enemy_state)
 	{
-	case Enemy::EnemyState::kInflatBealloon:
+	case EnemyState::kInflatBealloon:
 		// •—‘D‚ğ–c‚ç‚Ü‚µØ‚é‚Æ•‚‚«ã‚ª‚é
-		DrawRotaGraph(200, 252 - enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, FALSE);
+		DrawRotaGraph(200, 252 - enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 		break;
-	case Enemy::EnemyState::kFlight:
-		DrawRotaGraph(200 + enemy_x, 252 + enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, FALSE);
+	case EnemyState::kFlight:
+		//DrawRotaGraph(200 + move_x, 252 + move_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+		DrawRotaGraph(200 + move_x, 252 + move_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 		break;
-	case Enemy::EnemyState::kParachute:
+	case EnemyState::kParachute:
 		break;
-	case Enemy::EnemyState::kUpright:
+	case EnemyState::kUpright:
 		break;
-	case Enemy::EnemyState::kDeath:
+	case EnemyState::kDeath:
 		break;
 	default:
 		break;
@@ -123,7 +126,11 @@ void Enemy::Draw() const
 // “G‚Ìã‰º¶‰EˆÚ“®ˆ—
 void Enemy::EnemyMove()
 {
-	
+	// ƒ}ƒEƒX‚Æ“G‚ÌŠp“x‚ğŒvZ‚·‚é
+	radian = atan2(mouse_x - enemy_x, mouse_y - enemy_y);
+
+
+
 	enemy_x = 0;
 	enemy_y = 0;
 }
@@ -131,11 +138,16 @@ void Enemy::EnemyMove()
 // “G‚Ì‰ñ”ğs“®ˆ—
 void Enemy::Avoidance()
 {
-	// “G‚ª‰E‚ğŒü‚¢‚Ä‚¢‚é‚Æ‚«
-	enemy_x++;
-
-	// “G‚ª¶‚ğŒü‚¢‚Ä‚¢‚é‚Æ‚«
-	enemy_x--;
+	if (turn_flg == TRUE)
+	{
+		// “G‚ª‰E‚ğŒü‚¢‚Ä‚¢‚é‚Æ‚«
+		move_x++;
+	}
+	else if (turn_flg == FALSE)
+	{
+		// “G‚ª¶‚ğŒü‚¢‚Ä‚¢‚é‚Æ‚«
+		move_x--;
+	}
 }
 
 // •—‘D‚ğ–c‚ç‚Ü‚¹‚éƒAƒjƒ[ƒVƒ‡ƒ“ˆ—
@@ -149,7 +161,6 @@ void Enemy::InflatBealloon()
 	if (now_image != next_image)
 	{
 		now_image = next_image;
-		//animation_pattern_number = next_image;
 	}
 
 	if (inflat_bealloon_count >= 180 && enemy_y <= 20)
@@ -200,8 +211,8 @@ void Enemy::Death()
 	// “G‚Ì—‰º
 	enemy_y++;
 	// Œ»İ‚ÌÀ•W + enemy_y >= 480 ‚É‚·‚é•K—v‚ª‚ ‚é
-	if (enemy_y >= 480)
-	{
+	//if (enemy_y >= 480)
+	//{
 
-	}
+	//}
 }

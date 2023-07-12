@@ -1,5 +1,14 @@
 #pragma once
 
+enum class EnemyState
+{
+	kInflatBealloon,					// 風船を膨らませる
+	kFlight,							// 空中で羽ばたく
+	kParachute,							// パラシュート
+	kUpright,							// 直立
+	kDeath								// 死亡
+};
+
 class Enemy
 {
 private:
@@ -13,7 +22,6 @@ private:
 	int enemy_speed;						// 敵のスピード
 
 	int fps_count;							// fpsのカウント
-	//int animation_pattern_number;			// アニメーションパターンの番号
 	int second;								// 秒数のカウント
 
 	int inflat_bealloon_count;				// 風船を膨らましきるまでのカウント
@@ -21,20 +29,17 @@ private:
 	int now_image;							// 今から表示される画像
 	int next_image;							// 次に表示される画像
 
-	enum class EnemyState
-	{
-		kInflatBealloon,					// 風船を膨らませる
-		kFlight,							// 空中で羽ばたく
-		kParachute,							// パラシュート
-		kUpright,							// 直立
-		kDeath								// 死亡
-	};
-
 	EnemyState enemy_state;					// 敵の状態
 
 	int mouse_x;							// マウスのX座標
 	int mouse_y;							// マウスのY座標
 
+	float radian;							// 敵とプレイヤーの角度
+
+	int move_x;								// 敵の座標Xの移動量
+	int move_y;								// 敵の座標Yの移動量
+
+	int turn_flg;							// 画像の左右反転状態（TRUE:反転　FALSE:普通に描画）
 
 public:
 	// コンストラクタ
