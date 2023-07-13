@@ -16,20 +16,21 @@ Enemy::Enemy()
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_G_Animation.png", 19, 8, 3, 64, 64, enemy_green_image);
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 19, 8, 3, 64, 64, enemy_red_image);
 
-	enemy_x = 200;
-	enemy_y = 252;
+	enemy_x = 200.0f;
+	enemy_y = 252.0f;
 	enemy_speed = 0;
 	enemy_angle = 0;
 
 	xc = 0.0f;
 	yc = 0.0f;
-	x = 0;
-	y = 0;
+	x = 0.0f;
+	y = 0.0f;
 
 	fps_count = 0;
 	second = 0;
 
 	inflat_bealloon_count = 0;
+	flight_count = 0;
 
 	now_image = 0;
 	next_image = 0;
@@ -41,8 +42,8 @@ Enemy::Enemy()
 
 	radian = 0.0f;
 
-	move_x = 0;
-	move_y = 0;
+	move_x = 0.0f;
+	move_y = 0.0f;
 
 	turn_flg = FALSE;
 }
@@ -100,40 +101,42 @@ void Enemy::Draw() const
 {
 #if _DEBUG
 	// 秒数の描画
-	DrawFormatString(10, 10, 0xFFFFFF, "秒数%5d", second);
+	DrawFormatString(10, 10, 0xFFFFFF, "E 秒数%5d", second);
 
-	SetFontSize(15);
-	// マウスの座標の描画
-	//DrawFormatString(10, 50, 0xffffff, "mouse_x = %3d, mouse_y = %3d", mouse_x, mouse_y);
-	DrawFormatString(10, 150, 0xffffff, "enemy_x = %3d, enemy_y = %3d", enemy_x, enemy_y);
-	DrawFormatString(10, 200, 0xffffff, "move_x = %3d, move_y = %3d", move_x, move_y);
-	DrawFormatString(10, 250, 0xffffff, "x = %3d, y = %3d", x, y);
-	DrawFormatString(200, 250, 0xff0000, "radian = %f", radian);
+	//SetFontSize(15);
+	//// マウスの座標の描画
+	////DrawFormatString(10, 50, 0xffffff, "mouse_x = %3d, mouse_y = %3d", mouse_x, mouse_y);
+	//DrawFormatString(0, 30, 0xffffff, "E enemy_x = %3f, enemy_y = %3f", enemy_x, enemy_y);
+	//DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
+	//DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
+	//DrawFormatString(0, 160, 0xffffff, "E xc = %3f, yc = %3f", xc, yc);
+	//DrawFormatString(0, 190, 0xff0000, "E now_image = %d", now_image);
+	//DrawFormatString(200, 250, 0xff0000, "radian = %f", radian);
 #endif	//_DEBUG
 
 
 	// 桃色の敵画像の描画
-	DrawRotaGraph(enemy_x, enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+	DrawRotaGraph((int)enemy_x, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 }
 
 // 敵の上下左右移動処理
 void Enemy::EnemyMove()
 {
 	// マウスと敵の角度を計算する（弧度法）
-	radian = atan2f((float)mouse_y - (float)enemy_y, (float)mouse_x - (float)enemy_x);
+	radian = atan2f((float)mouse_y - enemy_y, (float)mouse_x - enemy_x);
 
 	move_x = mouse_x - enemy_x;
 	move_y = mouse_y - enemy_y;
 
-	xc = sqrtf(pow((float)move_x, 2));
-	yc = sqrtf(pow((float)move_y, 2));
+	xc = sqrtf(pow(move_x, 2));
+	yc = sqrtf(pow(move_y, 2));
 
 	// x,y座標が同じだと1ピクセルずつ追いかけてくる（縦と横にしか移動しない）※多分改善した
 	// 最短距離ではない
 	if (xc != 0 && yc != 0)
 	{
-		x = move_x / (int)xc;
-		y = move_y / (int)yc;
+		x = move_x / xc;
+		y = move_y / yc;
 	}
 
 	enemy_x += x;
@@ -192,7 +195,21 @@ void Enemy::InflatBealloon()
 // 空中で羽ばたくアニメーション処理
 void Enemy::Flight()
 {
+	flight_count++;
 
+	// 画像番号は9，10，11 or 9，10（多分9, 10）
+	next_image = flight_count / 5 + 9;
+
+	if (now_image != next_image)
+	{
+		now_image = next_image;
+	}
+
+	if (flight_count >= 10)
+	{
+		// カウントを0に戻す
+		flight_count = 0;
+	}
 }
 
 // パラシュート状態のアニメーション処理
