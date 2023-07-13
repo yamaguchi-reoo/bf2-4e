@@ -20,6 +20,7 @@ Enemy::Enemy()
 	enemy_y = 252.0f;
 	enemy_speed = 0;
 	enemy_angle = 0;
+	enemy_type = 0;
 
 	xc = 0.0f;
 	yc = 0.0f;
@@ -114,11 +115,21 @@ void Enemy::Draw() const
 	//DrawFormatString(200, 250, 0xff0000, "radian = %f", radian);
 #endif	//_DEBUG
 
-
-	// “F‚Ì“G‰æ‘œ‚Ì•`‰æ
-	DrawRotaGraph((int)enemy_x, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
-	// ÔF‚Ì“G‰æ‘œ‚Ì•`‰æ
-	DrawRotaGraph((int)enemy_x + 100, (int)enemy_y, 1, 0, enemy_red_image[now_image], TRUE, turn_flg);
+	if (enemy_type == 0)
+	{
+		// “F‚Ì“G‰æ‘œ‚Ì•`‰æ
+		DrawRotaGraph((int)enemy_x, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+	}
+	if (enemy_type == 1)
+	{
+		//// —ÎF‚Ì“G‰æ‘œ‚Ì•`‰æ
+		//DrawRotaGraph((int)enemy_x + 100, (int)enemy_y, 1, 0, enemy_green_image[now_image], TRUE, turn_flg);
+	}
+	if (enemy_type == 2)
+	{
+	//// ÔF‚Ì“G‰æ‘œ‚Ì•`‰æ
+	//DrawRotaGraph((int)enemy_x + 200, (int)enemy_y, 1, 0, enemy_red_image[now_image], TRUE, turn_flg);
+	}
 }
 
 // “G‚Ìã‰º¶‰EˆÚ“®ˆ—
@@ -143,6 +154,16 @@ void Enemy::EnemyMove()
 
 	enemy_x += x;
 	enemy_y += y;
+
+	// ‰æ‘œ‚Ì”½“]ˆ—iƒJ[ƒ\ƒ‹‚Ì•ûŒü‚ðŒü‚­j
+	if (x >= 0)
+	{
+		turn_flg = TRUE;
+	}
+	else
+	{
+		turn_flg = FALSE;
+	}
 
 }
 

@@ -17,11 +17,14 @@ private:
 	int enemy_green_image[18];				// 緑色の敵の画像
 	int enemy_red_image[18];				// 赤色の敵の画像
 
+	// 敵の情報
 	float enemy_x;							// 敵のX座標
 	float enemy_y;							// 敵のY座標
 	int enemy_speed;						// 敵のスピード
 	int enemy_angle;						// 敵の移動角度
+	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
 
+	// 移動するときの計算に使う変数
 	float xc;								// 三平方の定理（斜辺）
 	float yc;								// 三平方の定理（斜辺）
 	float x;
@@ -30,6 +33,7 @@ private:
 	int fps_count;							// fpsのカウント
 	int second;								// 秒数のカウント
 
+	// アニメーション用カウント
 	int inflat_bealloon_count;				// 風船を膨らましきるまでのカウント
 	int flight_count;						// 羽ばたくアニメーション用カウント
 
@@ -38,13 +42,15 @@ private:
 
 	EnemyState enemy_state;					// 敵の状態
 
-	int mouse_x;							// マウスのX座標
-	int mouse_y;							// マウスのY座標
+	// 追いかける対象の座標
+	int mouse_x;							// マウスのX座標（プレイヤーの座標に変わる）
+	int mouse_y;							// マウスのY座標（プレイヤーの座標に変わる）
 
 	float radian;							// 敵とプレイヤーの角度
 
-	float move_x;								// 敵の座標Xの移動量
-	float move_y;								// 敵の座標Yの移動量
+	// 移動するときに使う変数
+	float move_x;							// 敵の座標Xの移動量
+	float move_y;							// 敵の座標Yの移動量
 
 	int turn_flg;							// 画像の左右反転状態（TRUE:反転　FALSE:普通に描画）
 
