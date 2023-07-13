@@ -8,7 +8,7 @@ GameMain::GameMain()
     stage = new Stage();
 
     //É|Å[ÉYÇ≈ÇÕÇ»Ç¢
-    pauseFlag = FALSE;
+    pauseflag = FALSE;
 };
 
 GameMain::~GameMain() 
