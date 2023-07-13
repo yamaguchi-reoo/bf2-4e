@@ -98,6 +98,7 @@ void Enemy::Update()
 // 描画に関することを実装
 void Enemy::Draw() const
 {
+#if _DEBUG
 	// 秒数の描画
 	DrawFormatString(10, 10, 0xFFFFFF, "秒数%5d", second);
 
@@ -107,37 +108,12 @@ void Enemy::Draw() const
 	DrawFormatString(10, 150, 0xffffff, "enemy_x = %3d, enemy_y = %3d", enemy_x, enemy_y);
 	DrawFormatString(10, 200, 0xffffff, "move_x = %3d, move_y = %3d", move_x, move_y);
 	DrawFormatString(10, 250, 0xffffff, "x = %3d, y = %3d", x, y);
-	//DrawFormatString(200, 250, 0xff0000, "今c = %f", c);
 	DrawFormatString(200, 250, 0xff0000, "radian = %f", radian);
-
+#endif	//_DEBUG
 
 
 	// 桃色の敵画像の描画
-	//DrawRotaGraph(200 + enemy_x, 252 + enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, FALSE);
-
-	// 桃色の敵画像の描画
-	//DrawRotaGraph(enemy_x, enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
-
-	switch (enemy_state)
-	{
-	case EnemyState::kInflatBealloon:
-		// 風船を膨らまし切ると浮き上がる
-		DrawRotaGraph(enemy_x, enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
-		break;
-	case EnemyState::kFlight:
-		//DrawRotaGraph(200 + move_x, 252 + move_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
-		DrawRotaGraph(enemy_x, enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
-		break;
-	case EnemyState::kParachute:
-		break;
-	case EnemyState::kUpright:
-		break;
-	case EnemyState::kDeath:
-		break;
-	default:
-		break;
-	}
-
+	DrawRotaGraph(enemy_x, enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 }
 
 // 敵の上下左右移動処理
@@ -152,7 +128,8 @@ void Enemy::EnemyMove()
 	xc = sqrtf(pow((float)move_x, 2));
 	yc = sqrtf(pow((float)move_y, 2));
 
-	// x,y座標が同じだと1ピクセルずつ追いかけてくる（縦と横にしか移動しない）
+	// x,y座標が同じだと1ピクセルずつ追いかけてくる（縦と横にしか移動しない）※多分改善した
+	// 最短距離ではない
 	if (xc != 0 && yc != 0)
 	{
 		x = move_x / (int)xc;
@@ -192,14 +169,15 @@ void Enemy::InflatBealloon()
 		now_image = next_image;
 	}
 
-	// 敵の浮上処理
-	if (inflat_bealloon_count >= 180 && move_y >= 20)
-	{
-		// 敵を浮上させる
-		move_y++;
-		enemy_y -= move_y;
-	}
-	else if(inflat_bealloon_count >= 180)
+	//// 敵の浮上処理
+	//if (inflat_bealloon_count >= 180 && move_y >= 20)
+	//{
+	//	// 敵を浮上させる
+	//	move_y++;
+	//	enemy_y -= move_y;
+	//}
+
+	if(inflat_bealloon_count >= 180)
 	{
 		// 3秒経ったら
 		// カウントを0に戻す
