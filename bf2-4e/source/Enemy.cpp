@@ -23,8 +23,8 @@ Enemy::Enemy()
 
 	xc = 0.0f;
 	yc = 0.0f;
-	x = 0;
-	y = 0;
+	x = 0.0f;
+	y = 0.0f;
 
 	fps_count = 0;
 	second = 0;
@@ -146,8 +146,10 @@ void Enemy::EnemyMove()
 	// マウスと敵の角度を計算する（弧度法）
 	radian = atan2f((float)mouse_y - (float)enemy_y, (float)mouse_x - (float)enemy_x);
 
+	// マウスと敵の座標の差を求める
 	move_x = mouse_x - enemy_x;
 	move_y = mouse_y - enemy_y;
+
 
 	xc = sqrtf(pow((float)move_x, 2));
 	yc = sqrtf(pow((float)move_y, 2));

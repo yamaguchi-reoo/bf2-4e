@@ -22,10 +22,10 @@ private:
 	int enemy_speed;						// 敵のスピード
 	int enemy_angle;						// 敵の移動角度
 
-	float xc;								// 三平方の定理（斜辺）
-	float yc;								// 三平方の定理（斜辺）
-	int x;
-	int y;
+	float xc;								// 三平方の定理（斜辺から求めたxの値）
+	float yc;								// 三平方の定理（斜辺から求めたyの値）
+	float x;
+	float y;
 
 	int fps_count;							// fpsのカウント
 	int second;								// 秒数のカウント
