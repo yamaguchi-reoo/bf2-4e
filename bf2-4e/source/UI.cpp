@@ -7,10 +7,9 @@ UI::UI()
 {
 	for (int i = 0; i < 19; i++)
 	{
-		scoreimage[i];
+		numimage[i];
 	
 	}
-
 	LoadGraph("Source/Resource/images/UI/UI_Score.png");
 }
 
@@ -27,7 +26,10 @@ void UI::Update()
 // 描画に関することを実装
 void UI::Draw() const
 {
-	DrawGraph(0,0,)
+
+
+	//スコア描画
+	DrawGraph(0, 0,score,TRUE);
 
 	//スコアの描画（仮）
 	DrawFormatString(0, 100, 0xffffff, "Hallo");

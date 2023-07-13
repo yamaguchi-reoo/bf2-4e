@@ -3,12 +3,17 @@
 class UI
 {
 private:
-	// スコア画像変数
-	int scoreimage[4];
+	// スコア画像分割用の変数
+	int numimage[4];
 	
-	//スコア文字の変数
+	//スコア文字用画像の変数
 	int score;
+	int hiscore;
+	
+	//ライフ用
+	int stock;
 
+	//ポーズ用変数
 	bool pauseState;
 	bool pauseFlag;
 	bool pauseReset;
