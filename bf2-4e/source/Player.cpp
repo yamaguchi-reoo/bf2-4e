@@ -13,7 +13,7 @@ Player::Player()
 	
 	player_flg = 1;
 	location.x = 100.0;
-	location.y = 400.0;
+	location.y = 385.0;
 	erea.width = 64.0;
 	erea.height = 64.0;
 	erea.width_rate = 1.0;
@@ -35,7 +35,7 @@ void Player::Update()
 	player_y2 = player_y1 + erea.height;
 	PlayerGroundWalk();
 	PlayerFlight();
-	PlayerFall();
+	location.y += 0.1;
 }
 void Player::Draw()const
 {
@@ -59,12 +59,5 @@ void Player::PlayerFlight()
 	{
 		player_flg = 1;
 		location.y -= 2;
-	}
-}
-void Player::PlayerFall()
-{
-	if (player_flg == 1)
-	{
-		location.y += 3;
 	}
 }

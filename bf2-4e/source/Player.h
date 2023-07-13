@@ -1,7 +1,7 @@
 #pragma once
-#include "Collision.h"
+#include "BoxCollision.h"
 
-class Player :public BoxCollider
+class Player :public BoxCollision
 {
 private:
 	int player_images[30];
@@ -13,7 +13,6 @@ private:
 
 public:
 	void PlayerFlight();
-	void PlayerFall();	//プレイヤーの落下処理
 	void PlayerGroundWalk();	//プレイヤーの地面での動作
 
 public:

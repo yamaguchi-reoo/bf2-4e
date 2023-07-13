@@ -6,6 +6,9 @@ GameMain::GameMain()
 {
     // 初期化処理
     object = new Stage();
+    player = new Player();
+    enemy = new Enemy();
+    collision = new BoxCollision();
 };
 
 GameMain::~GameMain() 
@@ -19,7 +22,11 @@ AbstractScene* GameMain::Update()
 
     object->Update();
 
-    player.Update();
+    player->Update();
+    
+    enemy->Update();
+
+    collision->HitBox(object);
 
     return this; // シーン継続
 };
@@ -32,7 +39,7 @@ void GameMain::Draw() const
 
     object->Draw();        //ステージ画像の描画処理
 
-    player.Draw();        //プレイヤー画像の描画処理
+    player->Draw();        //プレイヤー画像の描画処理
 
-    enemy.Draw();         //プレイヤー画像の描画処理
+    enemy->Draw();         //プレイヤー画像の描画処理
 };
