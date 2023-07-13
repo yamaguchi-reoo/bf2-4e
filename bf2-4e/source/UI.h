@@ -7,8 +7,8 @@ private:
 	int numimage[4];
 	
 	//スコア文字用画像の変数
-	int score;
-	int hiscore;
+	int scoreimage;
+	int hiscoreimage;
 	
 	//ライフ用
 	int stock;

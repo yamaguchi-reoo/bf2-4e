@@ -10,7 +10,8 @@ UI::UI()
 		numimage[i];
 	
 	}
-	LoadGraph("Source/Resource/images/UI/UI_Score.png");
+
+	//LoadGraph("Source/Resource/images/UI/UI_Score.png");
 }
 
 // デストラクタ
@@ -29,12 +30,12 @@ void UI::Draw() const
 
 
 	//スコア描画
-	DrawGraph(0, 0,score,TRUE);
+	DrawGraph(100, 100,scoreimage,TRUE);
 
 	//スコアの描画（仮）
-	DrawFormatString(0, 100, 0xffffff, "Hallo");
+	//DrawFormatString(0, 100, 0xffffff, "Hallo");
 
 	//ポーズ画面の描画
 	SetFontSize(100);
-	DrawString(200, 320, "--- ポーズ中 ---", 0x000000);
+	DrawString(200, 320, "--- PAUSE ---", 0x000000);
 }
