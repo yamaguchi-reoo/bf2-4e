@@ -3,8 +3,15 @@
 class UI
 {
 private:
-	int score;	//スコア
+	// スコア画像変数
+	int scoreimage[4];
 	
+	//スコア文字の変数
+	int score;
+
+	bool pauseState;
+	bool pauseFlag;
+	bool pauseReset;
 
 public:
 	//コンストラクタ
