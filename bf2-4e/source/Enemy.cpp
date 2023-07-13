@@ -20,7 +20,11 @@ Enemy::Enemy()
 	enemy_y = 252;
 	enemy_speed = 0;
 	enemy_angle = 0;
-	c = 0.0f;
+
+	xc = 0.0f;
+	yc = 0.0f;
+	x = 0;
+	y = 0;
 
 	fps_count = 0;
 	second = 0;
@@ -97,10 +101,12 @@ void Enemy::Draw() const
 	// 秒数の描画
 	DrawFormatString(10, 10, 0xFFFFFF, "秒数%5d", second);
 
+	SetFontSize(15);
 	// マウスの座標の描画
-	DrawFormatString(10, 50, 0xffffff, "mouse_x = %3d, mouse_y = %3d", mouse_x, mouse_y);
+	//DrawFormatString(10, 50, 0xffffff, "mouse_x = %3d, mouse_y = %3d", mouse_x, mouse_y);
 	DrawFormatString(10, 150, 0xffffff, "enemy_x = %3d, enemy_y = %3d", enemy_x, enemy_y);
 	DrawFormatString(10, 200, 0xffffff, "move_x = %3d, move_y = %3d", move_x, move_y);
+	DrawFormatString(10, 250, 0xffffff, "x = %3d, y = %3d", x, y);
 	//DrawFormatString(200, 250, 0xff0000, "今c = %f", c);
 	DrawFormatString(200, 250, 0xff0000, "radian = %f", radian);
 
@@ -109,11 +115,14 @@ void Enemy::Draw() const
 	// 桃色の敵画像の描画
 	//DrawRotaGraph(200 + enemy_x, 252 + enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, FALSE);
 
+	// 桃色の敵画像の描画
+	//DrawRotaGraph(enemy_x, enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+
 	switch (enemy_state)
 	{
 	case EnemyState::kInflatBealloon:
 		// 風船を膨らまし切ると浮き上がる
-		DrawRotaGraph(enemy_x, enemy_y - move_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+		DrawRotaGraph(enemy_x, enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 		break;
 	case EnemyState::kFlight:
 		//DrawRotaGraph(200 + move_x, 252 + move_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
@@ -134,27 +143,24 @@ void Enemy::Draw() const
 // 敵の上下左右移動処理
 void Enemy::EnemyMove()
 {
-	// マウスと敵の角度を計算する
+	// マウスと敵の角度を計算する（弧度法）
 	radian = atan2f((float)mouse_y - (float)enemy_y, (float)mouse_x - (float)enemy_x);
-
-	int x = 0, y ;
 
 	move_x = mouse_x - enemy_x;
 	move_y = mouse_y - enemy_y;
 
-	c = sqrtf(pow((float)move_x, 2) + pow((float)move_y, 2));
+	xc = sqrtf(pow((float)move_x, 2));
+	yc = sqrtf(pow((float)move_y, 2));
 
 	// x,y座標が同じだと1ピクセルずつ追いかけてくる（縦と横にしか移動しない）
-	if (c != 0)
+	if (xc != 0 && yc != 0)
 	{
-		x = move_x / (int)c;
-		y = move_y / (int)c;
+		x = move_x / (int)xc;
+		y = move_y / (int)yc;
 	}
 
 	enemy_x += x;
 	enemy_y += y;
-
-
 
 }
 
@@ -186,21 +192,18 @@ void Enemy::InflatBealloon()
 		now_image = next_image;
 	}
 
-	if (inflat_bealloon_count >= 180 && move_y <= 20)
+	// 敵の浮上処理
+	if (inflat_bealloon_count >= 180 && move_y >= 20)
 	{
 		// 敵を浮上させる
 		move_y++;
-
-		// 浮上時の画像へ切り替え
-		now_image = 8;
+		enemy_y -= move_y;
 	}
 	else if(inflat_bealloon_count >= 180)
 	{
+		// 3秒経ったら
 		// カウントを0に戻す
 		inflat_bealloon_count = 0;
-
-		// enemy_yを現在の座標にする
-		enemy_y -= move_y;
 
 		// 敵の状態遷移
 		enemy_state = EnemyState::kFlight;
