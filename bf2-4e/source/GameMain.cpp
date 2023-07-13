@@ -28,8 +28,6 @@ AbstractScene* GameMain::Update()
 
     collision->HitBox(object);
 
-    enemy->Update();
-
     return this; // ƒV[ƒ“Œp‘±
 };
 
