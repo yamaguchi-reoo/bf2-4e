@@ -10,13 +10,7 @@ private:
     Player player;      //プレイヤークラスのオブジェクト化
     Enemy enemy;        // Enemyクラスのオブジェクト化
 
-    int KeyFlg;         //flg管理
-
-    bool pauseState;
-    bool pauseFlag;
-    bool pauseReset;
-
-    void Pause();
+    bool pauseflag;     //ポーズのフラグ取り
 
 public:
     // コンストラクタ

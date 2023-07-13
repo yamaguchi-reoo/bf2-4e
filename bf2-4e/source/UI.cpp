@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "UI.h"
 #include "Title.h"
+#include "PadInput.h"
 
 // コンストラクタ
 UI::UI()
