@@ -28,7 +28,7 @@ AbstractScene* GameMain::Update()
 
     collision->HitBox(object);
 
-    enemy.Update();
+    enemy->Update();
 
     return this; // シーン継続
 };
@@ -43,5 +43,5 @@ void GameMain::Draw() const
 
     player->Draw();        //プレイヤー画像の描画処理
 
-    enemy->Draw();         //プレイヤー画像の描画処理
+    enemy->Draw();         //敵画像の描画処理
 };
