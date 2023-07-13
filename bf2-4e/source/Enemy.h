@@ -13,9 +13,9 @@ class Enemy
 {
 private:
 	// ‰æ‘œ—p•Ï”
-	int enemy_pink_image[19];				// “F‚Ì“G‚Ì‰æ‘œ
-	int enemy_green_image[19];				// —ÎF‚Ì“G‚Ì‰æ‘œ
-	int enemy_red_image[19];				// ÔF‚Ì“G‚Ì‰æ‘œ
+	int enemy_pink_image[18];				// “F‚Ì“G‚Ì‰æ‘œ
+	int enemy_green_image[18];				// —ÎF‚Ì“G‚Ì‰æ‘œ
+	int enemy_red_image[18];				// ÔF‚Ì“G‚Ì‰æ‘œ
 
 	float enemy_x;							// “G‚ÌXÀ•W
 	float enemy_y;							// “G‚ÌYÀ•W

@@ -5,16 +5,16 @@
 // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 Enemy::Enemy()
 {
-	for (int i = 0; i < 19; i++)
+	for (int i = 0; i < 18; i++)
 	{
 		enemy_pink_image[i];
 		enemy_green_image[i];
 		enemy_red_image[i];
 	}
 	// “G‚Ì‰æ‘œ‚Ì“Ç
-	LoadDivGraph("Source/Resource/images/Enemy/Enemy_P_Animation.png", 19, 8, 3, 64, 64, enemy_pink_image);
-	LoadDivGraph("Source/Resource/images/Enemy/Enemy_G_Animation.png", 19, 8, 3, 64, 64, enemy_green_image);
-	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 19, 8, 3, 64, 64, enemy_red_image);
+	LoadDivGraph("Source/Resource/images/Enemy/Enemy_P_Animation.png", 18, 6, 3, 64, 64, enemy_pink_image);
+	LoadDivGraph("Source/Resource/images/Enemy/Enemy_G_Animation.png", 18, 6, 3, 64, 64, enemy_green_image);
+	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 18, 6, 3, 64, 64, enemy_red_image);
 
 	enemy_x = 200.0f;
 	enemy_y = 252.0f;
@@ -117,6 +117,8 @@ void Enemy::Draw() const
 
 	// “F‚Ì“G‰æ‘œ‚Ì•`‰æ
 	DrawRotaGraph((int)enemy_x, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+	// ÔF‚Ì“G‰æ‘œ‚Ì•`‰æ
+	DrawRotaGraph((int)enemy_x + 100, (int)enemy_y, 1, 0, enemy_red_image[now_image], TRUE, turn_flg);
 }
 
 // “G‚Ìã‰º¶‰EˆÚ“®ˆ—
