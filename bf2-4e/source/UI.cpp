@@ -2,19 +2,23 @@
 #include "UI.h"
 #include "Title.h"
 
+// コンストラクタ
 UI::UI()
 {
 	
 }
 
+// デストラクタ
 UI::~UI()
 {
 }
 
+// 描画以外の更新を実装
 void UI::Update()
 {
 }
 
+// 描画に関することを実装
 void UI::Draw() const
 {
 	//スコアの描画（仮）
