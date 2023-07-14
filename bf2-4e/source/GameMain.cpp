@@ -9,6 +9,10 @@ GameMain::GameMain()
     player = new Player();
     enemy = new Enemy();
     collision = new BoxCollision();
+    stage = new Stage();
+
+    //ポーズではない
+    pause_flag = FALSE;
 };
 
 GameMain::~GameMain() 
@@ -18,6 +22,17 @@ GameMain::~GameMain()
 };
 
 AbstractScene* GameMain::Update() 
+{ 
+    //ポーズ切り替え処理
+    if (PadInput::OnButton (XINPUT_BUTTON_START))       // STARTが押されたとき
+    { 
+        pause_flag = !pause_flag;
+    }
+    //ポーズ中ではない時
+    if(pause_flag==FALSE)
+    {
+        //ゲームメイン処理を入れる
+    }
 { // ここで値の更新など、処理)
 
     object->Update();
@@ -32,14 +47,25 @@ AbstractScene* GameMain::Update()
 };
 
 void GameMain::Draw() const 
-{ // やることは描画のみ、絶対に値の更新はしない
-    SetFontSize(16);
+{ 
+    // やることは描画のみ、絶対に値の更新はしない
 
-    DrawFormatString(20, 50, 0xffffff, "Game Main");
+    //ポーズ画面の描画
+    if (pause_flag == TRUE)
+    {
+        SetFontSize(16);
+        DrawFormatString(20, 50, 0xffffff, " PAUSE ");
+        //SetDrawBlendMode(DX_BLENDMODE_ALPHA,0);     //敵
+    }
+    else 
+    {
+        SetFontSize(16);
+        DrawFormatString(20, 50, 0xffffff, "Game Main");
+    }
 
     object->Draw();        //ステージ画像の描画処理
 
     player->Draw();        //プレイヤー画像の描画処理
 
-    enemy->Draw();         //プレイヤー画像の描画処理
+    enemy->Draw();         //敵画像の描画処理
 };
