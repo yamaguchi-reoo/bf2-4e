@@ -31,10 +31,8 @@ AbstractScene* GameMain::Update()
     //ポーズ中ではない時
     if (pause_flag == FALSE)
     {
+        // ここで値の更新など、処理
         //ゲームメイン処理を入れる
-    }
-    { // ここで値の更新など、処理)
-
         object->Update();
 
         player->Update();
@@ -42,9 +40,8 @@ AbstractScene* GameMain::Update()
         enemy->Update();
 
         collision->HitBox(object);
-
-        return this; // シーン継続
     }
+    return this; // シーン継続
 };
 
 void GameMain::Draw() const 
@@ -56,7 +53,7 @@ void GameMain::Draw() const
     {
         SetFontSize(16);
         DrawFormatString(20, 50, 0xffffff, " PAUSE ");
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA,0);     //ステージ以外全て消す
+        //SetDrawBlendMode(DX_BLENDMODE_ALPHA,0);     //ステージ以外全て消す
     }
     else 
     {
