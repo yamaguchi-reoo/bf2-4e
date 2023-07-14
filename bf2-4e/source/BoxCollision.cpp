@@ -20,6 +20,7 @@ bool BoxCollision::HitBox(BoxCollision* bCollider)
 	{
 		return true;
 	}
+
 	return ret;
 }
 

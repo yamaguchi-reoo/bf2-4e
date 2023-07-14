@@ -41,7 +41,7 @@
     <ClCompile Include="source\PadInput.cpp" />
     <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\SceneManager.cpp" />
-    <ClCompile Include="source\Stage.cpp" />
+    <ClCompile Include="source\stage02.cpp" />
     <ClCompile Include="source\Title.cpp" />
     <ClCompile Include="source\UI.cpp" />
   </ItemGroup>

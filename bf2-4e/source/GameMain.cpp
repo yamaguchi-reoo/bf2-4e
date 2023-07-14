@@ -38,9 +38,11 @@ AbstractScene* GameMain::Update()
 
     player->Update();
     
+    //player->Move();
     enemy->Update();
 
     collision->HitBox(object);
+
 
     return this; // ƒV[ƒ“Œp‘±
 };

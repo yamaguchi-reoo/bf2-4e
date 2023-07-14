@@ -5,11 +5,12 @@
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\PadInput.cpp" />
     <ClCompile Include="source\SceneManager.cpp" />
-    <ClCompile Include="source\Stage.cpp" />
     <ClCompile Include="source\Title.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\BoxCollision.cpp" />
+    <ClCompile Include="source\UI.cpp" />
+    <ClCompile Include="source\stage02.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\AbstractScene.h" />
@@ -24,6 +25,7 @@
     <ClInclude Include="source\BoxCollision.h" />
     <ClInclude Include="source\Fps.h" />
     <ClInclude Include="source\Struct.h" />
+    <ClInclude Include="source\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="source\Log.txt" />
