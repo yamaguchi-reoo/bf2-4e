@@ -296,8 +296,8 @@ void Stage::SetPosition(int position_x, int position_y, int number, int image)
 }
 void Stage::GetObjectErea(int _width, int _height, int _x, int _y, int _number) 
 {
-	object[_number].x = (float)stage_location[_number].x;
-	object[_number].y = (float)stage_location[_number].y;
+	object[_number].x = (float)_x;//stage_location[_number].x;
+	object[_number].y = (float)_y;//stage_location[_number].y;
 	object[_number].w = (float)_width;
 	object[_number].h = (float)_height;
 }
