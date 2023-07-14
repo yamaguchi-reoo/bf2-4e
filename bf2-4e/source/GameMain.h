@@ -3,12 +3,14 @@
 #include"Stage.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "BoxCollision.h"
 
 class GameMain : public AbstractScene {
 private:
-    Stage* stage;
-    Player player;      //プレイヤークラスのオブジェクト化
-    Enemy enemy;        // Enemyクラスのオブジェクト化
+    Stage* object;
+    Player* player;         //プレイヤークラスのオブジェクト化
+    Enemy* enemy;           // Enemyクラスのオブジェクト化
+    BoxCollision* collision; //Collisionクラスのオブジェクト化 
 
     bool pause_flag;     //ポーズのフラグ取り
 

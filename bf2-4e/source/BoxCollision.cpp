@@ -1,8 +1,8 @@
-#include "Collision.h"
+#include "BoxCollision.h"
 
-bool BoxCollider::HitBox(BoxCollider* bCollider)
+bool BoxCollision::HitBox(BoxCollision* bCollider)
 {
-	bool ret = false;
+	bool ret = false;	//返り値
 
 	//プレイヤーの当たり判定の範囲
 	float player_x1 = location.x - (erea.width * erea.width_rate);
@@ -16,14 +16,28 @@ bool BoxCollider::HitBox(BoxCollider* bCollider)
 	float enemy_x2 = enemy_x1 + bCollider->erea.width;
 	float enemy_y2 = enemy_y1 + bCollider->erea.height;
 
-	//エネミーとプレイヤーの当たり判定
-
-
-	return false;
+	if ((player_x1 < enemy_x2) && (enemy_x1 < player_x2) && (player_y1 < enemy_y2) && (enemy_y1 < player_y2))
+	{
+		return true;
+	}
+	return ret;
 }
 
-Location BoxCollider::GetLocation() const
+//中心座標の取得
+Location BoxCollision::GetLocation() const
 {
 	Location ret = { location.x,location.y };
 	return ret;
+}
+
+//半径の取得
+Erea BoxCollision::GetErea()const
+{
+	return erea;
+}
+
+//中心座標の設定
+void BoxCollision::SetLocation(Location location)
+{
+	this->location = location;
 }

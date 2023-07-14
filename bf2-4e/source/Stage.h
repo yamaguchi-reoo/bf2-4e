@@ -1,9 +1,20 @@
 #pragma once
+#include"BoxCollision.h"
 
-class Stage 
+//オブジェクト配置
+struct STAGE {
+	int x;
+	int y;
+	int w;
+	int h;
+	int image;
+};
+class Stage :public BoxCollision
 {
 private:
 	int stage_number;//ステージ数用変数
+	struct STAGE stage_location[8]{0,0,0,0,0,0,0,0};//構造体用配列
+	int stage_object;//オブジェクト数
 
 	//画像用変数
 	int floor_image01;
@@ -31,4 +42,10 @@ public:
 
 	// 描画に関することを実装
 	void  Draw() const;
+
+	// オブジェクトの位置設定する関数
+	void SetPosition(int position_x, int position_y, int number, int image);
+
+	//オブジェクトの位置を受け取る関数
+	void GetObjectErea(int _width, int _height, int _x, int _y,int _number);
 };
