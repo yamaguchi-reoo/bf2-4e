@@ -1,5 +1,5 @@
 #pragma once
-#include"Collision.h"
+#include"BoxCollision.h"
 
 //オブジェクト配置
 struct STAGE {
@@ -9,7 +9,7 @@ struct STAGE {
 	int h;
 	int image;
 };
-class Stage :public BoxCollider
+class Stage :public BoxCollision
 {
 private:
 	int stage_number;//ステージ数用変数

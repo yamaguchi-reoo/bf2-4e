@@ -1,20 +1,18 @@
 #pragma once
-#include "Collision.h"
+#include "BoxCollision.h"
 
-class Player :public BoxCollider
+class Player :public BoxCollision
 {
 private:
 	int player_images[30];
 	int player_flg; //0:地面にいる状態　１：落下状態
-	float player_x1;
-	float player_y1;
-	float player_x2;
-	float player_y2;
+	int direction;			// プレイヤーの向き
 
 public:
-	void PlayerFlight();
-	void PlayerFall();	//プレイヤーの落下処理
-	void PlayerGroundWalk();	//プレイヤーの地面での動作
+	void Move();		//プレイヤーの移動
+	void NotTipMove();
+	void PlayerFlight();		//プレイヤーの空中状態
+	void PlayerGroundWalk();	//プレイヤーの地面歩行
 
 public:
 	Player();			//コンストラクタ

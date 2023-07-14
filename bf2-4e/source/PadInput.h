@@ -2,7 +2,10 @@
 #include"DxLib.h"
 
 #define BUTTONS 16
-
+#define STICKL_X 1		
+#define STICKL_Y 2		
+#define MAXL_X 32767.f  //左スティックX軸の最大値(float型)
+#define MAXL_Y 32767.f  //左スティックY軸の最大値(float型)
 //スティック
 struct Stick
 {
@@ -56,10 +59,25 @@ public:
 		return ret;
 	}
 
-	//左スティックの取得
-	static Stick GetLStick()
+	//スティックの傾き割合
+	static float TipLeftLStick(short StickL)
 	{
-		return Lstick;
+		if (StickL == STICKL_X)
+		{
+			float ratioL_X = Input.ThumbLX / MAXL_X;
+
+			//左スティックの横軸を最大値を１とした割合
+			return ratioL_X;
+		}
+		else if (StickL == STICKL_Y)
+		{
+			float ratioL_Y = Input.ThumbLY / MAXL_Y;
+
+			//左スティックの縦軸値の最大値を１とした割合
+			return ratioL_Y;
+		}
+
+		return 0;
 	}
 };
 
