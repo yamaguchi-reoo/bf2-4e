@@ -4,11 +4,11 @@ class UI
 {
 private:
 	// スコア画像分割用の変数
-	int numimage[4];
+	int num_image[4];
 	
 	//スコア文字用画像の変数
-	int scoreimage;
-	int hiscoreimage;
+	int score_image;
+	int hi_score_image;
 	
 	//ライフ用
 	int stock;

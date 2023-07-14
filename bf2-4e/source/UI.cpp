@@ -8,7 +8,7 @@ UI::UI()
 {
 	for (int i = 0; i < 19; i++)
 	{
-		numimage[i];
+		num_image[i];
 	
 	}
 
@@ -28,10 +28,8 @@ void UI::Update()
 // 描画に関することを実装
 void UI::Draw() const
 {
-
-
 	//スコア描画
-	DrawGraph(100, 100,scoreimage,TRUE);
+	DrawGraph(100, 100,score_image,TRUE);
 
 	//スコアの描画（仮）
 	//DrawFormatString(0, 100, 0xffffff, "Hallo");

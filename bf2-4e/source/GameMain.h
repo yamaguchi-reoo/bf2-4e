@@ -10,7 +10,7 @@ private:
     Player player;      //プレイヤークラスのオブジェクト化
     Enemy enemy;        // Enemyクラスのオブジェクト化
 
-    bool pauseflag;     //ポーズのフラグ取り
+    bool pause_flag;     //ポーズのフラグ取り
 
 public:
     // コンストラクタ

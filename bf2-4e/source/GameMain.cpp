@@ -8,7 +8,7 @@ GameMain::GameMain()
     stage = new Stage();
 
     //ポーズではない
-    pauseflag = FALSE;
+    pause_flag = FALSE;
 };
 
 GameMain::~GameMain() 
@@ -21,10 +21,10 @@ AbstractScene* GameMain::Update()
     //ポーズ切り替え処理
     if (PadInput::OnButton (XINPUT_BUTTON_START))       // STARTが押されたとき
     { 
-        pauseflag = !pauseflag;
+        pause_flag = !pause_flag;
     }
     //ポーズ中ではない時
-    if(pauseflag==FALSE)
+    if(pause_flag==FALSE)
     {
         //ゲームメイン処理を入れる
     }
@@ -39,18 +39,17 @@ void GameMain::Draw() const
     // やることは描画のみ、絶対に値の更新はしない
 
     //ポーズ画面の描画
-    if (pauseflag == TRUE)
+    if (pause_flag == TRUE)
     {
         SetFontSize(16);
         DrawFormatString(20, 50, 0xffffff, " PAUSE ");
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA,0);     //敵
+        //SetDrawBlendMode(DX_BLENDMODE_ALPHA,0);     //敵
     }
     else 
     {
         SetFontSize(16);
         DrawFormatString(20, 50, 0xffffff, "Game Main");
     }
-    
 
     stage->Draw();
 
