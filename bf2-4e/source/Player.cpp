@@ -3,25 +3,26 @@
 #include "PadInput.h"
 #include "math.h"
 
+#define DIRECTION_LEFT		(1)
+#define DIRECTION_MIDDLE	(0)
+#define DIRECTION_RIGHT		(-1)
+
 Player::Player()
 {
+	direction = DIRECTION_LEFT;		// 初期の向き（左）
 	for (int i = 0; i < 30; i++)
 	{
-		player_images[i];
+		player_images[i] = NULL;
 	}
 	LoadDivGraph("Source/Resource/images/Player/Player_Animation.png",30,8,4,64,64, player_images);
 	
 	player_flg = 1;
-	location.x = 100.0;
-	location.y = 385.0;
+	location.x = 180.0;
+	location.y = 284.0;
 	erea.width = 64.0;
 	erea.height = 64.0;
 	erea.width_rate = 1.0;
 	erea.height_rate = 1.0;
-	player_x1 = location.x - (erea.width * erea.width_rate);
-	player_y1 = location.y - (erea.height * erea.height_rate);
-	player_x2 = player_x1 + erea.width;
-	player_y2 = player_y1 + erea.height;
 }
 Player::~Player()
 {
@@ -29,22 +30,54 @@ Player::~Player()
 }
 void Player::Update()
 {
-	player_x1 = location.x - ((erea.width/2) * erea.width_rate);
-	player_y1 = location.y - ((erea.height/2) * erea.height_rate);
-	player_x2 = player_x1 + erea.width;
-	player_y2 = player_y1 + erea.height;
 	PlayerGroundWalk();
 	PlayerFlight();
-	location.y += 0.1;
+	Move();
+	location.y += 0.3;
 }
+
 void Player::Draw()const
 {
-	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, player_images[0], TRUE, FALSE);
-
-	DrawFormatString(100, 100, 0xffffff, "x1:%f y1:%f,x2:%f y2:%f", player_x1, player_y1, player_x2, player_y2);
-
-	DrawBox(player_x1, player_y1, player_x2, player_y2, 0xff0000, FALSE);
+	if (direction > DIRECTION_MIDDLE)
+	{
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, player_images[0], TRUE, FALSE);
+	}
+	else
+	{
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, player_images[0], TRUE, TRUE);
+	}	
 }
+
+//プレイヤーの移動
+void Player::Move()
+{
+	// migi
+	if (0.4f < PadInput::TipLeftLStick(STICKL_X))
+	{
+		direction = DIRECTION_RIGHT;
+		location.x += 1.0f;
+	}
+
+	// hidari
+	if (PadInput::TipLeftLStick(STICKL_X) < -0.4)
+	{
+		direction = DIRECTION_LEFT;
+		location.x -= 1.0f;
+	}
+	
+	//右側
+	if (640 < (location.x - (erea.width / 2)))
+	{
+		location.x = -30;
+	}
+	//左側
+	if ((location.x + (erea.width / 2)) < 0)
+	{
+		 location.x = 670;
+	}
+}
+
+//プレイヤーの地面での歩行動作
 void Player::PlayerGroundWalk()
 {
 	player_flg = 0;
@@ -53,11 +86,20 @@ void Player::PlayerGroundWalk()
 		player_images[1];
 	}
 }
+
+//プレイヤーの空中状態
 void Player::PlayerFlight()
 {
 	if (PadInput::OnButton(XINPUT_BUTTON_X) == 1)
 	{
 		player_flg = 1;
-		location.y -= 2;
+		location.y -= 4;
+		player_images[17];
+	}
+	if (PadInput::OnPressed(XINPUT_BUTTON_B) == 1)
+	{
+		player_flg = 1;
+		location.y -= 0.5;
+		player_images[17];
 	}
 }
