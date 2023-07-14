@@ -9,7 +9,6 @@ GameMain::GameMain()
     player = new Player();
     enemy = new Enemy();
     collision = new BoxCollision();
-    stage = new Stage();
 
     //ポーズではない
     pause_flag = FALSE;
@@ -21,19 +20,19 @@ GameMain::~GameMain()
     // 終了処理
 };
 
-AbstractScene* GameMain::Update() 
-{ 
+AbstractScene* GameMain::Update()
+{
     //ポーズ切り替え処理
-    if (PadInput::OnButton (XINPUT_BUTTON_START))       // STARTが押されたとき
-    { 
+    if (PadInput::OnButton(XINPUT_BUTTON_START))       // STARTが押されたとき
+    {
         pause_flag = !pause_flag;
     }
     //ポーズ中ではない時
-    if(pause_flag==FALSE)
+    if (pause_flag == FALSE)
     {
-        //ゲームメイン処理を入れる
+    //ゲームメイン処理を入れる
     }
-{ // ここで値の更新など、処理)
+    // ここで値の更新など、処理)
 
     object->Update();
 
