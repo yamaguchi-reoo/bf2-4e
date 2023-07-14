@@ -25,6 +25,8 @@ Stage::Stage()
 	floor_number[0].image = LoadGraph("source/Resource/images/Stage/Stage_Footing01.png");
 	floor_number[0].x = 0;
 	floor_number[0].y = 0;
+	floor_number[0].w = 0;
+	floor_number[0].h = 0;
 
 	floor_number[1].image= LoadGraph("source/Resource/images/Stage/Stage_Footing02.png");
 	floor_number[1].x = 0;
