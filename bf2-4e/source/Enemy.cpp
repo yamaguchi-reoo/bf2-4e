@@ -18,9 +18,10 @@ Enemy::Enemy()
 
 	enemy_x = 200.0f;
 	enemy_y = 252.0f;
-	enemy_speed = 0;
+	enemy_speed = 2;
 	enemy_angle = 0;
 	enemy_type = 0;
+	//power_up_flg = FALSE;
 
 	xc = 0.0f;
 	yc = 0.0f;
@@ -108,10 +109,10 @@ void Enemy::Draw() const
 	//// マウスの座標の描画
 	////DrawFormatString(10, 50, 0xffffff, "mouse_x = %3d, mouse_y = %3d", mouse_x, mouse_y);
 	//DrawFormatString(0, 30, 0xffffff, "E enemy_x = %3f, enemy_y = %3f", enemy_x, enemy_y);
-	//DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
-	//DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
-	//DrawFormatString(0, 160, 0xffffff, "E xc = %3f, yc = %3f", xc, yc);
-	//DrawFormatString(0, 190, 0xff0000, "E now_image = %d", now_image);
+	DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
+	DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
+	DrawFormatString(0, 160, 0xffffff, "E xc = %3f, yc = %3f", xc, yc);
+	DrawFormatString(0, 190, 0xff0000, "E now_image = %d", now_image);
 	//DrawFormatString(200, 250, 0xff0000, "radian = %f", radian);
 #endif	//_DEBUG
 
@@ -141,13 +142,14 @@ void Enemy::EnemyMove()
 	move_x = mouse_x - enemy_x;
 	move_y = mouse_y - enemy_y;
 
-	xc = sqrtf(pow(move_x, 2));
-	yc = sqrtf(pow(move_y, 2));
+	xc = sqrtf(powf(move_x, 2));
+	yc = sqrtf(powf(move_y, 2));
 
 	// x,y座標が同じだと1ピクセルずつ追いかけてくる（縦と横にしか移動しない）※多分改善した
 	// 最短距離ではない
 	if (xc != 0 && yc != 0)
 	{
+		// どの向きに進めばいいのかを-1～1の間で求めている（多分）
 		x = move_x / xc;
 		y = move_y / yc;
 	}
@@ -170,6 +172,8 @@ void Enemy::EnemyMove()
 // 敵の回避行動処理
 void Enemy::Avoidance()
 {
+	// if(敵の真上にプレイヤーがいる場合)
+
 	if (turn_flg == TRUE)
 	{
 		// 敵が右を向いているとき
@@ -187,7 +191,7 @@ void Enemy::InflatBealloon()
 {
 	inflat_bealloon_count++;
 
-	// 22フレーム毎に画像を切り替える
+	// 22フレームごとに画像を切り替える（0 ～ 7の8枚）
 	next_image = inflat_bealloon_count / 22;
 
 	if (now_image != next_image)
@@ -220,8 +224,8 @@ void Enemy::Flight()
 {
 	flight_count++;
 
-	// 画像番号は9，10，11 or 9，10（多分9, 10）
-	next_image = flight_count / 5 + 9;
+	// 画像番号は8, 9（2枚）
+	next_image = flight_count / 5 + 8;
 
 	if (now_image != next_image)
 	{
@@ -235,10 +239,21 @@ void Enemy::Flight()
 	}
 }
 
+// 空中落下アニメーション処理
+void Enemy::AirFall()
+{
+	// 画像は10, 11, 12（風船が揺れている3枚）
+
+}
+
 // パラシュート状態のアニメーション処理
 void Enemy::Parachute()
 {
+	// 画像は15, 16, 17（2枚）
+	// 15, 16はパラシュートが開く画像
+	// 17は落下時の画像
 
+	//power_up_flg = TRUE;
 }
 
 // 直立状態の処理
@@ -246,11 +261,29 @@ void Enemy::Upright()
 {
 	// 直立状態の画像
 	now_image = 0;
+
+	// 一定時間たったら風船を膨らませる
+	// 膨らませきったらパワーアップ
+
+	// パワーアップ処理
+	if (enemy_type <= 3)
+	{
+		enemy_type++;
+	}
+
+	// パワーアップ処理
+	//if (power_up_flg == TRUE && enemy_type <= 3)
+	//{
+	//	enemy_type++;
+	//	power_up_flg = FALSE;
+	//}
 }
 
 // 死亡時のアニメーション処理
 void Enemy::Death()
 {
+	// 画像は13, 14（2枚）
+
 	now_image = 13;
 
 	//next_image = 

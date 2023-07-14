@@ -23,6 +23,7 @@ private:
 	int enemy_speed;						// 敵のスピード
 	int enemy_angle;						// 敵の移動角度
 	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
+	//int power_up_flg;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
 
 	// 移動するときの計算に使う変数
 	float xc;								// 三平方の定理（斜辺）
@@ -77,6 +78,9 @@ public:
 
 	// 空中で羽ばたくアニメーション処理
 	void Flight();
+
+	// 空中落下アニメーション処理
+	void AirFall();
 
 	// パラシュート状態のアニメーション処理
 	void Parachute();
