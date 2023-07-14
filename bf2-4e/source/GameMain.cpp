@@ -53,7 +53,7 @@ void GameMain::Draw() const
     {
         SetFontSize(16);
         DrawFormatString(20, 50, 0xffffff, " PAUSE ");
-        //SetDrawBlendMode(DX_BLENDMODE_ALPHA,0);     //ステージ以外全て消す
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA,0);     //ステージ以外全て消す
     }
     else 
     {
@@ -61,9 +61,13 @@ void GameMain::Draw() const
         DrawFormatString(20, 50, 0xffffff, "Game Main");
     }
 
-    object->Draw();        //ステージ画像の描画処理
-
     player->Draw();        //プレイヤー画像の描画処理
 
     enemy->Draw();         //敵画像の描画処理
+
+        //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
+    SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0); 
+
+    //↓UI、ステージを書く
+    object->Draw();        //ステージ画像の描画処理
 };
