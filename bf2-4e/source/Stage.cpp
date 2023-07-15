@@ -38,7 +38,6 @@ void Stage::Update()
 	{
 		stage_number--;
 	}
-
 	//オブジェクト配置
 	switch (stage_number)
 	{
@@ -156,11 +155,11 @@ void Stage::Update()
 	{
 		for (stage_object = 6; stage_object <= 7; stage_object++)
 		{
-			if (stage_object == 6)
+			if (stage_object == 6)//オブジェクトNo
 			{
 				SetPosition(0, 416, stage_object, floor_left_image01);
 			}
-			if (stage_object == 7)
+			if (stage_object == 7)//オブジェクトNo
 			{
 				SetPosition(480, 416, stage_object, floor_right_image01);
 			}

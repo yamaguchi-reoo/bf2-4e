@@ -12,6 +12,8 @@ private:
     Enemy* enemy;           // Enemyクラスのオブジェクト化
     BoxCollision* collision; //Collisionクラスのオブジェクト化 
 
+    bool pause_flag;     //ポーズのフラグ取り
+
 public:
     // コンストラクタ
     GameMain();
