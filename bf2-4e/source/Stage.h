@@ -14,7 +14,7 @@ class Stage :public BoxCollision
 private:
 	int stage_number;//ステージ数用変数
 	struct STAGE stage_location[8]{ 0,0,0,0,0,0,0,0,0 };
-	struct STAGE floor_number[12];//構造体用配列
+	struct STAGE floor_number[14];//構造体用配列
 	int stage_object;//オブジェクト数
 
 	//画像用変数
@@ -38,7 +38,7 @@ private:
 	int floor_image_right[2];
 public:
 	//コンストラクタ
-	Stage();
+	Stage(int i);
 	//デストラクタ
 	~Stage();
 
@@ -53,4 +53,6 @@ public:
 
 	//オブジェクトの位置を受け取る関数
 	void GetObjectErea(int _width, int _height, int _x, int _y,int _number);
+
+	void GetPosition(int x, int y, int w, int h, int num, int img);
 };
