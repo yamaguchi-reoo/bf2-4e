@@ -38,7 +38,7 @@ private:
 	int floor_image_right[2];
 public:
 	//コンストラクタ
-	Stage(int i);
+	Stage();
 	//デストラクタ
 	~Stage();
 

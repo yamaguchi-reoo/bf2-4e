@@ -2,7 +2,7 @@
 #include"DxLib.h"
 #include"PadInput.h"
 
-Stage::Stage(int i) 
+Stage::Stage() 
 {
 	stage_number = 0;
 
