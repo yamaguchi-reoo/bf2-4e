@@ -2,7 +2,7 @@
 
 enum class EnemyState
 {
-	kInflatBealloon,					// 風船を膨らませる
+	kInflatBealloon = 0,				// 風船を膨らませる
 	kFlight,							// 空中で羽ばたく
 	kParachute,							// パラシュート
 	kUpright,							// 直立
@@ -20,10 +20,10 @@ private:
 	// 敵の情報
 	float enemy_x;							// 敵のX座標
 	float enemy_y;							// 敵のY座標
-	int enemy_speed;						// 敵のスピード
+	float enemy_speed;						// 敵のスピード
 	int enemy_angle;						// 敵の移動角度
 	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
-	//int power_up_flg;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
+	int power_up_flg;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
 
 	// 移動するときの計算に使う変数
 	float xc;								// 三平方の定理（斜辺）
@@ -47,7 +47,8 @@ private:
 	int mouse_x;							// マウスのX座標（プレイヤーの座標に変わる）
 	int mouse_y;							// マウスのY座標（プレイヤーの座標に変わる）
 
-	float radian;							// 敵とプレイヤーの角度
+	float radian;							// 敵とプレイヤーの角度（弧度法）
+	float degree;							// 敵とプレイヤーの角度（度数法）
 
 	// 移動するときに使う変数
 	float move_x;							// 敵の座標Xの移動量

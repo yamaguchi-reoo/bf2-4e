@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "DxLib.h"
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 // コンストラクタ
@@ -15,14 +16,16 @@ Enemy::Enemy()
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_P_Animation.png", 18, 6, 3, 64, 64, enemy_pink_image);
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_G_Animation.png", 18, 6, 3, 64, 64, enemy_green_image);
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 18, 6, 3, 64, 64, enemy_red_image);
-
+	
+	// 敵の情報
 	enemy_x = 200.0f;
 	enemy_y = 252.0f;
-	enemy_speed = 2;
+	enemy_speed = 1.0f;
 	enemy_angle = 0;
 	enemy_type = 0;
-	//power_up_flg = FALSE;
+	power_up_flg = FALSE;
 
+	// 移動するときの計算に使う変数
 	xc = 0.0f;
 	yc = 0.0f;
 	x = 0.0f;
@@ -31,6 +34,7 @@ Enemy::Enemy()
 	fps_count = 0;
 	second = 0;
 
+	// アニメーション用カウント
 	inflat_bealloon_count = 0;
 	flight_count = 0;
 
@@ -39,11 +43,14 @@ Enemy::Enemy()
 
 	enemy_state = EnemyState::kInflatBealloon;
 
+	// 追いかける対象の座標
 	mouse_x = 0;
 	mouse_y = 0;
 
 	radian = 0.0f;
+	degree = 0.0f;
 
+	// 移動するときに使う変数
 	move_x = 0.0f;
 	move_y = 0.0f;
 
@@ -80,16 +87,22 @@ void Enemy::Update()
 			InflatBealloon();
 			break;
 		case EnemyState::kFlight:
+			// 敵の上下左右移動処理
 			EnemyMove();
-			Flight();
+			// 空中で羽ばたくアニメーション処理
+			//Flight();
+			AirFall();
 			break;
 		case EnemyState::kParachute:
+			// パラシュート状態のアニメーション処理
 			Parachute();
 			break;
 		case EnemyState::kUpright:
+			// 直立状態の処理
 			Upright();
 			break;
 		case EnemyState::kDeath:
+			// 死亡時のアニメーション処理
 			Death();
 			break;
 		default:
@@ -114,6 +127,7 @@ void Enemy::Draw() const
 	DrawFormatString(0, 160, 0xffffff, "E xc = %3f, yc = %3f", xc, yc);
 	DrawFormatString(0, 190, 0xff0000, "E now_image = %d", now_image);
 	//DrawFormatString(200, 250, 0xff0000, "radian = %f", radian);
+	DrawFormatString(200, 250, 0xff0000, "degree = %f", degree);
 #endif	//_DEBUG
 
 	if (enemy_type == 0)
@@ -124,12 +138,12 @@ void Enemy::Draw() const
 	if (enemy_type == 1)
 	{
 		//// 緑色の敵画像の描画
-		//DrawRotaGraph((int)enemy_x + 100, (int)enemy_y, 1, 0, enemy_green_image[now_image], TRUE, turn_flg);
+		//DrawRotaGraph((int)enemy_x , (int)enemy_y, 1, 0, enemy_green_image[now_image], TRUE, turn_flg);
 	}
 	if (enemy_type == 2)
 	{
-	//// 赤色の敵画像の描画
-	//DrawRotaGraph((int)enemy_x + 200, (int)enemy_y, 1, 0, enemy_red_image[now_image], TRUE, turn_flg);
+		//// 赤色の敵画像の描画
+		//DrawRotaGraph((int)enemy_x , (int)enemy_y, 1, 0, enemy_red_image[now_image], TRUE, turn_flg);
 	}
 }
 
@@ -138,6 +152,8 @@ void Enemy::EnemyMove()
 {
 	// マウスと敵の角度を計算する（弧度法）
 	radian = atan2f((float)mouse_y - enemy_y, (float)mouse_x - enemy_x);
+	// デグリーに変換
+	degree = radian * (180 / M_PI);
 
 	move_x = mouse_x - enemy_x;
 	move_y = mouse_y - enemy_y;
@@ -154,7 +170,8 @@ void Enemy::EnemyMove()
 		y = move_y / yc;
 	}
 
-	enemy_x += x;
+	// スピードをかけて移動速度を変更させないといけない
+	enemy_x += x * enemy_speed;
 	enemy_y += y;
 
 	// 画像の反転処理（カーソルの方向を向く）
@@ -167,21 +184,30 @@ void Enemy::EnemyMove()
 		turn_flg = FALSE;
 	}
 
+	//if (y == 1)
+	//{
+	//	// 空中落下アニメーション処理
+	//	AirFall();
+	//}
+
 }
 
 // 敵の回避行動処理
 void Enemy::Avoidance()
 {
 	// if(敵の真上にプレイヤーがいる場合)
+	// (x >= degree && degree <= x) x = 角度の範囲を設定する
 
 	if (turn_flg == TRUE)
 	{
 		// 敵が右を向いているとき
+		// enemy_x += move_x * speed　にする必要がある
 		move_x++;
 	}
 	else if (turn_flg == FALSE)
 	{
 		// 敵が左を向いているとき
+		// enemy_x -= move_x * speed　にする必要がある
 		move_x--;
 	}
 }
@@ -217,6 +243,19 @@ void Enemy::InflatBealloon()
 		enemy_state = EnemyState::kFlight;
 	}
 
+	// if(パワーアップのフラグが立っていたら)type++
+	// パワーアップ処理
+	if (power_up_flg == TRUE)
+	{
+		// タイプの変更
+		enemy_type++;
+
+		// スピードの変更
+		enemy_speed++;
+
+		// power_up_flg = FALSE;
+	}
+
 }
 
 // 空中で羽ばたくアニメーション処理
@@ -225,7 +264,7 @@ void Enemy::Flight()
 	flight_count++;
 
 	// 画像番号は8, 9（2枚）
-	next_image = flight_count / 5 + 8;
+	next_image = flight_count / 6 + 8;
 
 	if (now_image != next_image)
 	{
@@ -244,6 +283,21 @@ void Enemy::AirFall()
 {
 	// 画像は10, 11, 12（風船が揺れている3枚）
 
+	flight_count++;
+
+	next_image = flight_count / 11 + 10;
+
+	if (now_image != next_image)
+	{
+		now_image = next_image;
+	}
+
+	if (flight_count >= 30)
+	{
+		// カウントを0に戻す
+		flight_count = 0;
+	}
+
 }
 
 // パラシュート状態のアニメーション処理
@@ -254,6 +308,9 @@ void Enemy::Parachute()
 	// 17は落下時の画像
 
 	//power_up_flg = TRUE;
+
+	// if(地面についたら)直立状態に変更
+	enemy_state = EnemyState::kUpright;
 }
 
 // 直立状態の処理
@@ -262,20 +319,21 @@ void Enemy::Upright()
 	// 直立状態の画像
 	now_image = 0;
 
-	// 一定時間たったら風船を膨らませる
-	// 膨らませきったらパワーアップ
-
-	// パワーアップ処理
+	// 敵が赤色ではないとき
 	if (enemy_type <= 3)
 	{
-		enemy_type++;
+		// パワーアップのフラグを立てる
+		power_up_flg = TRUE;
 	}
 
+	// if(一定時間たったら)風船を膨らませる状態に変更
+	// 膨らませきったらパワーアップ
+	enemy_state = EnemyState::kInflatBealloon;
+
 	// パワーアップ処理
-	//if (power_up_flg == TRUE && enemy_type <= 3)
+	//if (enemy_type <= 3)
 	//{
 	//	enemy_type++;
-	//	power_up_flg = FALSE;
 	//}
 }
 
