@@ -56,6 +56,9 @@ private:
 
 	int turn_flg;							// 画像の左右反転状態（TRUE:反転　FALSE:普通に描画）
 
+	int ckeck_flg;							// プレイヤーとの座標の差を取得するフラグ
+	int ckeck_count;						// ckeck_flg用カウント
+
 public:
 	// コンストラクタ
 	Enemy();
@@ -91,5 +94,8 @@ public:
 
 	// 死亡時のアニメーション処理
 	void Death();
+
+	// プレイヤーとの座標の差を取得するかの判定処理
+	void CkeckPlayerLocation();
 };
 

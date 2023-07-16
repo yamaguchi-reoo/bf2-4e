@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include "PadInput.h"
 
 // コンストラクタ
 Enemy::Enemy()
@@ -20,7 +21,7 @@ Enemy::Enemy()
 	// 敵の情報
 	enemy_x = 200.0f;
 	enemy_y = 252.0f;
-	enemy_speed = 1.0f;
+	enemy_speed = 0.5f;
 	enemy_angle = 0;
 	enemy_type = 0;
 	power_up_flg = FALSE;
@@ -54,7 +55,10 @@ Enemy::Enemy()
 	move_x = 0.0f;
 	move_y = 0.0f;
 
-	turn_flg = FALSE;
+	turn_flg = FALSE;				// 反転はしない
+
+	ckeck_flg = TRUE;				// 座標の差を取得する
+	ckeck_count = 0;
 }
 
 // デストラクタ
@@ -66,16 +70,29 @@ Enemy::~Enemy()
 // 描画以外の更新を実装
 void Enemy::Update()
 {
+	// 敵の色ごとの動作確認用　※後で削除
+	if (PadInput::OnButton(XINPUT_BUTTON_Y) == 1)
+	{
+		if (enemy_type < 2)
+		{
+			enemy_type++;
+
+		}
+		else
+		{
+			enemy_type = 0;
+		}
+	}
+
+
 	// マウスの座標の取得（のちにプレイヤーの座標に変わる）
 	GetMousePoint(&mouse_x, &mouse_y);
 
 	fps_count++;
-
 	if (fps_count >= 60)
 	{
 		// 秒数のカウントを増やす
 		second++;
-
 		// fpsのカウントを0に戻す
 		fps_count = 0;
 	}
@@ -89,9 +106,10 @@ void Enemy::Update()
 		case EnemyState::kFlight:
 			// 敵の上下左右移動処理
 			EnemyMove();
+			CkeckPlayerLocation();
 			// 空中で羽ばたくアニメーション処理
-			//Flight();
-			AirFall();
+			Flight();
+			//AirFall();
 			break;
 		case EnemyState::kParachute:
 			// パラシュート状態のアニメーション処理
@@ -137,42 +155,48 @@ void Enemy::Draw() const
 	}
 	if (enemy_type == 1)
 	{
-		//// 緑色の敵画像の描画
-		//DrawRotaGraph((int)enemy_x , (int)enemy_y, 1, 0, enemy_green_image[now_image], TRUE, turn_flg);
+		// 緑色の敵画像の描画
+		DrawRotaGraph((int)enemy_x , (int)enemy_y, 1, 0, enemy_green_image[now_image], TRUE, turn_flg);
 	}
 	if (enemy_type == 2)
 	{
-		//// 赤色の敵画像の描画
-		//DrawRotaGraph((int)enemy_x , (int)enemy_y, 1, 0, enemy_red_image[now_image], TRUE, turn_flg);
+		// 赤色の敵画像の描画
+		DrawRotaGraph((int)enemy_x , (int)enemy_y, 1, 0, enemy_red_image[now_image], TRUE, turn_flg);
 	}
 }
 
 // 敵の上下左右移動処理
 void Enemy::EnemyMove()
 {
+	if(ckeck_flg == TRUE)
+	{
+		move_x = mouse_x - enemy_x;
+		move_y = mouse_y - enemy_y;
+
+		xc = sqrtf(powf(move_x, 2));
+		yc = sqrtf(powf(move_y, 2));
+
+		// x,y座標が同じだと1ピクセルずつ追いかけてくる（縦と横にしか移動しない）※多分改善した
+		// 最短距離ではない
+		if (xc != 0 && yc != 0)
+		{
+			// どの向きに進めばいいのかを-1～1の間で求めている（多分）
+			x = move_x / xc;
+			y = move_y / yc;
+		}
+		ckeck_flg = FALSE;
+	}
+
 	// マウスと敵の角度を計算する（弧度法）
 	radian = atan2f((float)mouse_y - enemy_y, (float)mouse_x - enemy_x);
 	// デグリーに変換
 	degree = radian * (180 / M_PI);
 
-	move_x = mouse_x - enemy_x;
-	move_y = mouse_y - enemy_y;
-
-	xc = sqrtf(powf(move_x, 2));
-	yc = sqrtf(powf(move_y, 2));
-
-	// x,y座標が同じだと1ピクセルずつ追いかけてくる（縦と横にしか移動しない）※多分改善した
-	// 最短距離ではない
-	if (xc != 0 && yc != 0)
-	{
-		// どの向きに進めばいいのかを-1～1の間で求めている（多分）
-		x = move_x / xc;
-		y = move_y / yc;
-	}
+	// 角度がいくら以上なら慣性をつける処理を書く（振り向く際等）
 
 	// スピードをかけて移動速度を変更させないといけない
 	enemy_x += x * enemy_speed;
-	enemy_y += y;
+	enemy_y += y * enemy_speed / 2;
 
 	// 画像の反転処理（カーソルの方向を向く）
 	if (x >= 0)
@@ -195,8 +219,14 @@ void Enemy::EnemyMove()
 // 敵の回避行動処理
 void Enemy::Avoidance()
 {
+	// マウスと敵の角度を計算する（弧度法）
+	radian = atan2f((float)mouse_y - enemy_y, (float)mouse_x - enemy_x);
+	// デグリーに変換
+	degree = radian * (180 / M_PI);
+
 	// if(敵の真上にプレイヤーがいる場合)
 	// (x >= degree && degree <= x) x = 角度の範囲を設定する
+	// どのくらい離れていたら回避するのかも設定する必要がある（絶対値）
 
 	if (turn_flg == TRUE)
 	{
@@ -353,4 +383,32 @@ void Enemy::Death()
 	//{
 
 	//}
+}
+
+// プレイヤーとの座標の差を取得するかの判定処理
+void Enemy::CkeckPlayerLocation()
+{
+	ckeck_count++;
+
+	if (ckeck_flg == FALSE)
+	{
+		if (enemy_type == 0 && ckeck_count >= 300)
+		{
+			// 桃色の敵は5秒ごとに座標の比較
+			ckeck_flg = TRUE;
+			ckeck_count = 0;
+		}
+		else if (enemy_type == 1 && ckeck_count >= 180)
+		{
+			// 緑色の敵は3秒ごとに座標の比較
+			ckeck_flg = TRUE;
+			ckeck_count = 0;
+		}
+		else if(enemy_type == 2 && ckeck_count >= 60)
+		{
+			// 赤色の敵は1秒ごとに座標の比較
+			ckeck_flg = TRUE;
+			ckeck_count = 0;
+		}
+	}
 }
