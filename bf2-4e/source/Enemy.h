@@ -35,8 +35,9 @@ private:
 	int second;								// 秒数のカウント
 
 	// アニメーション用カウント
-	int inflat_bealloon_count;				// 風船を膨らましきるまでのカウント
-	int flight_count;						// 羽ばたくアニメーション用カウント
+	//int inflat_bealloon_count;				// 風船を膨らましきるまでのカウント
+	//int flight_count;						// 羽ばたくアニメーション用カウント
+	int animation_count;				// アニメーション用カウント
 
 	int now_image;							// 今から表示される画像
 	int next_image;							// 次に表示される画像
@@ -58,6 +59,9 @@ private:
 
 	int ckeck_flg;							// プレイヤーとの座標の差を取得するフラグ
 	int ckeck_count;						// ckeck_flg用カウント
+
+	float amplitude;						// パラシュート状態で下降するときの振れ幅
+	float enemy_start_x;					// パラシュート状態になったx座標
 
 public:
 	// コンストラクタ

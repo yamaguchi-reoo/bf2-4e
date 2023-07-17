@@ -2,7 +2,14 @@
 #include "DxLib.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
-#include "PadInput.h"
+#include "PadInput.h"		// デバッグ用
+
+// 静的メンバ変数
+//int Enemy::animation_count;
+
+float angle = 0;
+float angle2;
+float sinangle2 = 0;		// デバッグ用
 
 // コンストラクタ
 Enemy::Enemy()
@@ -19,8 +26,10 @@ Enemy::Enemy()
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 18, 6, 3, 64, 64, enemy_red_image);
 	
 	// 敵の情報
-	enemy_x = 200.0f;
-	enemy_y = 252.0f;
+	enemy_x = 300.0f;			// デバッグ用
+	enemy_y = 0.0f;				// デバッグ用
+	//enemy_x = 200.0f;
+	//enemy_y = 252.0f;
 	enemy_speed = 0.5f;
 	enemy_angle = 0;
 	enemy_type = 0;
@@ -36,8 +45,9 @@ Enemy::Enemy()
 	second = 0;
 
 	// アニメーション用カウント
-	inflat_bealloon_count = 0;
-	flight_count = 0;
+	//inflat_bealloon_count = 0;
+	//flight_count = 0;
+	animation_count = 0;
 
 	now_image = 0;
 	next_image = 0;
@@ -59,6 +69,9 @@ Enemy::Enemy()
 
 	ckeck_flg = TRUE;				// 座標の差を取得する
 	ckeck_count = 0;
+
+	amplitude = 50.0f;
+	enemy_start_x = -100.0f;
 }
 
 // デストラクタ
@@ -82,6 +95,13 @@ void Enemy::Update()
 		{
 			enemy_type = 0;
 		}
+	}
+
+	// 敵の色ごとの動作確認用　※後で削除
+	if (PadInput::OnButton(XINPUT_BUTTON_X) == 1)
+	{
+		// デバッグ用
+		enemy_state = EnemyState::kParachute;
 	}
 
 
@@ -139,13 +159,17 @@ void Enemy::Draw() const
 	//SetFontSize(15);
 	//// マウスの座標の描画
 	////DrawFormatString(10, 50, 0xffffff, "mouse_x = %3d, mouse_y = %3d", mouse_x, mouse_y);
-	//DrawFormatString(0, 30, 0xffffff, "E enemy_x = %3f, enemy_y = %3f", enemy_x, enemy_y);
+	DrawFormatString(0, 30, 0xffffff, "E enemy_x = %3f, enemy_y = %3f", enemy_x, enemy_y);
 	DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
 	DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
 	DrawFormatString(0, 160, 0xffffff, "E xc = %3f, yc = %3f", xc, yc);
 	DrawFormatString(0, 190, 0xff0000, "E now_image = %d", now_image);
 	//DrawFormatString(200, 250, 0xff0000, "radian = %f", radian);
-	DrawFormatString(200, 250, 0xff0000, "degree = %f", degree);
+	//DrawFormatString(200, 250, 0xff0000, "E degree = %f", degree);
+	//DrawFormatString(200, 250, 0xff0000, "E state = %d", enemy_state);
+	//DrawFormatString(200, 250, 0xff0000, "E angle2 = %f", angle2);
+	//DrawFormatString(200, 250, 0xff0000, "E enemy_start_x = %f", enemy_start_x);
+	DrawFormatString(200, 250, 0xff0000, "E sinangle2 = %f", sinangle2);
 #endif	//_DEBUG
 
 	if (enemy_type == 0)
@@ -190,7 +214,7 @@ void Enemy::EnemyMove()
 	// マウスと敵の角度を計算する（弧度法）
 	radian = atan2f((float)mouse_y - enemy_y, (float)mouse_x - enemy_x);
 	// デグリーに変換
-	degree = radian * (180 / M_PI);
+	degree = radian * (float)(180 / M_PI);
 
 	// 角度がいくら以上なら慣性をつける処理を書く（振り向く際等）
 
@@ -222,7 +246,7 @@ void Enemy::Avoidance()
 	// マウスと敵の角度を計算する（弧度法）
 	radian = atan2f((float)mouse_y - enemy_y, (float)mouse_x - enemy_x);
 	// デグリーに変換
-	degree = radian * (180 / M_PI);
+	degree = radian * (float)(180 / M_PI);
 
 	// if(敵の真上にプレイヤーがいる場合)
 	// (x >= degree && degree <= x) x = 角度の範囲を設定する
@@ -245,10 +269,10 @@ void Enemy::Avoidance()
 // 風船を膨らませるアニメーション処理
 void Enemy::InflatBealloon()
 {
-	inflat_bealloon_count++;
+	animation_count++;
 
 	// 22フレームごとに画像を切り替える（0 ～ 7の8枚）
-	next_image = inflat_bealloon_count / 22;
+	next_image = animation_count / 22;
 
 	if (now_image != next_image)
 	{
@@ -263,11 +287,11 @@ void Enemy::InflatBealloon()
 	//	enemy_y -= move_y;
 	//}
 
-	if(inflat_bealloon_count >= 180)
+	if(animation_count >= 180)
 	{
 		// 3秒経ったら
 		// カウントを0に戻す
-		inflat_bealloon_count = 0;
+		animation_count = 0;
 
 		// 敵の状態遷移
 		enemy_state = EnemyState::kFlight;
@@ -291,20 +315,20 @@ void Enemy::InflatBealloon()
 // 空中で羽ばたくアニメーション処理
 void Enemy::Flight()
 {
-	flight_count++;
+	animation_count++;
 
 	// 画像番号は8, 9（2枚）
-	next_image = flight_count / 6 + 8;
+	next_image = animation_count / 6 + 8;
 
 	if (now_image != next_image)
 	{
 		now_image = next_image;
 	}
 
-	if (flight_count >= 10)
+	if (animation_count >= 10)
 	{
 		// カウントを0に戻す
-		flight_count = 0;
+		animation_count = 0;
 	}
 }
 
@@ -313,19 +337,19 @@ void Enemy::AirFall()
 {
 	// 画像は10, 11, 12（風船が揺れている3枚）
 
-	flight_count++;
+	animation_count++;
 
-	next_image = flight_count / 11 + 10;
+	next_image = animation_count / 11 + 10;
 
 	if (now_image != next_image)
 	{
 		now_image = next_image;
 	}
 
-	if (flight_count >= 30)
+	if (animation_count >= 30)
 	{
 		// カウントを0に戻す
-		flight_count = 0;
+		animation_count = 0;
 	}
 
 }
@@ -333,14 +357,48 @@ void Enemy::AirFall()
 // パラシュート状態のアニメーション処理
 void Enemy::Parachute()
 {
+	if (enemy_start_x == -100.0f)
+	{
+		// enemy_start_xが使われていなかったら
+		enemy_start_x = enemy_x;
+	}
+
+	animation_count++;
+
 	// 画像は15, 16, 17（2枚）
 	// 15, 16はパラシュートが開く画像
 	// 17は落下時の画像
+	if (animation_count <= 5)
+	{
+		now_image = 15;
+	}
+	else if (animation_count <= 8)
+	{
+		now_image = 16;
+	}
+	else
+	{
+		now_image = 17;
+	}
 
-	//power_up_flg = TRUE;
+	//next_image
+
+	angle++;
+	angle2 = angle * (float)(M_PI / 180);
+
+	sinangle2 = sinf(angle2);
+
+	// enemu_start_xを中心に左右に揺れる処理
+	enemy_x = (sinf(angle2) * amplitude) + enemy_start_x;
+	// 落下処理
+	enemy_y += 0.5f;
+
 
 	// if(地面についたら)直立状態に変更
-	enemy_state = EnemyState::kUpright;
+	//power_up_flg = TRUE;
+	// enemy_start_x = -100.0f;
+	// animation_count = 0;
+	//enemy_state = EnemyState::kUpright;
 }
 
 // 直立状態の処理
