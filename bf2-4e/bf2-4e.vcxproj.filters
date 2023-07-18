@@ -11,6 +11,7 @@
     <ClCompile Include="source\BoxCollision.cpp" />
     <ClCompile Include="source\UI.cpp" />
     <ClCompile Include="source\stage02.cpp" />
+    <ClCompile Include="source\StageFloor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\AbstractScene.h" />
@@ -26,6 +27,7 @@
     <ClInclude Include="source\Fps.h" />
     <ClInclude Include="source\Struct.h" />
     <ClInclude Include="source\UI.h" />
+    <ClInclude Include="source\StageFloor.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="source\Log.txt" />

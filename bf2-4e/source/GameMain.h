@@ -1,6 +1,7 @@
 #pragma once
 #include "AbstractScene.h"
 #include"Stage.h"
+#include"StageFloor.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "BoxCollision.h"
@@ -11,7 +12,7 @@ private:
     Player* player;         //プレイヤークラスのオブジェクト化
     Enemy* enemy;           // Enemyクラスのオブジェクト化
     BoxCollision* collision; //Collisionクラスのオブジェクト化 
-
+    StageFloor* stagefloor[4];
     bool pause_flag;     //ポーズのフラグ取り
 
 public:

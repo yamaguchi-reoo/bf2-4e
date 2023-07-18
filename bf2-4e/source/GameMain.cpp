@@ -1,5 +1,5 @@
 #include "GameMain.h"
-#include "DxLib.h"
+#include"common.h"
 #include "PadInput.h"
 
 GameMain::GameMain() 
@@ -10,6 +10,10 @@ GameMain::GameMain()
     enemy = new Enemy();
     collision = new BoxCollision();
 
+    for (int i = 0; i < 4; i++)
+    {
+        stagefloor[i] = new StageFloor(i);
+    }
     //ポーズではない
     pause_flag = FALSE;
 };
@@ -17,6 +21,7 @@ GameMain::GameMain()
 GameMain::~GameMain() 
 {
     delete object;
+    delete stagefloor;
     // 終了処理
 };
 
@@ -75,9 +80,14 @@ void GameMain::Draw() const
 
     enemy->Draw();         //敵画像の描画処理
 
-        //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
+    for (int i = 0; i < 4; i++)
+    {
+
+        stagefloor[i]->Draw();
+    }
+    //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0); 
 
     //↓UI、ステージを書く
-    object->Draw();        //ステージ画像の描画処理
+    //object->Draw();        //ステージ画像の描画処理
 };
