@@ -6,20 +6,6 @@ Stage::Stage()
 {
 	stage_number = 0;
 
-	//floor_image01 = LoadGraph("source/Resource/images/Stage/Stage_Footing01.png");
-	//floor_image02 = LoadGraph("source/Resource/images/Stage/Stage_Footing02.png");
-	//floor_image03 = LoadGraph("source/Resource/images/Stage/Stage_Footing03.png");
-	//floor_image04 = LoadGraph("source/Resource/images/Stage/Stage_Footing04.png");
-	//floor_image05 = LoadGraph("source/Resource/images/Stage/Stage_Footing05.png");
-	//floor_image06 = LoadGraph("source/Resource/images/Stage/Stage_Footing06.png");
-	//floor_image07 = LoadGraph("source/Resource/images/Stage/Stage_Footing07.png");
-	//floor_image08 = LoadGraph("source/Resource/images/Stage/Stage_Footing08.png");
-
-	//floor_left_image01 = LoadGraph("source/Resource/images/Stage/Stage_Land_Left01.png");
-	//floor_left_image02 = LoadGraph("source/Resource/images/Stage/Stage_Land_Left02.png");
-	//floor_right_image01 = LoadGraph("source/Resource/images/Stage/Stage_Land_Right01.png");
-	//floor_right_image02 = LoadGraph("source/Resource/images/Stage/Stage_Land_Right02.png");
-
 	sea_image = LoadGraph("source/Resource/images/Stage/Stage_Sea01.png");
 
 	floor_number[0].image = LoadGraph("source/Resource/images/Stage/Stage_Footing01.png");
@@ -115,17 +101,4 @@ void Stage::Draw()const
 	}
 	//ŠC
 	DrawGraph(160, 444, sea_image, TRUE);
-}
-void Stage::GetPosition(int x, int y, int w, int h, int num, int img)
-{
-
-	//location.x = x;
-	//location.y = y;
-	//erea.width = w;
-	//erea.height = h;
-	floor_number[num].image;
-	location.x = floor_number[num].x;
-	location.y = floor_number[num].y;
-	erea.width = floor_number[num].w;
-	erea.height = floor_number[num].h;
 }

@@ -54,5 +54,4 @@ public:
 	//オブジェクトの位置を受け取る関数
 	void GetObjectErea(int _width, int _height, int _x, int _y,int _number);
 
-	void GetPosition(int x, int y, int w, int h, int num, int img);
 };
