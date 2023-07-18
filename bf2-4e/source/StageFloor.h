@@ -8,9 +8,11 @@ private:
 
 	//画像用変数
 	int floor_image01;
+	int sea_image;
+	int stage_number;
 public:
 	//コンストラクタ
-	StageFloor(int i);
+	StageFloor(int i, int _stage);
 	//デストラクタ
 	~StageFloor();
 

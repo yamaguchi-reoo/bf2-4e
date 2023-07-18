@@ -10,10 +10,36 @@ GameMain::GameMain()
     enemy = new Enemy();
     collision = new BoxCollision();
 
-    for (int i = 0; i < 4; i++)
+    stage = 0;
+
+    switch (stage)
     {
-        stagefloor[i] = new StageFloor(i);
+    case BLOCK_NUMBER::STAGE1:
+        for (int i = 0; i < BLOCK_NUMBER::STAGE1; i++)
+        {
+            stagefloor[i] = new StageFloor(i,stage);
+        }
+        break;
+    case BLOCK_NUMBER::STAGE2:
+        for (int i = 0; i < BLOCK_NUMBER::STAGE2; i++)
+        {
+            stagefloor[i] = new StageFloor(i,stage);
+        }
+        break;
+    case BLOCK_NUMBER::STAGE3_STAGE4:
+        for (int i = 0; i < BLOCK_NUMBER::STAGE3_STAGE4 ;i++)
+        {
+            stagefloor[i] = new StageFloor(i,stage);
+        }
+        break;
+    case BLOCK_NUMBER::STAGE5:
+        for (int i = 0; i < BLOCK_NUMBER::STAGE5; i++)
+        {
+            stagefloor[i] = new StageFloor(i,stage);
+        }
+        break;
     }
+
     //ポーズではない
     pause_flag = FALSE;
 };
@@ -55,7 +81,9 @@ AbstractScene* GameMain::Update()
     collision->HitBox(object);
 
 
-
+    if(PadInput::OnButton(XINPUT_BUTTON_START)) {
+        ChangeScene();
+    }
     return this; // シーン継続
 };
 
@@ -80,10 +108,36 @@ void GameMain::Draw() const
 
     enemy->Draw();         //敵画像の描画処理
 
+
     for (int i = 0; i < 4; i++)
     {
-
-        stagefloor[i]->Draw();
+        switch (i)
+        {
+        case BLOCK_NUMBER::STAGE1:
+            for (int i = 0; i < BLOCK_NUMBER::STAGE1; i++)
+            {
+                stagefloor[i]->Draw();
+            }
+            break;
+        case BLOCK_NUMBER::STAGE2:
+            for (int i = 0; i < BLOCK_NUMBER::STAGE2; i++)
+            {
+                stagefloor[i]->Draw();
+            }
+            break;
+        case BLOCK_NUMBER::STAGE3_STAGE4:
+            for (int i = 0; i < BLOCK_NUMBER::STAGE3_STAGE4; i++)
+            {
+                stagefloor[i]->Draw();
+            }
+            break;
+        case BLOCK_NUMBER::STAGE5:
+            for (int i = 0; i < BLOCK_NUMBER::STAGE5; i++)
+            {
+                stagefloor[i]->Draw();
+            }
+            break;
+        }
     }
     //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0); 
@@ -91,3 +145,35 @@ void GameMain::Draw() const
     //↓UI、ステージを書く
     //object->Draw();        //ステージ画像の描画処理
 };
+void GameMain::ChangeScene()
+{
+    stage++;
+
+    switch (stage)
+    {
+    case BLOCK_NUMBER::STAGE1:
+        for (int i = 0; i < BLOCK_NUMBER::STAGE1; i++)
+        {
+            stagefloor[i] = new StageFloor(i,stage);
+        }
+        break;
+    case BLOCK_NUMBER::STAGE2:
+        for (int i = 0; i < BLOCK_NUMBER::STAGE2; i++)
+        {
+            stagefloor[i] = new StageFloor(i,stage);
+        }
+        break;
+    case BLOCK_NUMBER::STAGE3_STAGE4:
+        for (int i = 0; i < BLOCK_NUMBER::STAGE3_STAGE4; i++)
+        {
+            stagefloor[i] = new StageFloor(i,stage);
+        }
+        break;
+    case BLOCK_NUMBER::STAGE5:
+        for (int i = 0; i < BLOCK_NUMBER::STAGE5; i++)
+        {
+            stagefloor[i] = new StageFloor(i,stage);
+        }
+        break;
+    }
+}
