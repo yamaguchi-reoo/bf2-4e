@@ -9,6 +9,7 @@ GameMain::GameMain()
     player = new Player();
     enemy = new Enemy();
     collision = new BoxCollision();
+    stageitem = new StageItem();
 
     //ポーズではない
     pause_flag = FALSE;
@@ -31,6 +32,7 @@ AbstractScene* GameMain::Update()
     if (pause_flag == FALSE)
     {
         //ゲームメイン処理を入れる
+        stageitem->Update();
 
         player->Update();
 
@@ -62,9 +64,12 @@ void GameMain::Draw() const
 
     enemy->Draw();         //敵画像の描画処理
 
-        //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
+    stageitem->Draw();     //ステージアイテムの描画処理
+
+    //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0); 
 
     //↓UI、ステージを書く
     object->Draw();        //ステージ画像の描画処理
+   
 };

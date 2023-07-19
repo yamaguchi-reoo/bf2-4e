@@ -7,6 +7,9 @@ private:
 	int thunder_image[2];
 	int fish_image;
 
+	//アニメーションの待機変数
+	int time;
+	int anime_num;
 
 public:
 	//コンストラクタ
