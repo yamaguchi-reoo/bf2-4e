@@ -28,9 +28,9 @@ Enemy::Enemy()
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 18, 6, 3, 64, 64, enemy_red_image);
 	
 	// 敵の情報
-	enemy_x = 608.0f;			// デバッグ用
+	//enemy_x = 608.0f;			// デバッグ用
 	//enemy_y = 32.0f;				// デバッグ用
-	//enemy_x = 200.0f;
+	enemy_x = 200.0f;
 	enemy_y = 252.0f;
 	enemy_speed = 0.5f;
 	enemy_angle = 0;
@@ -235,7 +235,7 @@ void Enemy::EnemyMove()
 	difference_y = enemy_y - (float)mouse_y;
 
 	// 回避行動の条件
-	if (avoidance_flg == FALSE && enemy_y > mouse_y && difference_y <= 70 && mouse_x >= enemy_x - 32 && mouse_x <= enemy_x + 32)
+	if (avoidance_flg == FALSE && enemy_y > mouse_y && difference_y <= 70 && mouse_x >= enemy_x - 20 && mouse_x <= enemy_x + 20)
 	//if(enemy_y > mouse_y && difference_y <= 50)
 	{
 		avoidance_flg = TRUE;
