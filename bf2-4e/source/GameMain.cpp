@@ -5,7 +5,7 @@
 GameMain::GameMain() 
 {
     // 初期化処理
-    object = new Stage();
+    //object = new Stage();
     player = new Player();
     enemy = new Enemy();
     collision = new BoxCollision();
@@ -53,7 +53,6 @@ GameMain::GameMain()
 
 GameMain::~GameMain() 
 {
-    delete object;
     delete stage_floor;
     // 終了処理
 };
@@ -74,19 +73,19 @@ AbstractScene* GameMain::Update()
 
         enemy->Update();
 
-        collision->HitBox(object);
+        //collision->HitBox(object);
 
     }
     // ここで値の更新など、処理)
 
-    object->Update();
+    //object->Update();
 
     player->Update();
     
     //player->Move();
     enemy->Update();
 
-    collision->HitBox(object);
+    //collision->HitBox(object);
 
     //プレイヤーが床に当たったら......
     switch (stage)

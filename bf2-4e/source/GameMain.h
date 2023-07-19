@@ -8,7 +8,7 @@
 
 class GameMain : public AbstractScene {
 private:
-    Stage* object;
+   // Stage* object;
     Player* player;         //プレイヤークラスのオブジェクト化
     Enemy* enemy;           // Enemyクラスのオブジェクト化
     BoxCollision* collision; //Collisionクラスのオブジェクト化 
