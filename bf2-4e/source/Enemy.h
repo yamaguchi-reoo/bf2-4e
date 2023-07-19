@@ -34,6 +34,7 @@ private:
 	float x;
 	float y;
 
+	// 後で消すやつ
 	int fps_count;							// fpsのカウント
 	int second;								// 秒数のカウント
 
@@ -107,5 +108,8 @@ public:
 
 	// プレイヤーとの座標の差を取得するかの判定処理
 	void CkeckPlayerLocation();
+
+	// X座標のワープをした後の座標変更処理
+	void AfterWarp();
 };
 

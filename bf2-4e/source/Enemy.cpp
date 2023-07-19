@@ -28,9 +28,9 @@ Enemy::Enemy()
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 18, 6, 3, 64, 64, enemy_red_image);
 	
 	// 敵の情報
-	//enemy_x = 300.0f;			// デバッグ用
+	enemy_x = 608.0f;			// デバッグ用
 	//enemy_y = 32.0f;				// デバッグ用
-	enemy_x = 200.0f;
+	//enemy_x = 200.0f;
 	enemy_y = 252.0f;
 	enemy_speed = 0.5f;
 	enemy_angle = 0;
@@ -112,10 +112,10 @@ void Enemy::Update()
 		enemy_state = EnemyState::kParachute;
 	}
 
-
 	// マウスの座標の取得（のちにプレイヤーの座標に変わる）
 	GetMousePoint(&mouse_x, &mouse_y);
 
+	// 後で消すやつ
 	fps_count++;
 	if (fps_count >= 60)
 	{
@@ -125,6 +125,7 @@ void Enemy::Update()
 		fps_count = 0;
 	}
 
+	// ↓ここから敵の処理
 	switch (enemy_state)
 	{
 		case EnemyState::kInflatBealloon:
@@ -155,6 +156,9 @@ void Enemy::Update()
 		default:
 			break;
 	}
+
+	// X座標のワープをした後の座標変更処理
+	AfterWarp();
 }
 
 // 描画に関することを実装
@@ -177,23 +181,51 @@ void Enemy::Draw() const
 	//DrawFormatString(200, 250, 0xff0000, "E enemy_start_x = %f", enemy_start_x);
 	//DrawFormatString(200, 250, 0xff0000, "E sinangle2 = %f", sinangle2);
 	//DrawFormatString(200, 250, 0xff0000, "E a = %f", difference_y);
-	DrawFormatString(20, 250, 0xff0000, "E avoidance_flg = %d", avoidance_flg);
+	//DrawFormatString(20, 250, 0xff0000, "E avoidance_flg = %d", avoidance_flg);
 #endif	//_DEBUG
 
 	if (enemy_type == 0)
 	{
 		// 桃色の敵画像の描画
 		DrawRotaGraph((int)enemy_x, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+		// 画面の端に行ったら反対側にも描画
+		if (enemy_x <= 32)
+		{
+			DrawRotaGraph((int)enemy_x + 640, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+		}
+		if (enemy_x >= 608)
+		{
+			DrawRotaGraph((int)enemy_x - 640, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+		}
 	}
-	if (enemy_type == 1)
+	else if (enemy_type == 1)
 	{
 		// 緑色の敵画像の描画
 		DrawRotaGraph((int)enemy_x , (int)enemy_y, 1, 0, enemy_green_image[now_image], TRUE, turn_flg);
+		// 画面の端に行ったら反対側にも描画
+		if (enemy_x <= 32)
+		{
+			DrawRotaGraph((int)enemy_x + 640, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+		}
+		if (enemy_x >= 608)
+		{
+			DrawRotaGraph((int)enemy_x - 640, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+		}
 	}
-	if (enemy_type == 2)
+	//else if (enemy_type == 2)
+	else
 	{
 		// 赤色の敵画像の描画
 		DrawRotaGraph((int)enemy_x , (int)enemy_y, 1, 0, enemy_red_image[now_image], TRUE, turn_flg);
+		// 画面の端に行ったら反対側にも描画
+		if (enemy_x <= 32)
+		{
+			DrawRotaGraph((int)enemy_x + 640, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+		}
+		if (enemy_x >= 608)
+		{
+			DrawRotaGraph((int)enemy_x - 640, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+		}
 	}
 }
 
@@ -503,5 +535,18 @@ void Enemy::CkeckPlayerLocation()
 			ckeck_flg = TRUE;
 			ckeck_count = 0;
 		}
+	}
+}
+
+// X座標のワープをした後の座標変更処理
+void Enemy::AfterWarp()
+{
+	if (enemy_x <= -32)
+	{
+		enemy_x = 608;
+	}
+	if (enemy_x >= 672)
+	{
+		enemy_x = 32;
 	}
 }
