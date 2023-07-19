@@ -90,7 +90,8 @@ Enemy::~Enemy()
 void Enemy::Update()
 {
 	// 敵の色ごとの動作確認用　※後で削除
-	if (PadInput::OnButton(XINPUT_BUTTON_Y) == 1)
+	// RBボタン
+	if (PadInput::OnButton(XINPUT_BUTTON_RIGHT_SHOULDER) == 1)
 	{
 		if (enemy_type < 2)
 		{
@@ -104,7 +105,8 @@ void Enemy::Update()
 	}
 
 	// 敵の色ごとの動作確認用　※後で削除
-	if (PadInput::OnButton(XINPUT_BUTTON_X) == 1)
+	// LBボタン
+	if (PadInput::OnButton(XINPUT_BUTTON_LEFT_SHOULDER) == 1)
 	{
 		// デバッグ用
 		enemy_state = EnemyState::kParachute;
