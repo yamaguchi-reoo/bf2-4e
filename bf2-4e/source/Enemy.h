@@ -1,4 +1,5 @@
 #pragma once
+#include "Player.h"
 
 enum class EnemyState
 {
@@ -12,6 +13,8 @@ enum class EnemyState
 class Enemy
 {
 private:
+	Player* player;
+
 	// 画像用変数
 	int enemy_pink_image[18];				// 桃色の敵の画像
 	int enemy_green_image[18];				// 緑色の敵の画像
@@ -35,9 +38,11 @@ private:
 	int second;								// 秒数のカウント
 
 	// アニメーション用カウント
-	//int inflat_bealloon_count;				// 風船を膨らましきるまでのカウント
+	//int inflat_bealloon_count;			// 風船を膨らましきるまでのカウント
 	//int flight_count;						// 羽ばたくアニメーション用カウント
-	int animation_count;				// アニメーション用カウント
+	int animation_count;					// アニメーション用カウント
+
+	int avoidance_count;					// 回避するときの時間
 
 	int now_image;							// 今から表示される画像
 	int next_image;							// 次に表示される画像
@@ -47,9 +52,6 @@ private:
 	// 追いかける対象の座標
 	int mouse_x;							// マウスのX座標（プレイヤーの座標に変わる）
 	int mouse_y;							// マウスのY座標（プレイヤーの座標に変わる）
-
-	float radian;							// 敵とプレイヤーの角度（弧度法）
-	float degree;							// 敵とプレイヤーの角度（度数法）
 
 	// 移動するときに使う変数
 	float move_x;							// 敵の座標Xの移動量
@@ -62,6 +64,10 @@ private:
 
 	float amplitude;						// パラシュート状態で下降するときの振れ幅
 	float enemy_start_x;					// パラシュート状態になったx座標
+
+	int avoidance_flg;						// 回避行動のフラグ
+
+	float difference_y;
 
 public:
 	// コンストラクタ

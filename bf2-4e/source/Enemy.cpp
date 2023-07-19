@@ -14,6 +14,8 @@ float sinangle2 = 0;		// デバッグ用
 // コンストラクタ
 Enemy::Enemy()
 {
+	player = new Player;
+
 	for (int i = 0; i < 18; i++)
 	{
 		enemy_pink_image[i];
@@ -26,10 +28,10 @@ Enemy::Enemy()
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 18, 6, 3, 64, 64, enemy_red_image);
 	
 	// 敵の情報
-	enemy_x = 300.0f;			// デバッグ用
-	enemy_y = 0.0f;				// デバッグ用
-	//enemy_x = 200.0f;
-	//enemy_y = 252.0f;
+	//enemy_x = 300.0f;			// デバッグ用
+	//enemy_y = 32.0f;				// デバッグ用
+	enemy_x = 200.0f;
+	enemy_y = 252.0f;
 	enemy_speed = 0.5f;
 	enemy_angle = 0;
 	enemy_type = 0;
@@ -49,6 +51,9 @@ Enemy::Enemy()
 	//flight_count = 0;
 	animation_count = 0;
 
+	avoidance_count = 0;
+
+	// アニメーション用変数
 	now_image = 0;
 	next_image = 0;
 
@@ -57,9 +62,6 @@ Enemy::Enemy()
 	// 追いかける対象の座標
 	mouse_x = 0;
 	mouse_y = 0;
-
-	radian = 0.0f;
-	degree = 0.0f;
 
 	// 移動するときに使う変数
 	move_x = 0.0f;
@@ -72,6 +74,10 @@ Enemy::Enemy()
 
 	amplitude = 50.0f;
 	enemy_start_x = -100.0f;
+
+	avoidance_flg = FALSE;						// 回避行動のフラグ
+
+	difference_y = 0.0f;
 }
 
 // デストラクタ
@@ -126,7 +132,8 @@ void Enemy::Update()
 		case EnemyState::kFlight:
 			// 敵の上下左右移動処理
 			EnemyMove();
-			CkeckPlayerLocation();
+			//Avoidance();
+			//CkeckPlayerLocation();
 			// 空中で羽ばたくアニメーション処理
 			Flight();
 			//AirFall();
@@ -146,7 +153,6 @@ void Enemy::Update()
 		default:
 			break;
 	}
-
 }
 
 // 描画に関することを実装
@@ -158,18 +164,18 @@ void Enemy::Draw() const
 
 	//SetFontSize(15);
 	//// マウスの座標の描画
-	////DrawFormatString(10, 50, 0xffffff, "mouse_x = %3d, mouse_y = %3d", mouse_x, mouse_y);
+	DrawFormatString(10, 50, 0xffffff, "mouse_x = %3d, mouse_y = %3d", mouse_x, mouse_y);
 	DrawFormatString(0, 30, 0xffffff, "E enemy_x = %3f, enemy_y = %3f", enemy_x, enemy_y);
 	DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
-	DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
-	DrawFormatString(0, 160, 0xffffff, "E xc = %3f, yc = %3f", xc, yc);
-	DrawFormatString(0, 190, 0xff0000, "E now_image = %d", now_image);
-	//DrawFormatString(200, 250, 0xff0000, "radian = %f", radian);
-	//DrawFormatString(200, 250, 0xff0000, "E degree = %f", degree);
+	//DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
+	//DrawFormatString(0, 160, 0xffffff, "E xc = %3f, yc = %3f", xc, yc);
+	//DrawFormatString(0, 190, 0xff0000, "E now_image = %d", now_image);
 	//DrawFormatString(200, 250, 0xff0000, "E state = %d", enemy_state);
 	//DrawFormatString(200, 250, 0xff0000, "E angle2 = %f", angle2);
 	//DrawFormatString(200, 250, 0xff0000, "E enemy_start_x = %f", enemy_start_x);
-	DrawFormatString(200, 250, 0xff0000, "E sinangle2 = %f", sinangle2);
+	//DrawFormatString(200, 250, 0xff0000, "E sinangle2 = %f", sinangle2);
+	//DrawFormatString(200, 250, 0xff0000, "E a = %f", difference_y);
+	DrawFormatString(20, 250, 0xff0000, "E avoidance_flg = %d", avoidance_flg);
 #endif	//_DEBUG
 
 	if (enemy_type == 0)
@@ -192,10 +198,50 @@ void Enemy::Draw() const
 // 敵の上下左右移動処理
 void Enemy::EnemyMove()
 {
-	if(ckeck_flg == TRUE)
+	difference_y = enemy_y - (float)mouse_y;
+
+	// 回避行動の条件
+	if (avoidance_flg == FALSE && enemy_y > mouse_y && difference_y <= 70 && mouse_x >= enemy_x - 32 && mouse_x <= enemy_x + 32)
+	//if(enemy_y > mouse_y && difference_y <= 50)
 	{
-		move_x = mouse_x - enemy_x;
-		move_y = mouse_y - enemy_y;
+		avoidance_flg = TRUE;
+	}
+
+	if (avoidance_flg == TRUE)
+	{
+		avoidance_count++;
+		if (avoidance_count <= 120)
+		{
+			// 敵の回避行動
+			//if (mouse_x >= enemy_x - 30 && mouse_x <= enemy_x + 30)
+			//{
+				if (turn_flg == TRUE)
+				{
+					// 敵が右を向いているとき
+					// enemy_x += move_x * speed　にする必要がある
+					enemy_x++;
+				}
+				else if (turn_flg == FALSE)
+				{
+					// 敵が左を向いているとき
+					// enemy_x -= move_x * speed　にする必要がある
+					enemy_x--;
+				}
+			//}
+		}
+		else
+		{
+			avoidance_count = 0;
+			avoidance_flg = FALSE;
+		}
+	}
+	else
+	{
+		//player->location.x
+
+		// マウスと敵の座標の差を求める
+		move_x = (float)mouse_x - enemy_x;
+		move_y = (float)mouse_y - enemy_y;
 
 		xc = sqrtf(powf(move_x, 2));
 		yc = sqrtf(powf(move_y, 2));
@@ -208,62 +254,49 @@ void Enemy::EnemyMove()
 			x = move_x / xc;
 			y = move_y / yc;
 		}
-		ckeck_flg = FALSE;
-	}
 
-	// マウスと敵の角度を計算する（弧度法）
-	radian = atan2f((float)mouse_y - enemy_y, (float)mouse_x - enemy_x);
-	// デグリーに変換
-	degree = radian * (float)(180 / M_PI);
+		// スピードをかけて移動速度を変更させないといけない
+		enemy_x += x * enemy_speed;
+		enemy_y += y * enemy_speed / 2;
 
-	// 角度がいくら以上なら慣性をつける処理を書く（振り向く際等）
-
-	// スピードをかけて移動速度を変更させないといけない
-	enemy_x += x * enemy_speed;
-	enemy_y += y * enemy_speed / 2;
-
-	// 画像の反転処理（カーソルの方向を向く）
-	if (x >= 0)
-	{
-		turn_flg = TRUE;
-	}
-	else
-	{
-		turn_flg = FALSE;
-	}
-
-	//if (y == 1)
-	//{
-	//	// 空中落下アニメーション処理
-	//	AirFall();
-	//}
-
+		// 画像の反転処理（カーソルの方向を向く）
+		if (x >= 0)
+		{
+			turn_flg = TRUE;
+		}
+		else
+		{
+			turn_flg = FALSE;
+		}
+	}	
 }
 
 // 敵の回避行動処理
 void Enemy::Avoidance()
 {
-	// マウスと敵の角度を計算する（弧度法）
-	radian = atan2f((float)mouse_y - enemy_y, (float)mouse_x - enemy_x);
-	// デグリーに変換
-	degree = radian * (float)(180 / M_PI);
 
-	// if(敵の真上にプレイヤーがいる場合)
-	// (x >= degree && degree <= x) x = 角度の範囲を設定する
-	// どのくらい離れていたら回避するのかも設定する必要がある（絶対値）
+	//	if (avoidance_count <= 120)
+	//	{
+	//		if (turn_flg == TRUE)
+	//		{
+	//			// 敵が右を向いているとき
+	//			// enemy_x += move_x * speed　にする必要がある
+	//			move_x++;
+	//		}
+	//		else if (turn_flg == FALSE)
+	//		{
+	//			// 敵が左を向いているとき
+	//			// enemy_x -= move_x * speed　にする必要がある
+	//			move_x--;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		avoidance_count = 0;
+	//	}
+	//}
+	//avoidance_flg = FALSE;
 
-	if (turn_flg == TRUE)
-	{
-		// 敵が右を向いているとき
-		// enemy_x += move_x * speed　にする必要がある
-		move_x++;
-	}
-	else if (turn_flg == FALSE)
-	{
-		// 敵が左を向いているとき
-		// enemy_x -= move_x * speed　にする必要がある
-		move_x--;
-	}
 }
 
 // 風船を膨らませるアニメーション処理
