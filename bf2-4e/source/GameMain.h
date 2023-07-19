@@ -12,9 +12,10 @@ private:
     Player* player;         //プレイヤークラスのオブジェクト化
     Enemy* enemy;           // Enemyクラスのオブジェクト化
     BoxCollision* collision; //Collisionクラスのオブジェクト化 
-    StageFloor* stagefloor[9];
+    StageFloor* stage_floor[8];
     bool pause_flag;     //ポーズのフラグ取り
 
+    int color;
     int stage;
 
 public:
@@ -31,5 +32,4 @@ public:
     virtual void Draw() const override;
 
     void ChangeScene();
-    int GetNowStage() { return stage; }
 };
