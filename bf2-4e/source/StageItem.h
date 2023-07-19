@@ -3,7 +3,9 @@
 class StageItem
 {
 private:
-
+	//‰æ‘œ—p•Ï”
+	int thunder_image[2];
+	int fish_image;
 
 
 public:
