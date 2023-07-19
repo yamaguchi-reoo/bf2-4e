@@ -29,6 +29,7 @@
     <ClInclude Include="source\Player.h" />
     <ClInclude Include="source\SceneManager.h" />
     <ClInclude Include="source\Stage.h" />
+    <ClInclude Include="source\StageItem.h" />
     <ClInclude Include="source\Struct.h" />
     <ClInclude Include="source\Title.h" />
     <ClInclude Include="source\UI.h" />
@@ -42,6 +43,7 @@
     <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\SceneManager.cpp" />
     <ClCompile Include="source\Stage.cpp" />
+    <ClCompile Include="source\StageItem.cpp" />
     <ClCompile Include="source\Title.cpp" />
     <ClCompile Include="source\UI.cpp" />
   </ItemGroup>

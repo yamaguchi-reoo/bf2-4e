@@ -10,6 +10,8 @@
     <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\BoxCollision.cpp" />
+    <ClCompile Include="source\UI.cpp" />
+    <ClCompile Include="source\StageItem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\AbstractScene.h" />
@@ -24,6 +26,8 @@
     <ClInclude Include="source\BoxCollision.h" />
     <ClInclude Include="source\Fps.h" />
     <ClInclude Include="source\Struct.h" />
+    <ClInclude Include="source\UI.h" />
+    <ClInclude Include="source\StageItem.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="source\Log.txt" />
