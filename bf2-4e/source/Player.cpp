@@ -47,7 +47,8 @@ void Player::Draw()const
 	{
 		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, player_images[0], TRUE, TRUE);
 	}	
-	DrawBox(location.x - (erea.width / 2), location.y - (erea.height / 2), location.x + (erea.width / 2), location.y + (erea.height / 2), 0xff00ff, FALSE);
+	//DrawBox(location.x - (erea.width / 2), location.y - (erea.height / 2), location.x - (erea.width / 2), location.y + (erea.height / 2), 0xff00ff, FALSE);
+	DrawBox(location.x - ((erea.width / 2) * erea.width_rate), location.y - ((erea.height / 2) * erea.height_rate), location.x - ((erea.width / 2) * erea.width_rate) + erea.width, location.y - ((erea.height / 2) * erea.height_rate) + erea.height, 0xff00ff, FALSE);
 }
 
 //ÉvÉåÉCÉÑÅ[ÇÃà⁄ìÆ
