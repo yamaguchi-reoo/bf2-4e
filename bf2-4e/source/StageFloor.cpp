@@ -242,8 +242,8 @@ StageFloor::StageFloor(int i,int _stage)
 		break;
 	}
 
-	erea.width_rate = 0.1;
-	erea.height_rate = 0.1;
+	erea.width_rate = 0.0;
+	erea.height_rate = 0.0;
 	sea_image = LoadGraph("source/Resource/images/Stage/Stage_Sea01.png");
 }
 StageFloor::~StageFloor()
@@ -258,6 +258,7 @@ void StageFloor::Draw()const
 	
 	DrawGraph(location.x, location.y, floor_image01,TRUE);
 	DrawGraph(160, 444, sea_image, TRUE);
-	DrawBox(location.x, location.y, location.x + erea.width, location.y + erea.height, 0xffffff, FALSE);
+	//DrawBox(location.x, location.y, location.x + erea.width, location.y + erea.height, 0xffffff, FALSE);
+	DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x + erea.width, location.y + erea.height, 0xffffff, FALSE);
 
 }	
