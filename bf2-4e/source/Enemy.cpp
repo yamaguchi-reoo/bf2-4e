@@ -340,7 +340,7 @@ void Enemy::EnemyMove()
 void Enemy::Avoidance()
 {
 	avoidance_count++;
-	if (avoidance_count <= 180)
+	if (avoidance_count <= 120)
 	{
 		if (turn_flg == TRUE)
 		{
