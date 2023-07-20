@@ -95,6 +95,7 @@ AbstractScene* GameMain::Update()
         {
             if (stage_floor[i]->HitBox(player) == true)
             {
+               player->PlayerGroundWalk();
                 DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
                 color = 0x0ff000;
             }
@@ -105,6 +106,7 @@ AbstractScene* GameMain::Update()
         {
             if (stage_floor[i]->HitBox(player) == true)
             {
+                player->PlayerGroundWalk();
                 DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
                 color = 0x0ff000;
             }
@@ -115,6 +117,7 @@ AbstractScene* GameMain::Update()
         {
             if (stage_floor[i]->HitBox(player) == true)
             {
+                player->PlayerGroundWalk();
                 DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
                 color = 0x0ff000;
             }
@@ -125,6 +128,7 @@ AbstractScene* GameMain::Update()
         {
             if (stage_floor[i]->HitBox(player) == true)
             {
+                player->PlayerGroundWalk();
                 DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
                 color = 0x0ff000;
             }
@@ -135,6 +139,7 @@ AbstractScene* GameMain::Update()
         {
             if (stage_floor[i]->HitBox(player) == true)
             {
+                player->PlayerGroundWalk();
                 DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
                 color = 0x0ff000;
             }
@@ -145,7 +150,7 @@ AbstractScene* GameMain::Update()
     if(PadInput::OnButton(XINPUT_BUTTON_Y)) {
         if (stage == 4)
         {
-            stage = 0;
+            stage = -1;
         }
         ChangeScene();
     }
@@ -214,6 +219,7 @@ void GameMain::Draw() const
     //↓UI、ステージを書く
     //object->Draw();        //ステージ画像の描画処理
 };
+//ステージの切替
 void GameMain::ChangeScene()
 {
     stage++;

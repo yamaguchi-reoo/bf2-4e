@@ -31,5 +31,6 @@ public:
     // 描画に関することを実装
     virtual void Draw() const override;
 
+    //ステージの切り替え
     void ChangeScene();
 };
