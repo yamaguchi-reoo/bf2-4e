@@ -1,6 +1,6 @@
 #pragma once
 #include "Player.h"
-#include "Struct.h"
+#include "BoxCollision.h"
 
 enum class EnemyState
 {
@@ -11,11 +11,9 @@ enum class EnemyState
 	kDeath								// 死亡
 };
 
-class Enemy
+class Enemy : public BoxCollision
 {
 private:
-	Player* player;
-
 	// 画像用変数
 	int enemy_pink_image[18];				// 桃色の敵の画像
 	int enemy_green_image[18];				// 緑色の敵の画像
@@ -53,8 +51,10 @@ private:
 	EnemyState enemy_state;					// 敵の状態
 
 	// 追いかける対象の座標
-	int mouse_x;							// マウスのX座標（プレイヤーの座標に変わる）
-	int mouse_y;							// マウスのY座標（プレイヤーの座標に変わる）
+	float player_x;							// プレイヤーのX座標
+	float player_y;							// プレイヤーのY座標
+	//int mouse_x;							// マウスのX座標（プレイヤーの座標に変わる）
+	//int mouse_y;							// マウスのY座標（プレイヤーの座標に変わる）
 
 	// 移動するときに使う変数
 	float move_x;							// 敵の座標Xの移動量
@@ -85,7 +85,7 @@ public:
 	void  Draw() const;
 
 	// 敵の上下左右移動処理
-	void EnemyMove(Player* player);
+	void EnemyMove();
 
 	// 敵の回避行動処理
 	void Avoidance();

@@ -14,8 +14,6 @@ float sinangle2 = 0;		// デバッグ用
 // コンストラクタ
 Enemy::Enemy()
 {
-	player = new Player;
-
 	for (int i = 0; i < 18; i++)
 	{
 		enemy_pink_image[i];
@@ -61,8 +59,8 @@ Enemy::Enemy()
 	enemy_state = EnemyState::kInflatBealloon;
 
 	// 追いかける対象の座標
-	mouse_x = 0;
-	mouse_y = 0;
+	player_x = 0.0f;
+	player_y = 0.0f;
 
 	// 移動するときに使う変数
 	move_x = 0.0f;
@@ -84,12 +82,16 @@ Enemy::Enemy()
 // デストラクタ
 Enemy::~Enemy()
 {
-	delete player;
+
 }
 
 // 描画以外の更新を実装
 void Enemy::Update()
 {
+/****************************
+* ↓デバッグ用
+*****************************/
+
 	// 敵の色ごとの動作確認用　※後で削除
 	// RBボタン
 	if (PadInput::OnButton(XINPUT_BUTTON_RIGHT_SHOULDER) == 1)
@@ -97,7 +99,6 @@ void Enemy::Update()
 		if (enemy_type < 2)
 		{
 			enemy_type++;
-
 		}
 		else
 		{
@@ -109,12 +110,8 @@ void Enemy::Update()
 	// LBボタン
 	if (PadInput::OnButton(XINPUT_BUTTON_LEFT_SHOULDER) == 1)
 	{
-		// デバッグ用
 		enemy_state = EnemyState::kParachute;
 	}
-
-	// マウスの座標の取得（のちにプレイヤーの座標に変わる）
-	GetMousePoint(&mouse_x, &mouse_y);
 
 	// 後で消すやつ
 	fps_count++;
@@ -126,7 +123,9 @@ void Enemy::Update()
 		fps_count = 0;
 	}
 
-	// ↓ここから敵の処理
+/****************************
+* ↓ここから敵の処理
+*****************************/
 	switch (enemy_state)
 	{
 		case EnemyState::kInflatBealloon:
@@ -135,7 +134,7 @@ void Enemy::Update()
 			break;
 		case EnemyState::kFlight:
 			// 敵の上下左右移動処理
-			EnemyMove(player);
+			EnemyMove();
 			//Avoidance();
 			//CkeckPlayerLocation();
 			// 空中で羽ばたくアニメーション処理
@@ -171,7 +170,7 @@ void Enemy::Draw() const
 
 	//SetFontSize(15);
 	//// マウスの座標の描画
-	DrawFormatString(10, 50, 0xffffff, "mouse_x = %3d, mouse_y = %3d", mouse_x, mouse_y);
+	DrawFormatString(0, 150, 0xffffff, "player_x = %3f, player_y = %3f", player_x, player_y);
 	DrawFormatString(0, 30, 0xffffff, "E enemy_x = %3f, enemy_y = %3f", enemy_x, enemy_y);
 	DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
 	//DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
@@ -231,13 +230,17 @@ void Enemy::Draw() const
 }
 
 // 敵の上下左右移動処理
-void Enemy::EnemyMove(Player* player)
+void Enemy::EnemyMove()
 {
-	difference_y = enemy_y - (float)mouse_y;
+	// プレイヤーの座標参照
+	player_x = Player::get_location_x;
+	player_y = Player::get_location_y;
+
+	// 回避行動の条件用
+	difference_y = enemy_y - player_y;
 
 	// 回避行動の条件
-	if (avoidance_flg == FALSE && enemy_y > mouse_y && difference_y <= 70 && mouse_x >= enemy_x - 20 && mouse_x <= enemy_x + 20)
-	//if(enemy_y > mouse_y && difference_y <= 50)
+	if (avoidance_flg == FALSE && enemy_y > player_y && difference_y <= 70 && player_x >= enemy_x - 20 && player_x <= enemy_x + 20)
 	{
 		avoidance_flg = TRUE;
 	}
@@ -249,18 +252,14 @@ void Enemy::EnemyMove(Player* player)
 	}
 	else
 	{
-		// privateで宣言されているためアクセスできない
-		// Get関数をつくってもらってそこから変数の値を持ってくるようにする
-		//player->location.x;
-
-		// マウスと敵の座標の差を求める
-		move_x = (float)mouse_x - enemy_x;
-		move_y = (float)mouse_y - enemy_y;
+		// プレイヤーと敵の座標の差を求める
+		move_x = player_x - enemy_x;
+		move_y = player_y - enemy_y;
 
 		xc = sqrtf(powf(move_x, 2));
 		yc = sqrtf(powf(move_y, 2));
 
-		// x,y座標が同じだと1ピクセルずつ追いかけてくる（縦と横にしか移動しない）※多分改善した
+		// x,y座標が同じだと1ピクセルずつ追いかけてくる
 		if (xc != 0 && yc != 0)
 		{
 			// どの向きに進めばいいのかを-1～1の間で求めている（多分）
@@ -272,7 +271,7 @@ void Enemy::EnemyMove(Player* player)
 		enemy_x += x * enemy_speed;
 		enemy_y += y * enemy_speed / 2;
 
-		// 画像の反転処理（カーソルの方向を向く）
+		 //画像の反転処理（カーソルの方向を向く）
 		if (x >= 0)
 		{
 			turn_flg = TRUE;
@@ -294,13 +293,13 @@ void Enemy::Avoidance()
 		{
 			// 敵が右を向いているとき
 			// enemy_x += move_x * speed　にする必要がある
-			enemy_x++;
+			enemy_x += enemy_speed;
 		}
 		else if (turn_flg == FALSE)
 		{
 			// 敵が左を向いているとき
 			// enemy_x -= move_x * speed　にする必要がある
-			enemy_x--;
+			enemy_x -= enemy_speed;
 		}
 	}
 	else
