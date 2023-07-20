@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+#include "Struct.h"
 
 enum class EnemyState
 {
@@ -24,6 +25,7 @@ private:
 	float enemy_x;							// 敵のX座標
 	float enemy_y;							// 敵のY座標
 	float enemy_speed;						// 敵のスピード
+	float acceleration;						// 加速度
 	int enemy_angle;						// 敵の移動角度
 	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
 	int power_up_flg;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
@@ -83,7 +85,7 @@ public:
 	void  Draw() const;
 
 	// 敵の上下左右移動処理
-	void EnemyMove();
+	void EnemyMove(Player* player);
 
 	// 敵の回避行動処理
 	void Avoidance();

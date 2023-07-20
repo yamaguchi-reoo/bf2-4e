@@ -33,6 +33,7 @@ Enemy::Enemy()
 	enemy_x = 200.0f;
 	enemy_y = 252.0f;
 	enemy_speed = 0.5f;
+	acceleration = 0.1f;						// 加速度
 	enemy_angle = 0;
 	enemy_type = 0;
 	power_up_flg = FALSE;
@@ -83,7 +84,7 @@ Enemy::Enemy()
 // デストラクタ
 Enemy::~Enemy()
 {
-
+	delete player;
 }
 
 // 描画以外の更新を実装
@@ -134,7 +135,7 @@ void Enemy::Update()
 			break;
 		case EnemyState::kFlight:
 			// 敵の上下左右移動処理
-			EnemyMove();
+			EnemyMove(player);
 			//Avoidance();
 			//CkeckPlayerLocation();
 			// 空中で羽ばたくアニメーション処理
@@ -230,7 +231,7 @@ void Enemy::Draw() const
 }
 
 // 敵の上下左右移動処理
-void Enemy::EnemyMove()
+void Enemy::EnemyMove(Player* player)
 {
 	difference_y = enemy_y - (float)mouse_y;
 
@@ -243,35 +244,14 @@ void Enemy::EnemyMove()
 
 	if (avoidance_flg == TRUE)
 	{
-		avoidance_count++;
-		if (avoidance_count <= 120)
-		{
-			// 敵の回避行動
-			//if (mouse_x >= enemy_x - 30 && mouse_x <= enemy_x + 30)
-			//{
-				if (turn_flg == TRUE)
-				{
-					// 敵が右を向いているとき
-					// enemy_x += move_x * speed　にする必要がある
-					enemy_x++;
-				}
-				else if (turn_flg == FALSE)
-				{
-					// 敵が左を向いているとき
-					// enemy_x -= move_x * speed　にする必要がある
-					enemy_x--;
-				}
-			//}
-		}
-		else
-		{
-			avoidance_count = 0;
-			avoidance_flg = FALSE;
-		}
+		// 敵の回避行動処理
+		Avoidance();
 	}
 	else
 	{
-		//player->location.x
+		// privateで宣言されているためアクセスできない
+		// Get関数をつくってもらってそこから変数の値を持ってくるようにする
+		//player->location.x;
 
 		// マウスと敵の座標の差を求める
 		move_x = (float)mouse_x - enemy_x;
@@ -281,7 +261,6 @@ void Enemy::EnemyMove()
 		yc = sqrtf(powf(move_y, 2));
 
 		// x,y座標が同じだと1ピクセルずつ追いかけてくる（縦と横にしか移動しない）※多分改善した
-		// 最短距離ではない
 		if (xc != 0 && yc != 0)
 		{
 			// どの向きに進めばいいのかを-1～1の間で求めている（多分）
@@ -308,29 +287,27 @@ void Enemy::EnemyMove()
 // 敵の回避行動処理
 void Enemy::Avoidance()
 {
-
-	//	if (avoidance_count <= 120)
-	//	{
-	//		if (turn_flg == TRUE)
-	//		{
-	//			// 敵が右を向いているとき
-	//			// enemy_x += move_x * speed　にする必要がある
-	//			move_x++;
-	//		}
-	//		else if (turn_flg == FALSE)
-	//		{
-	//			// 敵が左を向いているとき
-	//			// enemy_x -= move_x * speed　にする必要がある
-	//			move_x--;
-	//		}
-	//	}
-	//	else
-	//	{
-	//		avoidance_count = 0;
-	//	}
-	//}
-	//avoidance_flg = FALSE;
-
+	avoidance_count++;
+	if (avoidance_count <= 120)
+	{
+		if (turn_flg == TRUE)
+		{
+			// 敵が右を向いているとき
+			// enemy_x += move_x * speed　にする必要がある
+			enemy_x++;
+		}
+		else if (turn_flg == FALSE)
+		{
+			// 敵が左を向いているとき
+			// enemy_x -= move_x * speed　にする必要がある
+			enemy_x--;
+		}
+	}
+	else
+	{
+		avoidance_count = 0;
+		avoidance_flg = FALSE;
+	}
 }
 
 // 風船を膨らませるアニメーション処理
@@ -448,8 +425,6 @@ void Enemy::Parachute()
 		now_image = 17;
 	}
 
-	//next_image
-
 	angle++;
 	angle2 = angle * (float)(M_PI / 180);
 
@@ -460,8 +435,7 @@ void Enemy::Parachute()
 	// 落下処理
 	enemy_y += 0.5f;
 
-
-	// if(地面についたら)直立状態に変更
+	// if(地面についたら)直立状態に変更（ステージとの当たり判定）
 	//power_up_flg = TRUE;
 	// enemy_start_x = -100.0f;
 	// animation_count = 0;
