@@ -28,10 +28,13 @@ public:
 	void PlayerBackLash();
 
 public:
-	float GetPlayerX();
-	float GetPlayerY();
 	Player();			//コンストラクタ
 	~Player();			//デストラクタ	
 	void Update();		//描画以外に関することを実装する
 	void Draw()const;	//描画に関することを実装する
+
+public:
+	static float get_location_x;		// プレイヤーのX座標参照用の変数
+	static float get_location_y;		// プレイヤーのY座標参照用の変数
+
 };

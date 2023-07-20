@@ -6,15 +6,9 @@
 #define DIRECTION_LEFT		(0)
 #define DIRECTION_RIGHT		(1)
 
-float Player::GetPlayerX()
-{
-	return location.x;
-}
-
-float Player::GetPlayerY()
-{
-	return location.y;
-}
+// Ã“Iƒƒ“ƒo•Ï”‚Ì’è‹`
+float Player::get_location_x;
+float Player::get_location_y;
 
 Player::Player()
 {
@@ -36,6 +30,9 @@ Player::Player()
 	speed_y = -1.0f;
 	flying_diameter = 0.04f;
 
+	get_location_x = 0.0f;
+	get_location_y = 0.0f;
+
 }
 Player::~Player()
 {
@@ -48,6 +45,9 @@ void Player::Update()
 	Move();
 	MoveLocation();
 	location.y += 0.6f;
+
+	get_location_x = location.x;
+	get_location_y = location.y;
 }
 
 void Player::Draw()const

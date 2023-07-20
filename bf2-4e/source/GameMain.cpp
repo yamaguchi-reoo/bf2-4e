@@ -81,7 +81,6 @@ AbstractScene* GameMain::Update()
     //object->Update();
     
     //player->Move();
-    //enemy->Update();
 
     //collision->HitBox(object);
 
