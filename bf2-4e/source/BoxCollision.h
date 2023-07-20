@@ -6,7 +6,6 @@ class BoxCollision
 protected:
 	Location location;
 	Erea erea;
-	Object object[8];
 	
 
 public:

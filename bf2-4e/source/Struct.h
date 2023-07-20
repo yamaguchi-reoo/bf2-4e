@@ -13,11 +13,3 @@ struct Erea				//範囲
 	float height_rate;	//高さの倍率
 	float width_rate;	//幅の倍率
 };
-
-struct Object			//オブジェクト
-{
-	float x;			//横
-	float y;			//縦
-	float h;			//高さ
-	float w;			//幅
-};
