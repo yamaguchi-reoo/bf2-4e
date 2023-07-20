@@ -58,6 +58,7 @@ Enemy::Enemy()
 	//flight_count = 0;
 	animation_count = 0;
 
+	// 慣性用のカウント
 	avoidance_count = 0;
 
 	// アニメーション用変数
@@ -75,6 +76,7 @@ Enemy::Enemy()
 	move_y = 0.0f;
 
 	turn_flg = FALSE;				// 反転はしない
+	old_turn_flg = turn_flg;
 
 	ckeck_flg = TRUE;				// 座標の差を取得する
 	ckeck_count = 0;
@@ -98,9 +100,9 @@ Enemy::~Enemy()
 // 描画以外の更新を実装
 void Enemy::Update()
 {
-/****************************
-* ↓デバッグ用
-*****************************/
+	/****************************
+	* ↓デバッグ用
+	*****************************/
 
 	// 敵の色ごとの動作確認用　※後で削除
 	// RBボタン
@@ -133,9 +135,9 @@ void Enemy::Update()
 		fps_count = 0;
 	}
 
-/****************************
-* ↓ここから敵の処理
-*****************************/
+	/****************************
+	* ↓ここから敵の処理
+	*****************************/
 	switch (enemy_state)
 	{
 		case EnemyState::kInflatBealloon:
@@ -281,13 +283,54 @@ void Enemy::EnemyMove()
 		enemy_x += x * enemy_speed;
 		enemy_y += y * enemy_speed / 2;
 
+		// if(慣性が働く場合)
+		//if (old_turn_flg != turn_flg)
+		//{
+		//	Inertia_count++;
+
+		//	if (Inertia_count <= 120)
+		//	{
+		//		if (turn_flg == TRUE && enemy_speed >= 0)
+		//		{
+		//			// 左から右に向いたとき
+		//			enemy_x += enemy_speed - 0.1f;
+		//		}
+		//		else if (turn_flg == FALSE && enemy_speed >= 0)
+		//		{
+		//			// 右から左に向いたとき
+		//			enemy_x -= enemy_speed - 0.01f;
+		//		}
+		//		else if (enemy_speed <= 0)
+		//		{
+		//			// 敵が画像の向きに移動を始めるとき
+		//			if (turn_flg == TRUE && enemy_speed <= 0.5)
+		//			{
+		//				// 右に移動
+		//				enemy_x += enemy_speed + 0.1f;
+		//			}
+		//			else if (turn_flg == FALSE && enemy_speed <= 0.5)
+		//			{
+		//				// 左に移動
+		//				enemy_x -= enemy_speed + 0.01f;
+		//			}
+		//		}
+		//	}
+		//	else
+		//	{
+		//		old_turn_flg = turn_flg;
+		//		Inertia_count = 0;
+		//	}
+		//}
+
 		 //画像の反転処理（カーソルの方向を向く）
 		if (x >= 0)
 		{
+			// 左を向く
 			turn_flg = TRUE;
 		}
 		else
 		{
+			// 右を向く
 			turn_flg = FALSE;
 		}
 	}	
@@ -297,19 +340,19 @@ void Enemy::EnemyMove()
 void Enemy::Avoidance()
 {
 	avoidance_count++;
-	if (avoidance_count <= 120)
+	if (avoidance_count <= 180)
 	{
 		if (turn_flg == TRUE)
 		{
 			// 敵が右を向いているとき
 			// enemy_x += move_x * speed　にする必要がある
-			enemy_x += enemy_speed + 0.2f;
+			enemy_x += enemy_speed;
 		}
 		else if (turn_flg == FALSE)
 		{
 			// 敵が左を向いているとき
 			// enemy_x -= move_x * speed　にする必要がある
-			enemy_x -= enemy_speed + 0.2f;
+			enemy_x -= enemy_speed;
 		}
 	}
 	else
@@ -338,6 +381,7 @@ void Enemy::InflatBealloon()
 	//	// 敵を浮上させる
 	//	move_y++;
 	//	enemy_y -= move_y;
+	// 
 	//}
 
 	if(animation_count >= 180)

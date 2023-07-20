@@ -66,12 +66,12 @@ private:
 	float move_y;							// 敵の座標Yの移動量
 
 	int turn_flg;							// 画像の左右反転状態（TRUE:反転　FALSE:普通に描画）
-	int old_tturn_flg;						// 前回の画像の状態を保存
+	int old_turn_flg;						// 前回の画像の状態を保存
 
 	int ckeck_flg;							// プレイヤーとの座標の差を取得するフラグ
 	int ckeck_count;						// ckeck_flg用カウント
 
-	float angle;						// パラシュート状態の左右移動用
+	float angle;							// パラシュート状態の左右移動用
 	float angle2;							// パラシュート状態の左右移動用
 	float amplitude;						// パラシュート状態で下降するときの振れ幅
 	float enemy_start_x;					// パラシュート状態になったx座標
