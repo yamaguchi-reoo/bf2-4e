@@ -6,15 +6,9 @@
 #define DIRECTION_LEFT		(0)
 #define DIRECTION_RIGHT		(1)
 
-float Player::GetPlayerX()
-{
-	return location.x;
-}
-
-float Player::GetPlayerY()
-{
-	return location.y;
-}
+// 静的メンバ変数の定義
+float Player::get_location_x;
+float Player::get_location_y;
 
 Player::Player()
 {
@@ -32,9 +26,13 @@ Player::Player()
 	erea.height = 64.0;
 	erea.width_rate = 1.0;
 	erea.height_rate = 1.0;
-	speed_x = 0.04f;
-	speed_y = -1.0f;
+	speed_x = -20.0f;
+	speed_y = -1.5f;
 	flying_diameter = 0.04f;
+	gravity_A = 0.7f;
+
+	get_location_x = 0.0f;
+	get_location_y = 0.0f;
 
 }
 Player::~Player()
@@ -47,6 +45,12 @@ void Player::Update()
 	PlayerFlight();
 	Move();
 	MoveLocation();
+	PlayerGravity();
+	player_flg = 1;
+	//location.y += 0.6f;
+	get_location_x = location.x;
+	get_location_y = location.y;
+}
 	if (player_flg == 1) {
 		location.y += 0.6f;
 
@@ -96,7 +100,7 @@ void Player::Move()
 //プレイヤーの地面での歩行動作
 void Player::PlayerGroundWalk()
 {
-	player_flg = 0;
+	//player_flg = 0;
 	if(PadInput::OnButton(XINPUT_BUTTON_X) == 0 && player_flg == 0)
 	{
 		player_images[1];
@@ -106,38 +110,39 @@ void Player::PlayerGroundWalk()
 //プレイヤーの空中状態
 void Player::PlayerFlight()
 {
-	if (PadInput::OnButton(XINPUT_BUTTON_X) == 1)
+	if (PadInput::OnButton(XINPUT_BUTTON_X) == 1|| PadInput::OnPressed(XINPUT_BUTTON_B) == 1)
 	{
 		player_flg = 1;
 		player_images[17];
-		speed_y += -1.3f;
-		MaxDiameter();
-		location.y += (flying_diameter * speed_y) + speed_y;
-	}
-	if (PadInput::OnPressed(XINPUT_BUTTON_B) == 1)
-	{	
-		player_flg = 1;
-		player_images[17];
-		MaxDiameter();
-		location.y += (flying_diameter * speed_y)+ speed_y;
-	}
-}
-
-//プレイヤーの上昇速度倍率
-void Player::MaxDiameter()
-{
-	if (flying_diameter < MAX_FLYING_DIAMETER 
-		&& player_flg == 1)
-	{
-		flying_diameter += 0.04f;
+		location.y += speed_y;
 	}
 }
 
 void Player::MoveLocation()
 {
-	if (location.y - 32 < 0)
+	if (location.y < 16)
 	{
-		location.y * speed_y;
+		location.y += speed_y * -10;
+	}
+}
+
+void Player::PlayerGravity()
+{
+
+	if (player_flg == 1 && PadInput::OnButton(XINPUT_BUTTON_X) == 1)
+	{
+		location.y += gravity_A;
+		gravity_A -= 0.35f;
+	}
+	if (player_flg == 1 && PadInput::OnPressed(XINPUT_BUTTON_B) == 1)
+	{
+		location.y += gravity_A;
+		gravity_A -= 0.03f;
+	}
+	if (player_flg == 1 && PadInput::OnButton(XINPUT_BUTTON_X) == 0)
+	{
+		gravity_A += 0.02f;
+		location.y += gravity_A;
 	}
 }
 bool Player::PlayerBackLash() {
