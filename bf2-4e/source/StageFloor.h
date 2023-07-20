@@ -8,6 +8,7 @@ private:
 
 	//‰æ‘œ—p•Ï”
 	int floor_image01;
+	int floor_image02;
 	int sea_image;
 	int stage_number;
 public:

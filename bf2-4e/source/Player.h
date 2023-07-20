@@ -14,6 +14,10 @@ private:
 	float flying_diameter;		//プレイヤーの上昇
 	float gravity_A = 0.7f;
 
+	int move_x;
+	int move_y;
+	int player_angle;
+
 public:
 	void Move();				//プレイヤーの移動
 	void PlayerFlight();		//プレイヤーの空中状態
@@ -21,11 +25,16 @@ public:
 	void MoveLocation();		//プレイヤーの移動範囲
 	void PlayerGravity();		//プレイヤーにかかる重力
 
+	void PlayerBackLash();
+
 public:
-	float GetPlayerX();
-	float GetPlayerY();
 	Player();			//コンストラクタ
 	~Player();			//デストラクタ	
 	void Update();		//描画以外に関することを実装する
 	void Draw()const;	//描画に関することを実装する
+
+public:
+	static float get_location_x;		// プレイヤーのX座標参照用の変数
+	static float get_location_y;		// プレイヤーのY座標参照用の変数
+
 };
