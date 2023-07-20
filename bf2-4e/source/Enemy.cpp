@@ -7,9 +7,7 @@
 // 静的メンバ変数
 //int Enemy::animation_count;
 
-float angle = 0;
-float angle2;
-float sinangle2 = 0;		// デバッグ用
+//float sinangle2 = 0;		// デバッグ用
 
 // コンストラクタ
 Enemy::Enemy()
@@ -25,16 +23,26 @@ Enemy::Enemy()
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_G_Animation.png", 18, 6, 3, 64, 64, enemy_green_image);
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 18, 6, 3, 64, 64, enemy_red_image);
 	
-	// 敵の情報
-	//enemy_x = 608.0f;			// デバッグ用
+	// 敵の情報（構造体から）
+	location.x = 180.0;
+	location.y = 284.0;
+	erea.width = 64.0;
+	erea.height = 64.0;
+	erea.width_rate = 1.0;
+	erea.height_rate = 1.0;
+
+	//enemy_x = 608.0f;				// デバッグ用
 	//enemy_y = 32.0f;				// デバッグ用
 	enemy_x = 200.0f;
 	enemy_y = 252.0f;
 	enemy_speed = 0.5f;
-	acceleration = 0.1f;						// 加速度
+	//acceleration = 0.1f;						// 加速度
 	enemy_angle = 0;
 	enemy_type = 0;
 	power_up_flg = FALSE;
+	enemy_life = TRUE;
+
+	Inertia_count = 0;
 
 	// 移動するときの計算に使う変数
 	xc = 0.0f;
@@ -71,6 +79,8 @@ Enemy::Enemy()
 	ckeck_flg = TRUE;				// 座標の差を取得する
 	ckeck_count = 0;
 
+	angle = 0.0f;
+	angle2 = 0.0f;
 	amplitude = 50.0f;
 	enemy_start_x = -100.0f;
 
@@ -293,13 +303,13 @@ void Enemy::Avoidance()
 		{
 			// 敵が右を向いているとき
 			// enemy_x += move_x * speed　にする必要がある
-			enemy_x += enemy_speed;
+			enemy_x += enemy_speed + 0.2f;
 		}
 		else if (turn_flg == FALSE)
 		{
 			// 敵が左を向いているとき
 			// enemy_x -= move_x * speed　にする必要がある
-			enemy_x -= enemy_speed;
+			enemy_x -= enemy_speed + 0.2f;
 		}
 	}
 	else
@@ -427,7 +437,7 @@ void Enemy::Parachute()
 	angle++;
 	angle2 = angle * (float)(M_PI / 180);
 
-	sinangle2 = sinf(angle2);
+	//sinangle2 = sinf(angle2);
 
 	// enemu_start_xを中心に左右に揺れる処理
 	enemy_x = (sinf(angle2) * amplitude) + enemy_start_x;

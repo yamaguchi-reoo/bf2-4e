@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "BoxCollision.h"
 
+// 敵の状態
 enum class EnemyState
 {
 	kInflatBealloon = 0,				// 風船を膨らませる
@@ -11,6 +12,7 @@ enum class EnemyState
 	kDeath								// 死亡
 };
 
+// 当たり判定あり
 class Enemy : public BoxCollision
 {
 private:
@@ -23,16 +25,19 @@ private:
 	float enemy_x;							// 敵のX座標
 	float enemy_y;							// 敵のY座標
 	float enemy_speed;						// 敵のスピード
-	float acceleration;						// 加速度
+	//float acceleration;					// 加速度
 	int enemy_angle;						// 敵の移動角度
 	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
 	int power_up_flg;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
+	int enemy_life;							// 敵の生死状態（TRUE:生きている　FALSE:死亡）
+
+	int Inertia_count;						// 慣性が働くカウント
 
 	// 移動するときの計算に使う変数
 	float xc;								// 三平方の定理（斜辺）
 	float yc;								// 三平方の定理（斜辺）
-	float x;
-	float y;
+	float x;								// 計算後move_xに代入用
+	float y;								// 計算後move_yに代入用
 
 	// 後で消すやつ
 	int fps_count;							// fpsのカウント
@@ -61,16 +66,19 @@ private:
 	float move_y;							// 敵の座標Yの移動量
 
 	int turn_flg;							// 画像の左右反転状態（TRUE:反転　FALSE:普通に描画）
+	int old_tturn_flg;						// 前回の画像の状態を保存
 
 	int ckeck_flg;							// プレイヤーとの座標の差を取得するフラグ
 	int ckeck_count;						// ckeck_flg用カウント
 
+	float angle;						// パラシュート状態の左右移動用
+	float angle2;							// パラシュート状態の左右移動用
 	float amplitude;						// パラシュート状態で下降するときの振れ幅
 	float enemy_start_x;					// パラシュート状態になったx座標
 
 	int avoidance_flg;						// 回避行動のフラグ
 
-	float difference_y;
+	float difference_y;						// 回避行動の条件用のプレイヤーと敵の座標の差
 
 public:
 	// コンストラクタ
