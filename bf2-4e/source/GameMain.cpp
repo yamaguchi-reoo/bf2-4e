@@ -54,7 +54,7 @@ void GameMain::Draw() const
     {
         SetFontSize(16);
         DrawFormatString(20, 50, 0xffffff, " PAUSE ");
-        //SetDrawBlendMode(DX_BLENDMODE_ALPHA,0);     //“G
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA,0);     //“G
     }
     else 
     {
