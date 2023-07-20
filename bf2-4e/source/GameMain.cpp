@@ -24,7 +24,7 @@ GameMain::~GameMain()
 AbstractScene* GameMain::Update()
 {
     //ポーズ切り替え処理
-    if (PadInput::OnButton(XINPUT_BUTTON_START))       // STARTが押されたとき
+    if (PadInput::OnButton(XINPUT_BUTTON_START))       // STARTボタンが押されたとき
     {
         pause_flag = !pause_flag;
     }

@@ -3,8 +3,12 @@
 class StageItem
 {
 private:
-	//画像用変数
-	int thunder_image[2];
+	/* 画像用変数 */
+	//雷
+	int thunder_cloud_image[2];
+	int thunder_image[5];
+
+	//サカナ
 	int fish_image;
 
 	//アニメーションの待機変数

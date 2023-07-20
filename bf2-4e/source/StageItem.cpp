@@ -3,10 +3,11 @@
 
 StageItem::StageItem()
 {
-
 	//—‹‚Ì‰æ‘œ“Ç
-	LoadDivGraph("Source/Resource/images/Stage/Stage_CloudAnimation.png", 3, 3, 1, 128, 64, thunder_image); 
-		
+	LoadDivGraph("Source/Resource/images/Stage/Stage_CloudAnimation.png", 3, 2, 1, 128, 64, thunder_cloud_image);
+	LoadDivGraph("Source/Resource/images/Stage/Stage_ThunderAnimation.png", 6, 5, 1, 64, 64, thunder_image);
+
+	//—‹‚Ì“_–Å‚Ì‰Šú‰»	
 	anime_num = 0;
 }
 
@@ -16,8 +17,9 @@ StageItem::~StageItem()
 
 void StageItem::Update()
 {
+	//—‹‚Ì“_–Å
 	++time;
-	if (time % 100 == 0) 
+	if (time % 3 == 0) 
 	{
 		anime_num = anime_num + 1;
 	}
@@ -25,9 +27,13 @@ void StageItem::Update()
 	{
 		anime_num = 0;
 	}
+
 }
 
 void StageItem::Draw() const
 {
-	DrawRotaGraph(150, 180, 1.5f, 0, thunder_image[anime_num], 1, 1);
+	//—‹‰_‚Ì•`‰æ
+	DrawRotaGraph(150, 180, 1.0f, 0, thunder_cloud_image[anime_num], TRUE, 0);
+	DrawRotaGraph(150, 150, 1.0f, 0, thunder_image[anime_num], TRUE, TRUE);
+
 }
