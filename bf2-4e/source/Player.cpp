@@ -27,7 +27,7 @@ Player::Player()
 	
 	player_flg = 1;
 	location.x = 40.0;
-	location.y = 416.0;
+	location.y = 300.0;
 	erea.width = 64.0;
 	erea.height = 64.0;
 	erea.width_rate = 1.0;
@@ -47,7 +47,10 @@ void Player::Update()
 	PlayerFlight();
 	Move();
 	MoveLocation();
-	location.y += 0.6f;
+	if (player_flg == 1) {
+		location.y += 0.6f;
+
+	}
 }
 
 void Player::Draw()const
@@ -97,9 +100,7 @@ void Player::PlayerGroundWalk()
 	if(PadInput::OnButton(XINPUT_BUTTON_X) == 0 && player_flg == 0)
 	{
 		player_images[1];
-		location.y = 0;
 	}
-
 }
 
 //ÉvÉåÉCÉÑÅ[ÇÃãÛíÜèÛë‘
@@ -138,4 +139,16 @@ void Player::MoveLocation()
 	{
 		location.y * speed_y;
 	}
+}
+bool Player::PlayerBackLash() {
+	
+
+	if (player_flg == 0) {
+		return true;
+	}
+	
+	return  false;
+}
+void Player::PlayerBack() {
+	player_flg = !player_flg;
 }

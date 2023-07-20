@@ -11,6 +11,7 @@ GameMain::GameMain()
     collision = new BoxCollision();
 
     stage = 0;
+    flg = false;
 
     color = 0xffffff;
     switch (stage)
@@ -65,6 +66,7 @@ AbstractScene* GameMain::Update()
         pause_flag = !pause_flag;
     }
     //ポーズ中ではない時
+
     if (pause_flag == FALSE)
     {
         //ゲームメイン処理を入れる
@@ -74,6 +76,92 @@ AbstractScene* GameMain::Update()
         enemy->Update();
 
         //collision->HitBox(object);
+
+        //プレイヤーが床に当たったら......
+        switch (stage)
+        {
+        case 0://ステージ1
+            if (player->PlayerBackLash() == true)
+            {
+                player->PlayerBack();
+                color = 0x0ffff0;
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                
+                if (stage_floor[i]->HitBox(player) == true)
+                {
+                    player->PlayerGroundWalk();
+                    DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
+                    color = 0x0ff000;
+                }
+            }
+            break;
+        case 1://ステージ2
+            if (player->PlayerBackLash() == true)
+            {
+                player->PlayerBack();
+                color = 0x0ffff0;
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                if (stage_floor[i]->HitBox(player) == true)
+                {
+                    player->PlayerGroundWalk();
+                    DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
+                    color = 0x0ff000;
+                }
+            }
+            break;
+        case 2://ステージ3
+            if (player->PlayerBackLash() == true)
+            {
+                player->PlayerBack();
+                color = 0x0ffff0;
+            }
+            for (int i = 0; i < 7; i++)
+            {
+                if (stage_floor[i]->HitBox(player) == true)
+                {
+                    player->PlayerGroundWalk();
+                    DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
+                    color = 0x0ff000;
+                }
+            }
+            break;
+        case 3://ステージ4
+            if (player->PlayerBackLash() == true)
+            {
+                player->PlayerBack();
+                color = 0x0ffff0;
+            }
+            for (int i = 0; i < 7; i++)
+            {
+                if (stage_floor[i]->HitBox(player) == true)
+                {
+                    player->PlayerGroundWalk();
+                    DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
+                    color = 0x0ff000;
+                }
+            }
+            break;
+        case 4://ステージ5
+            if (player->PlayerBackLash() == true)
+            {
+                player->PlayerBack();
+                color = 0x0ffff0;
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                if (stage_floor[i]->HitBox(player) == true)
+                {
+                    player->PlayerGroundWalk();
+                    DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
+                    color = 0x0ff000;
+                }
+            }
+            break;
+        }
 
     }
     // ここで値の更新など、処理)
@@ -85,65 +173,7 @@ AbstractScene* GameMain::Update()
 
     //collision->HitBox(object);
 
-    //プレイヤーが床に当たったら......
-    switch (stage)
-    {
-    case 0://ステージ1
-        for (int i = 0; i < 3; i++)
-        {
-            if (stage_floor[i]->HitBox(player) == true)
-            {
-               player->PlayerGroundWalk();
-                DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
-                color = 0x0ff000;
-            }
-        }
-        break;
-    case 1://ステージ2
-        for (int i = 0; i < 5; i++)
-        {
-            if (stage_floor[i]->HitBox(player) == true)
-            {
-                player->PlayerGroundWalk();
-                DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
-                color = 0x0ff000;
-            }
-        }
-        break;
-    case 2://ステージ3
-        for (int i = 0; i < 7; i++)
-        {
-            if (stage_floor[i]->HitBox(player) == true)
-            {
-                player->PlayerGroundWalk();
-                DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
-                color = 0x0ff000;
-            }
-        }
-        break;
-    case 3://ステージ4
-        for (int i = 0; i < 7; i++)
-        {
-            if (stage_floor[i]->HitBox(player) == true)
-            {
-                player->PlayerGroundWalk();
-                DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
-                color = 0x0ff000;
-            }
-        }
-        break;
-    case 4://ステージ5
-        for (int i = 0; i < 8; i++)
-        {
-            if (stage_floor[i]->HitBox(player) == true)
-            {
-                player->PlayerGroundWalk();
-                DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
-                color = 0x0ff000;
-            }
-        }
-        break;
-    }
+
 
     if(PadInput::OnButton(XINPUT_BUTTON_Y)) {
         if (stage == 4)
@@ -170,14 +200,17 @@ void GameMain::Draw() const
     {
         SetFontSize(16);
         DrawFormatString(20, 50, color, "Game Main");
+        player->Draw();        //プレイヤー画像の描画処理
+
+        enemy->Draw();         //敵画像の描画処理
 
     }
 
-    player->Draw();        //プレイヤー画像の描画処理
+    //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
+    SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0); 
 
-    enemy->Draw();         //敵画像の描画処理
-
-
+    //↓UI、ステージを書く
+    //ステージ画像の描画処理
     switch (stage)
     {
     case 0:
@@ -209,13 +242,7 @@ void GameMain::Draw() const
             stage_floor[i]->Draw();
         }
         break;
-    }
-
-    //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
-    SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0); 
-
-    //↓UI、ステージを書く
-    //object->Draw();        //ステージ画像の描画処理
+    }      
 };
 //ステージの切替
 void GameMain::ChangeScene()
