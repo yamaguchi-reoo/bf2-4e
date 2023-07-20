@@ -79,8 +79,6 @@ AbstractScene* GameMain::Update()
     // ここで値の更新など、処理)
 
     //object->Update();
-
-    player->Update();
     
     //player->Move();
     //enemy->Update();
