@@ -47,6 +47,12 @@ void Player::Update()
 	PlayerFlight();
 	Move();
 	MoveLocation();
+	PlayerGravity();
+	player_flg = 1;
+	//location.y += 0.6f;
+	get_location_x = location.x;
+	get_location_y = location.y;
+
 	if (player_flg == 1) {
 		location.y += 0.6f;
 
