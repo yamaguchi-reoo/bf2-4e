@@ -13,6 +13,10 @@ private:
 	float speed_y;			//プレイヤーの速度(y座標)
 	float flying_diameter;		//プレイヤーの上昇
 
+	int move_x;
+	int move_y;
+	int player_angle;
+
 public:
 	void Move();				//プレイヤーの移動
 	void NotTipMove();
@@ -20,6 +24,8 @@ public:
 	void PlayerGroundWalk();	//プレイヤーの地面歩行
 	void MaxDiameter();			//プレイヤーの上昇倍率
 	void MoveLocation();		//プレイヤーの移動範囲
+
+	void PlayerBackLash();
 
 public:
 	float GetPlayerX();

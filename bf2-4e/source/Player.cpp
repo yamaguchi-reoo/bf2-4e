@@ -26,8 +26,8 @@ Player::Player()
 	LoadDivGraph("Source/Resource/images/Player/Player_Animation.png",30,8,4,64,64, player_images);
 	
 	player_flg = 1;
-	location.x = 180.0;
-	location.y = 284.0;
+	location.x = 40.0;
+	location.y = 416.0;
 	erea.width = 64.0;
 	erea.height = 64.0;
 	erea.width_rate = 1.0;
@@ -43,7 +43,7 @@ Player::~Player()
 }
 void Player::Update()
 {
-	PlayerGroundWalk();
+	//PlayerGroundWalk();
 	PlayerFlight();
 	Move();
 	MoveLocation();
@@ -54,6 +54,7 @@ void Player::Draw()const
 {
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, player_images[0], TRUE, direction);
 	DrawFormatString(0, 30, 0xffffff,"flying_diameter ”%f”", flying_diameter);
+	DrawBox(location.x - ((erea.width / 2) * erea.width_rate), location.y - ((erea.height / 2) * erea.height_rate), location.x - ((erea.width / 2) * erea.width_rate) + erea.width, location.y - ((erea.height / 2) * erea.height_rate) + erea.height, 0xff00ff, FALSE);
 }
 
 //プレイヤーの移動
@@ -96,7 +97,9 @@ void Player::PlayerGroundWalk()
 	if(PadInput::OnButton(XINPUT_BUTTON_X) == 0 && player_flg == 0)
 	{
 		player_images[1];
+		location.y = 0;
 	}
+
 }
 
 //プレイヤーの空中状態
