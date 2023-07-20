@@ -46,15 +46,11 @@ void Player::Update()
 	Move();
 	MoveLocation();
 	PlayerGravity();
-	player_flg = 1;
+	//player_flg = 1;
 	//location.y += 0.6f;
 	get_location_x = location.x;
 	get_location_y = location.y;
-<<<<<<< HEAD
 
-=======
-}
->>>>>>> parent of 8ee0617 (Revert "Merge branch 'main' into yamaguchi")
 	if (player_flg == 1) {
 		location.y += 0.6f;
 
@@ -104,7 +100,7 @@ void Player::Move()
 //プレイヤーの地面での歩行動作
 void Player::PlayerGroundWalk()
 {
-	//player_flg = 0;
+	player_flg = 0;
 	if(PadInput::OnButton(XINPUT_BUTTON_X) == 0 && player_flg == 0)
 	{
 		player_images[1];
@@ -141,7 +137,7 @@ void Player::PlayerGravity()
 	if (player_flg == 1 && PadInput::OnPressed(XINPUT_BUTTON_B) == 1)
 	{
 		location.y += gravity_A;
-		gravity_A -= 0.03f;
+		gravity_A -= 0.10f;
 	}
 	if (player_flg == 1 && PadInput::OnButton(XINPUT_BUTTON_X) == 0)
 	{
