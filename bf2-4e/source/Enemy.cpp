@@ -7,11 +7,15 @@
 // 静的メンバ変数
 //int Enemy::animation_count;
 
-//float sinangle2 = 0;		// デバッグ用
+float angle = 0;
+float angle2;
+float sinangle2 = 0;		// デバッグ用
 
 // コンストラクタ
 Enemy::Enemy()
 {
+	player = new Player;
+
 	for (int i = 0; i < 18; i++)
 	{
 		enemy_pink_image[i];
@@ -23,26 +27,15 @@ Enemy::Enemy()
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_G_Animation.png", 18, 6, 3, 64, 64, enemy_green_image);
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 18, 6, 3, 64, 64, enemy_red_image);
 	
-	// 敵の情報（構造体から）
-	location.x = 180.0;
-	location.y = 284.0;
-	erea.width = 64.0;
-	erea.height = 64.0;
-	erea.width_rate = 1.0;
-	erea.height_rate = 1.0;
-
-	//enemy_x = 608.0f;				// デバッグ用
+	// 敵の情報
+	//enemy_x = 608.0f;			// デバッグ用
 	//enemy_y = 32.0f;				// デバッグ用
 	enemy_x = 200.0f;
 	enemy_y = 252.0f;
 	enemy_speed = 0.5f;
-	//acceleration = 0.1f;						// 加速度
 	enemy_angle = 0;
 	enemy_type = 0;
 	power_up_flg = FALSE;
-	enemy_life = TRUE;
-
-	Inertia_count = 0;
 
 	// 移動するときの計算に使う変数
 	xc = 0.0f;
@@ -58,7 +51,6 @@ Enemy::Enemy()
 	//flight_count = 0;
 	animation_count = 0;
 
-	// 慣性用のカウント
 	avoidance_count = 0;
 
 	// アニメーション用変数
@@ -68,21 +60,18 @@ Enemy::Enemy()
 	enemy_state = EnemyState::kInflatBealloon;
 
 	// 追いかける対象の座標
-	player_x = 0.0f;
-	player_y = 0.0f;
+	mouse_x = 0;
+	mouse_y = 0;
 
 	// 移動するときに使う変数
 	move_x = 0.0f;
 	move_y = 0.0f;
 
 	turn_flg = FALSE;				// 反転はしない
-	old_turn_flg = turn_flg;
 
 	ckeck_flg = TRUE;				// 座標の差を取得する
 	ckeck_count = 0;
 
-	angle = 0.0f;
-	angle2 = 0.0f;
 	amplitude = 50.0f;
 	enemy_start_x = -100.0f;
 
@@ -100,10 +89,6 @@ Enemy::~Enemy()
 // 描画以外の更新を実装
 void Enemy::Update()
 {
-	/****************************
-	* ↓デバッグ用
-	*****************************/
-
 	// 敵の色ごとの動作確認用　※後で削除
 	// RBボタン
 	if (PadInput::OnButton(XINPUT_BUTTON_RIGHT_SHOULDER) == 1)
@@ -111,6 +96,7 @@ void Enemy::Update()
 		if (enemy_type < 2)
 		{
 			enemy_type++;
+
 		}
 		else
 		{
@@ -122,8 +108,12 @@ void Enemy::Update()
 	// LBボタン
 	if (PadInput::OnButton(XINPUT_BUTTON_LEFT_SHOULDER) == 1)
 	{
+		// デバッグ用
 		enemy_state = EnemyState::kParachute;
 	}
+
+	// マウスの座標の取得（のちにプレイヤーの座標に変わる）
+	GetMousePoint(&mouse_x, &mouse_y);
 
 	// 後で消すやつ
 	fps_count++;
@@ -135,9 +125,7 @@ void Enemy::Update()
 		fps_count = 0;
 	}
 
-	/****************************
-	* ↓ここから敵の処理
-	*****************************/
+	// ↓ここから敵の処理
 	switch (enemy_state)
 	{
 		case EnemyState::kInflatBealloon:
@@ -182,7 +170,7 @@ void Enemy::Draw() const
 
 	//SetFontSize(15);
 	//// マウスの座標の描画
-	DrawFormatString(0, 150, 0xffffff, "player_x = %3f, player_y = %3f", player_x, player_y);
+	DrawFormatString(10, 50, 0xffffff, "mouse_x = %3d, mouse_y = %3d", mouse_x, mouse_y);
 	DrawFormatString(0, 30, 0xffffff, "E enemy_x = %3f, enemy_y = %3f", enemy_x, enemy_y);
 	DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
 	//DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
@@ -244,34 +232,56 @@ void Enemy::Draw() const
 // 敵の上下左右移動処理
 void Enemy::EnemyMove()
 {
-	// プレイヤーの座標参照
-	player_x = Player::get_location_x;
-	player_y = Player::get_location_y;
-
-	// 回避行動の条件用
-	difference_y = enemy_y - player_y;
+	difference_y = enemy_y - (float)mouse_y;
 
 	// 回避行動の条件
-	if (avoidance_flg == FALSE && enemy_y > player_y && difference_y <= 70 && player_x >= enemy_x - 20 && player_x <= enemy_x + 20)
+	if (avoidance_flg == FALSE && enemy_y > mouse_y && difference_y <= 70 && mouse_x >= enemy_x - 20 && mouse_x <= enemy_x + 20)
+	//if(enemy_y > mouse_y && difference_y <= 50)
 	{
 		avoidance_flg = TRUE;
 	}
 
 	if (avoidance_flg == TRUE)
 	{
-		// 敵の回避行動処理
-		Avoidance();
+		avoidance_count++;
+		if (avoidance_count <= 120)
+		{
+			// 敵の回避行動
+			//if (mouse_x >= enemy_x - 30 && mouse_x <= enemy_x + 30)
+			//{
+				if (turn_flg == TRUE)
+				{
+					// 敵が右を向いているとき
+					// enemy_x += move_x * speed　にする必要がある
+					enemy_x++;
+				}
+				else if (turn_flg == FALSE)
+				{
+					// 敵が左を向いているとき
+					// enemy_x -= move_x * speed　にする必要がある
+					enemy_x--;
+				}
+			//}
+		}
+		else
+		{
+			avoidance_count = 0;
+			avoidance_flg = FALSE;
+		}
 	}
 	else
 	{
-		// プレイヤーと敵の座標の差を求める
-		move_x = player_x - enemy_x;
-		move_y = player_y - enemy_y;
+		//player->location.x
+
+		// マウスと敵の座標の差を求める
+		move_x = (float)mouse_x - enemy_x;
+		move_y = (float)mouse_y - enemy_y;
 
 		xc = sqrtf(powf(move_x, 2));
 		yc = sqrtf(powf(move_y, 2));
 
-		// x,y座標が同じだと1ピクセルずつ追いかけてくる
+		// x,y座標が同じだと1ピクセルずつ追いかけてくる（縦と横にしか移動しない）※多分改善した
+		// 最短距離ではない
 		if (xc != 0 && yc != 0)
 		{
 			// どの向きに進めばいいのかを-1～1の間で求めている（多分）
@@ -283,54 +293,13 @@ void Enemy::EnemyMove()
 		enemy_x += x * enemy_speed;
 		enemy_y += y * enemy_speed / 2;
 
-		// if(慣性が働く場合)
-		//if (old_turn_flg != turn_flg)
-		//{
-		//	Inertia_count++;
-
-		//	if (Inertia_count <= 120)
-		//	{
-		//		if (turn_flg == TRUE && enemy_speed >= 0)
-		//		{
-		//			// 左から右に向いたとき
-		//			enemy_x += enemy_speed - 0.1f;
-		//		}
-		//		else if (turn_flg == FALSE && enemy_speed >= 0)
-		//		{
-		//			// 右から左に向いたとき
-		//			enemy_x -= enemy_speed - 0.01f;
-		//		}
-		//		else if (enemy_speed <= 0)
-		//		{
-		//			// 敵が画像の向きに移動を始めるとき
-		//			if (turn_flg == TRUE && enemy_speed <= 0.5)
-		//			{
-		//				// 右に移動
-		//				enemy_x += enemy_speed + 0.1f;
-		//			}
-		//			else if (turn_flg == FALSE && enemy_speed <= 0.5)
-		//			{
-		//				// 左に移動
-		//				enemy_x -= enemy_speed + 0.01f;
-		//			}
-		//		}
-		//	}
-		//	else
-		//	{
-		//		old_turn_flg = turn_flg;
-		//		Inertia_count = 0;
-		//	}
-		//}
-
-		 //画像の反転処理（カーソルの方向を向く）
+		// 画像の反転処理（カーソルの方向を向く）
 		if (x >= 0)
 		{
-			// 左を向く
 			turn_flg = TRUE;
 		}
 		else
 		{
-			// 右を向く
 			turn_flg = FALSE;
 		}
 	}	
@@ -339,27 +308,29 @@ void Enemy::EnemyMove()
 // 敵の回避行動処理
 void Enemy::Avoidance()
 {
-	avoidance_count++;
-	if (avoidance_count <= 120)
-	{
-		if (turn_flg == TRUE)
-		{
-			// 敵が右を向いているとき
-			// enemy_x += move_x * speed　にする必要がある
-			enemy_x += enemy_speed;
-		}
-		else if (turn_flg == FALSE)
-		{
-			// 敵が左を向いているとき
-			// enemy_x -= move_x * speed　にする必要がある
-			enemy_x -= enemy_speed;
-		}
-	}
-	else
-	{
-		avoidance_count = 0;
-		avoidance_flg = FALSE;
-	}
+
+	//	if (avoidance_count <= 120)
+	//	{
+	//		if (turn_flg == TRUE)
+	//		{
+	//			// 敵が右を向いているとき
+	//			// enemy_x += move_x * speed　にする必要がある
+	//			move_x++;
+	//		}
+	//		else if (turn_flg == FALSE)
+	//		{
+	//			// 敵が左を向いているとき
+	//			// enemy_x -= move_x * speed　にする必要がある
+	//			move_x--;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		avoidance_count = 0;
+	//	}
+	//}
+	//avoidance_flg = FALSE;
+
 }
 
 // 風船を膨らませるアニメーション処理
@@ -381,7 +352,6 @@ void Enemy::InflatBealloon()
 	//	// 敵を浮上させる
 	//	move_y++;
 	//	enemy_y -= move_y;
-	// 
 	//}
 
 	if(animation_count >= 180)
@@ -478,17 +448,20 @@ void Enemy::Parachute()
 		now_image = 17;
 	}
 
+	//next_image
+
 	angle++;
 	angle2 = angle * (float)(M_PI / 180);
 
-	//sinangle2 = sinf(angle2);
+	sinangle2 = sinf(angle2);
 
 	// enemu_start_xを中心に左右に揺れる処理
 	enemy_x = (sinf(angle2) * amplitude) + enemy_start_x;
 	// 落下処理
 	enemy_y += 0.5f;
 
-	// if(地面についたら)直立状態に変更（ステージとの当たり判定）
+
+	// if(地面についたら)直立状態に変更
 	//power_up_flg = TRUE;
 	// enemy_start_x = -100.0f;
 	// animation_count = 0;
