@@ -159,3 +159,7 @@ bool Player::PlayerBackLash() {
 void Player::PlayerBack() {
 	player_flg = !player_flg;
 }
+int  Player::adsfg()
+{
+	return  gravity_A;
+}
