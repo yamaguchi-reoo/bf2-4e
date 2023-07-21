@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "BoxCollision.h"
+#include"StageItem.h"
 
 class GameMain : public AbstractScene {
 private:
@@ -13,6 +14,9 @@ private:
     Enemy* enemy;           // Enemyクラスのオブジェクト化
     BoxCollision* collision; //Collisionクラスのオブジェクト化 
     StageFloor* stage_floor[8];
+
+    StageItem* stageitem;
+
     bool pause_flag;     //ポーズのフラグ取り
 
     int color;

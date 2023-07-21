@@ -138,6 +138,7 @@ void Player::PlayerGravity()
 	if (player_flg == 1 && PadInput::OnPressed(XINPUT_BUTTON_B) == 1)
 	{
 		location.y += gravity_A;
+
 		gravity_A -= 0.10f;
 	}
 	if (player_flg == 1 && PadInput::OnButton(XINPUT_BUTTON_X) == 0)
