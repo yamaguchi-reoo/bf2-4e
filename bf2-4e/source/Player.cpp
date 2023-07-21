@@ -45,7 +45,7 @@ void Player::Update()
 	PlayerFlight();
 	Move();
 	MoveLocation();
-	PlayerGravity();
+	
 	//player_flg = 1;
 	//location.y += 0.6f;
 	get_location_x = location.x;
@@ -53,7 +53,7 @@ void Player::Update()
 
 	if (player_flg == 1) {
 		location.y += 0.6f;
-
+		PlayerGravity();
 	}
 }
 
@@ -101,6 +101,7 @@ void Player::Move()
 void Player::PlayerGroundWalk()
 {
 	player_flg = 0;
+	gravity_A = 0.0f;
 	if(PadInput::OnButton(XINPUT_BUTTON_X) == 0 && player_flg == 0)
 	{
 		player_images[1];
