@@ -188,14 +188,15 @@ void Enemy::Draw() const
 	DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
 	//DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
 	//DrawFormatString(0, 160, 0xffffff, "E xc = %3f, yc = %3f", xc, yc);
-	//DrawFormatString(0, 190, 0xff0000, "E now_image = %d", now_image);
+	DrawFormatString(0, 190, 0xff0000, "E now_image = %d", now_image);
 	//DrawFormatString(200, 250, 0xff0000, "E state = %d", enemy_state);
 	//DrawFormatString(200, 250, 0xff0000, "E angle2 = %f", angle2);
 	//DrawFormatString(200, 250, 0xff0000, "E enemy_start_x = %f", enemy_start_x);
 	//DrawFormatString(200, 250, 0xff0000, "E sinangle2 = %f", sinangle2);
 	//DrawFormatString(200, 250, 0xff0000, "E a = %f", difference_y);
 	//DrawFormatString(20, 250, 0xff0000, "E avoidance_flg = %d", avoidance_flg);
-	DrawFormatString(20, 250, 0xff0000, "E enemy_speed = %f", enemy_speed);
+	//DrawFormatString(20, 250, 0xff0000, "E enemy_speed = %f", enemy_speed);
+	DrawFormatString(20, 250, 0xff0000, "E enemy_state = %d", enemy_state);
 #endif	//_DEBUG
 
 	if (enemy_type == 0)
@@ -470,7 +471,10 @@ void Enemy::InflatBealloon()
 		animation_count = 0;
 
 		// 敵の状態遷移
-		enemy_state = EnemyState::kFlight;
+		// デバッグ用
+		enemy_state = EnemyState::kDeath;
+
+		//enemy_state = EnemyState::kFlight;
 	}
 
 	// if(パワーアップのフラグが立っていたら)type++
@@ -602,10 +606,20 @@ void Enemy::Upright()
 void Enemy::Death()
 {
 	// 画像は13, 14（2枚）
+	animation_count++;
 
-	now_image = 13;
-
-	//next_image = 
+	if (animation_count <= 4)
+	{
+		now_image = 13;
+	}
+	else if (animation_count <= 8)
+	{
+		now_image = 14;
+	}
+	else
+	{
+		animation_count = 0;
+	}
 
 	// 敵の落下
 	location.y++;
