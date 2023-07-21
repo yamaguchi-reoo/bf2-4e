@@ -22,16 +22,17 @@ private:
 	int enemy_red_image[18];				// 赤色の敵の画像
 
 	// 敵の情報
-	float enemy_x;							// 敵のX座標
-	float enemy_y;							// 敵のY座標
+	//float enemy_x;							// 敵のX座標
+	//float enemy_y;							// 敵のY座標
 	float enemy_speed;						// 敵のスピード
-	//float acceleration;					// 加速度
+	float acceleration;						// 加速度
 	int enemy_angle;						// 敵の移動角度
 	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
 	int power_up_flg;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
 	int enemy_life;							// 敵の生死状態（TRUE:生きている　FALSE:死亡）
 
-	int Inertia_count;						// 慣性が働くカウント
+	int inertia_count;						// 慣性が働くカウント
+	int inertia_flg;
 
 	// 移動するときの計算に使う変数
 	float xc;								// 三平方の定理（斜辺）

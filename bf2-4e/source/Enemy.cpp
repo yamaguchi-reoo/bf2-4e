@@ -24,8 +24,8 @@ Enemy::Enemy()
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 18, 6, 3, 64, 64, enemy_red_image);
 	
 	// 敵の情報（構造体から）
-	location.x = 180.0;
-	location.y = 284.0;
+	location.x = 200.0f;			// 中心座標X
+	location.y = 252.0f;			// 中心座標Y
 	erea.width = 64.0;
 	erea.height = 64.0;
 	erea.width_rate = 1.0;
@@ -33,16 +33,17 @@ Enemy::Enemy()
 
 	//enemy_x = 608.0f;				// デバッグ用
 	//enemy_y = 32.0f;				// デバッグ用
-	enemy_x = 200.0f;
-	enemy_y = 252.0f;
+	//enemy_x = 200.0f;
+	//enemy_y = 252.0f;
 	enemy_speed = 0.5f;
-	//acceleration = 0.1f;						// 加速度
+	acceleration = 0.1f;						// 加速度
 	enemy_angle = 0;
 	enemy_type = 0;
 	power_up_flg = FALSE;
 	enemy_life = TRUE;
 
-	Inertia_count = 0;
+	inertia_count = 0;
+	inertia_flg = FALSE;					// 慣性が働かない
 
 	// 移動するときの計算に使う変数
 	xc = 0.0f;
@@ -150,7 +151,7 @@ void Enemy::Update()
 			//Avoidance();
 			//CkeckPlayerLocation();
 			// 空中で羽ばたくアニメーション処理
-			Flight();
+			//Flight();
 			//AirFall();
 			break;
 		case EnemyState::kParachute:
@@ -183,7 +184,7 @@ void Enemy::Draw() const
 	//SetFontSize(15);
 	//// マウスの座標の描画
 	DrawFormatString(0, 150, 0xffffff, "player_x = %3f, player_y = %3f", player_x, player_y);
-	DrawFormatString(0, 30, 0xffffff, "E enemy_x = %3f, enemy_y = %3f", enemy_x, enemy_y);
+	//DrawFormatString(0, 30, 0xffffff, "E enemy_x = %3f, enemy_y = %3f", enemy_x, enemy_y);
 	DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
 	//DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
 	//DrawFormatString(0, 160, 0xffffff, "E xc = %3f, yc = %3f", xc, yc);
@@ -194,49 +195,49 @@ void Enemy::Draw() const
 	//DrawFormatString(200, 250, 0xff0000, "E sinangle2 = %f", sinangle2);
 	//DrawFormatString(200, 250, 0xff0000, "E a = %f", difference_y);
 	//DrawFormatString(20, 250, 0xff0000, "E avoidance_flg = %d", avoidance_flg);
+	DrawFormatString(20, 250, 0xff0000, "E enemy_speed = %f", enemy_speed);
 #endif	//_DEBUG
 
 	if (enemy_type == 0)
 	{
 		// 桃色の敵画像の描画
-		DrawRotaGraph((int)enemy_x, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 		// 画面の端に行ったら反対側にも描画
-		if (enemy_x <= 32)
+		if (location.x <= 32)
 		{
-			DrawRotaGraph((int)enemy_x + 640, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+			DrawRotaGraph((int)location.x + 640, (int)location.y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 		}
-		if (enemy_x >= 608)
+		if (location.x >= 608)
 		{
-			DrawRotaGraph((int)enemy_x - 640, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+			DrawRotaGraph((int)location.x - 640, (int)location.y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 		}
 	}
 	else if (enemy_type == 1)
 	{
 		// 緑色の敵画像の描画
-		DrawRotaGraph((int)enemy_x , (int)enemy_y, 1, 0, enemy_green_image[now_image], TRUE, turn_flg);
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, enemy_green_image[now_image], TRUE, turn_flg);
 		// 画面の端に行ったら反対側にも描画
-		if (enemy_x <= 32)
+		if (location.x <= 32)
 		{
-			DrawRotaGraph((int)enemy_x + 640, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+			DrawRotaGraph((int)location.x + 640, (int)location.y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 		}
-		if (enemy_x >= 608)
+		if (location.x >= 608)
 		{
-			DrawRotaGraph((int)enemy_x - 640, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+			DrawRotaGraph((int)location.x - 640, (int)location.y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 		}
 	}
-	//else if (enemy_type == 2)
 	else
 	{
 		// 赤色の敵画像の描画
-		DrawRotaGraph((int)enemy_x , (int)enemy_y, 1, 0, enemy_red_image[now_image], TRUE, turn_flg);
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, enemy_red_image[now_image], TRUE, turn_flg);
 		// 画面の端に行ったら反対側にも描画
-		if (enemy_x <= 32)
+		if (location.x <= 32)
 		{
-			DrawRotaGraph((int)enemy_x + 640, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+			DrawRotaGraph((int)location.x + 640, (int)location.y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 		}
-		if (enemy_x >= 608)
+		if (location.x >= 608)
 		{
-			DrawRotaGraph((int)enemy_x - 640, (int)enemy_y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+			DrawRotaGraph((int)location.x - 640, (int)location.y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
 		}
 	}
 }
@@ -249,10 +250,10 @@ void Enemy::EnemyMove()
 	player_y = Player::get_location_y;
 
 	// 回避行動の条件用
-	difference_y = enemy_y - player_y;
+	difference_y = location.y - player_y;
 
 	// 回避行動の条件
-	if (avoidance_flg == FALSE && enemy_y > player_y && difference_y <= 70 && player_x >= enemy_x - 20 && player_x <= enemy_x + 20)
+	if (avoidance_flg == FALSE && location.y > player_y && difference_y <= 70 && player_x >= location.x - 20 && player_x <= location.x + 20)
 	{
 		avoidance_flg = TRUE;
 	}
@@ -265,8 +266,8 @@ void Enemy::EnemyMove()
 	else
 	{
 		// プレイヤーと敵の座標の差を求める
-		move_x = player_x - enemy_x;
-		move_y = player_y - enemy_y;
+		move_x = player_x - location.x;
+		move_y = player_y - location.y;
 
 		xc = sqrtf(powf(move_x, 2));
 		yc = sqrtf(powf(move_y, 2));
@@ -279,50 +280,128 @@ void Enemy::EnemyMove()
 			y = move_y / yc;
 		}
 
-		// スピードをかけて移動速度を変更させないといけない
-		enemy_x += x * enemy_speed;
-		enemy_y += y * enemy_speed / 2;
+		//画像の反転処理（カーソルの方向を向く）
+		//if (old_turn_flg == turn_flg)
+		//{
+		//	if (x >= 0)
+		//	{
+		//		// 左を向く
+		//		turn_flg = TRUE;
+		//	}
+		//	else
+		//	{
+		//		// 右を向く
+		//		turn_flg = FALSE;
+		//	}
+		//}
+
+			if (inertia_count <= 120)
+			{
+				if (turn_flg == TRUE && enemy_speed >= 0)
+				{
+					// 左から右に向いたとき
+					/*enemy_speed -= acceleration * Inertia_count;
+					location.x += enemy_speed * Inertia_count;*/
+					acceleration = enemy_speed + 0.1f / 100;
+					location.x -= acceleration;
+					enemy_speed -= acceleration;
+					//location.x -= enemy_speed - 0.01f;
+					//enemy_speed -= 0.01f;
+				}
+				//else if (turn_flg == FALSE && enemy_speed >= 0)
+				//{
+				//	// 右から左に向いたとき
+				//	location.x -= enemy_speed - 0.01f;
+				//}
+				//else if (enemy_speed <= 0)
+				//{
+				//	// 敵が画像の向きに移動を始めるとき
+				//	if (turn_flg == TRUE && enemy_speed <= 0.5)
+				//	{
+				//		// 右に移動
+				//		location.x += enemy_speed + 0.1f;
+				//		enemy_speed += 0.01f;
+				//	}
+				////	else if (turn_flg == FALSE && enemy_speed <= 0.5)
+				////	{
+				////		// 左に移動
+				////		location.x -= enemy_speed + 0.01f;
+				////	}
+				//}
+			}
+			else
+			{
+				old_turn_flg = turn_flg;
+				inertia_count = 0;
+			}
+
+		//}
+			
+		//if (x >= 0)
+		//{
+		//	if (old_turn_flg == turn_flg)
+		//	{
+		//		// 左を向く
+		//		turn_flg = TRUE;
+		//	}
+		//}
+		//else
+		//{
+		//	if (old_turn_flg == turn_flg)
+		//	{
+		//		// 右を向く
+		//		turn_flg = FALSE;
+		//	}
+		//}
 
 		// if(慣性が働く場合)
 		//if (old_turn_flg != turn_flg)
 		//{
-		//	Inertia_count++;
+		//	inertia_flg = TRUE;
+		//	inertia_count++;
 
-		//	if (Inertia_count <= 120)
+		//	if (inertia_count <= 120)
 		//	{
-		//		if (turn_flg == TRUE && enemy_speed >= 0)
+		//		if (turn_flg == TRUE && enemy_speed > 0)
 		//		{
 		//			// 左から右に向いたとき
-		//			enemy_x += enemy_speed - 0.1f;
+		//			/*enemy_speed -= acceleration * Inertia_count;
+		//			location.x += enemy_speed * Inertia_count;*/
+		//			location.x -= enemy_speed - 0.01f;
+		//			enemy_speed -= 0.01f;
 		//		}
-		//		else if (turn_flg == FALSE && enemy_speed >= 0)
-		//		{
-		//			// 右から左に向いたとき
-		//			enemy_x -= enemy_speed - 0.01f;
-		//		}
-		//		else if (enemy_speed <= 0)
-		//		{
-		//			// 敵が画像の向きに移動を始めるとき
-		//			if (turn_flg == TRUE && enemy_speed <= 0.5)
-		//			{
-		//				// 右に移動
-		//				enemy_x += enemy_speed + 0.1f;
-		//			}
-		//			else if (turn_flg == FALSE && enemy_speed <= 0.5)
-		//			{
-		//				// 左に移動
-		//				enemy_x -= enemy_speed + 0.01f;
-		//			}
-		//		}
+		//		//else if (turn_flg == FALSE && enemy_speed >= 0)
+		//		//{
+		//		//	// 右から左に向いたとき
+		//		//	location.x -= enemy_speed - 0.01f;
+		//		//}
+		//		//else if (enemy_speed <= 0)
+		//		//{
+		//		//	// 敵が画像の向きに移動を始めるとき
+		//		//	if (turn_flg == TRUE && enemy_speed <= 0.5)
+		//		//	{
+		//		//		// 右に移動
+		//		//		location.x += enemy_speed + 0.1f;
+		//		//		enemy_speed += 0.01f;
+		//		//	}
+		//		////	else if (turn_flg == FALSE && enemy_speed <= 0.5)
+		//		////	{
+		//		////		// 左に移動
+		//		////		location.x -= enemy_speed + 0.01f;
+		//		////	}
+		//		//}
 		//	}
 		//	else
 		//	{
 		//		old_turn_flg = turn_flg;
-		//		Inertia_count = 0;
+		//		inertia_count = 0;
 		//	}
 		//}
+		
+		// スピードをかけて移動速度を変更させないといけない
+		location.x += x * enemy_speed;
+		//location.y += y * enemy_speed / 2;
 
-		 //画像の反転処理（カーソルの方向を向く）
 		if (x >= 0)
 		{
 			// 左を向く
@@ -346,13 +425,13 @@ void Enemy::Avoidance()
 		{
 			// 敵が右を向いているとき
 			// enemy_x += move_x * speed　にする必要がある
-			enemy_x += enemy_speed;
+			location.x += enemy_speed;
 		}
 		else if (turn_flg == FALSE)
 		{
 			// 敵が左を向いているとき
 			// enemy_x -= move_x * speed　にする必要がある
-			enemy_x -= enemy_speed;
+			location.x -= enemy_speed;
 		}
 	}
 	else
@@ -457,7 +536,7 @@ void Enemy::Parachute()
 	if (enemy_start_x == -100.0f)
 	{
 		// enemy_start_xが使われていなかったら
-		enemy_start_x = enemy_x;
+		enemy_start_x = location.x;
 	}
 
 	animation_count++;
@@ -484,9 +563,9 @@ void Enemy::Parachute()
 	//sinangle2 = sinf(angle2);
 
 	// enemu_start_xを中心に左右に揺れる処理
-	enemy_x = (sinf(angle2) * amplitude) + enemy_start_x;
+	location.x = (sinf(angle2) * amplitude) + enemy_start_x;
 	// 落下処理
-	enemy_y += 0.5f;
+	location.y += 0.5f;
 
 	// if(地面についたら)直立状態に変更（ステージとの当たり判定）
 	//power_up_flg = TRUE;
@@ -529,7 +608,7 @@ void Enemy::Death()
 	//next_image = 
 
 	// 敵の落下
-	enemy_y++;
+	location.y++;
 	// 現在の座標 + enemy_y >= 480 にする必要がある
 	//if (enemy_y >= 480)
 	//{
@@ -568,12 +647,12 @@ void Enemy::CkeckPlayerLocation()
 // X座標のワープをした後の座標変更処理
 void Enemy::AfterWarp()
 {
-	if (enemy_x <= -32)
+	if (location.x <= -32)
 	{
-		enemy_x = 608;
+		location.x = 608;
 	}
-	if (enemy_x >= 672)
+	if (location.x >= 672)
 	{
-		enemy_x = 32;
+		location.x = 32;
 	}
 }
