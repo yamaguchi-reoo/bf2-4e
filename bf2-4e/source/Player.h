@@ -7,7 +7,7 @@ class Player :public BoxCollision
 {
 private:
 	int player_images[30];	//プレイヤーのイメージ画像
-	int player_flg;			//0:地面にいる状態　１：落下状態
+	bool player_flg;			//0:地面にいる状態　１：落下状態
 	int direction;			//プレイヤーの向き
 	float speed_x;			//プレイヤーの速度(x座標)
 	float speed_y;			//プレイヤーの速度(y座標)
@@ -25,7 +25,8 @@ public:
 	void MoveLocation();		//プレイヤーの移動範囲
 	void PlayerGravity();		//プレイヤーにかかる重力
 
-	void PlayerBackLash();
+	bool PlayerBackLash();
+	void PlayerBack();
 
 public:
 	Player();			//コンストラクタ

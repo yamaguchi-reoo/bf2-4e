@@ -17,6 +17,7 @@ private:
 
     int color;
     int stage;
+    bool flg;
 
 public:
     // コンストラクタ

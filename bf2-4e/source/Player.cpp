@@ -21,7 +21,7 @@ Player::Player()
 	
 	player_flg = 1;
 	location.x = 40.0;
-	location.y = 416.0;
+	location.y = 300.0;
 	erea.width = 64.0;
 	erea.height = 64.0;
 	erea.width_rate = 1.0;
@@ -46,10 +46,15 @@ void Player::Update()
 	Move();
 	MoveLocation();
 	PlayerGravity();
-	player_flg = 1;
-	location.y += 0.6f;
+	//player_flg = 1;
+	//location.y += 0.6f;
 	get_location_x = location.x;
 	get_location_y = location.y;
+
+	if (player_flg == 1) {
+		location.y += 0.6f;
+
+	}
 }
 
 void Player::Draw()const
@@ -95,13 +100,11 @@ void Player::Move()
 //プレイヤーの地面での歩行動作
 void Player::PlayerGroundWalk()
 {
-	//player_flg = 0;
+	player_flg = 0;
 	if(PadInput::OnButton(XINPUT_BUTTON_X) == 0 && player_flg == 0)
 	{
 		player_images[1];
-		location.y = 0;
 	}
-
 }
 
 //プレイヤーの空中状態
@@ -134,11 +137,24 @@ void Player::PlayerGravity()
 	if (player_flg == 1 && PadInput::OnPressed(XINPUT_BUTTON_B) == 1)
 	{
 		location.y += gravity_A;
-		gravity_A -= 0.05f;
+
+		gravity_A -= 0.10f;
 	}
 	if (player_flg == 1 && PadInput::OnButton(XINPUT_BUTTON_X) == 0)
 	{
 		gravity_A += 0.02f;
 		location.y += gravity_A;
 	}
+}
+bool Player::PlayerBackLash() {
+	
+
+	if (player_flg == 0) {
+		return true;
+	}
+	
+	return  false;
+}
+void Player::PlayerBack() {
+	player_flg = !player_flg;
 }
