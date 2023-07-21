@@ -151,7 +151,7 @@ void Enemy::Update()
 			//Avoidance();
 			//CkeckPlayerLocation();
 			// 空中で羽ばたくアニメーション処理
-			//Flight();
+			Flight();
 			//AirFall();
 			break;
 		case EnemyState::kParachute:
@@ -295,45 +295,45 @@ void Enemy::EnemyMove()
 		//	}
 		//}
 
-			if (inertia_count <= 120)
-			{
-				if (turn_flg == TRUE && enemy_speed >= 0)
-				{
-					// 左から右に向いたとき
-					/*enemy_speed -= acceleration * Inertia_count;
-					location.x += enemy_speed * Inertia_count;*/
-					acceleration = enemy_speed + 0.1f / 100;
-					location.x -= acceleration;
-					enemy_speed -= acceleration;
-					//location.x -= enemy_speed - 0.01f;
-					//enemy_speed -= 0.01f;
-				}
-				//else if (turn_flg == FALSE && enemy_speed >= 0)
-				//{
-				//	// 右から左に向いたとき
-				//	location.x -= enemy_speed - 0.01f;
-				//}
-				//else if (enemy_speed <= 0)
-				//{
-				//	// 敵が画像の向きに移動を始めるとき
-				//	if (turn_flg == TRUE && enemy_speed <= 0.5)
-				//	{
-				//		// 右に移動
-				//		location.x += enemy_speed + 0.1f;
-				//		enemy_speed += 0.01f;
-				//	}
-				////	else if (turn_flg == FALSE && enemy_speed <= 0.5)
-				////	{
-				////		// 左に移動
-				////		location.x -= enemy_speed + 0.01f;
-				////	}
-				//}
-			}
-			else
-			{
-				old_turn_flg = turn_flg;
-				inertia_count = 0;
-			}
+			//if (inertia_count <= 120)
+			//{
+			//	if (turn_flg == TRUE && enemy_speed >= 0)
+			//	{
+			//		// 左から右に向いたとき
+			//		/*enemy_speed -= acceleration * Inertia_count;
+			//		location.x += enemy_speed * Inertia_count;*/
+			//		acceleration = enemy_speed + 0.1f / 100;
+			//		location.x -= acceleration;
+			//		enemy_speed -= acceleration;
+			//		//location.x -= enemy_speed - 0.01f;
+			//		//enemy_speed -= 0.01f;
+			//	}
+			//	//else if (turn_flg == FALSE && enemy_speed >= 0)
+			//	//{
+			//	//	// 右から左に向いたとき
+			//	//	location.x -= enemy_speed - 0.01f;
+			//	//}
+			//	//else if (enemy_speed <= 0)
+			//	//{
+			//	//	// 敵が画像の向きに移動を始めるとき
+			//	//	if (turn_flg == TRUE && enemy_speed <= 0.5)
+			//	//	{
+			//	//		// 右に移動
+			//	//		location.x += enemy_speed + 0.1f;
+			//	//		enemy_speed += 0.01f;
+			//	//	}
+			//	////	else if (turn_flg == FALSE && enemy_speed <= 0.5)
+			//	////	{
+			//	////		// 左に移動
+			//	////		location.x -= enemy_speed + 0.01f;
+			//	////	}
+			//	//}
+			//}
+			//else
+			//{
+			//	old_turn_flg = turn_flg;
+			//	inertia_count = 0;
+			//}
 
 		//}
 			
@@ -400,7 +400,7 @@ void Enemy::EnemyMove()
 		
 		// スピードをかけて移動速度を変更させないといけない
 		location.x += x * enemy_speed;
-		//location.y += y * enemy_speed / 2;
+		location.y += y * enemy_speed / 2;
 
 		if (x >= 0)
 		{
