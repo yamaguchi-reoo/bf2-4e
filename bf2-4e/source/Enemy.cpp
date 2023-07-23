@@ -182,9 +182,8 @@ void Enemy::Draw() const
 	DrawFormatString(10, 10, 0xFFFFFF, "E 秒数%5d", second);
 
 	//SetFontSize(15);
-	//// マウスの座標の描画
-	DrawFormatString(0, 150, 0xffffff, "player_x = %3f, player_y = %3f", player_x, player_y);
-	//DrawFormatString(0, 30, 0xffffff, "E enemy_x = %3f, enemy_y = %3f", enemy_x, enemy_y);
+	//DrawFormatString(0, 150, 0xffffff, "player_x = %3f, player_y = %3f", player_x, player_y);
+	DrawFormatString(0, 130, 0xffffff, "E enemy_x = %3f, enemy_y = %3f", location.x, location.y);
 	DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
 	//DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
 	//DrawFormatString(0, 160, 0xffffff, "E xc = %3f, yc = %3f", xc, yc);
@@ -622,7 +621,17 @@ void Enemy::Death()
 	}
 
 	// 敵の落下
-	location.y++;
+	if (move_y <= 20)
+	{
+		move_y++;
+		// 少し上に上がる
+		location.y--;
+	}
+	else
+	{
+		location.y++;
+	}
+
 	// 現在の座標 + enemy_y >= 480 にする必要がある
 	//if (enemy_y >= 480)
 	//{
