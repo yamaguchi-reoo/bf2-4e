@@ -55,7 +55,7 @@ Enemy::Enemy()
 	second = 0;
 
 	// アニメーション用カウント
-	//inflat_bealloon_count = 0;
+	inflat_bealloon_count = 0;
 	//flight_count = 0;
 	animation_count = 0;
 
@@ -444,36 +444,34 @@ void Enemy::Avoidance()
 // 風船を膨らませるアニメーション処理
 void Enemy::InflatBealloon()
 {
-	animation_count++;
+	inflat_bealloon_count++;
 
 	// 22フレームごとに画像を切り替える（0 ～ 7の8枚）
-	next_image = animation_count / 22;
+	next_image = inflat_bealloon_count / 22;
 
-	if (now_image != next_image)
+	if (inflat_bealloon_count <= 180)
 	{
-		now_image = next_image;
+		// 3秒間風船を膨らませるアニメーション
+		if (now_image != next_image)
+		{
+			now_image = next_image;
+		}
 	}
-
-	//// 敵の浮上処理
-	//if (inflat_bealloon_count >= 180 && move_y >= 20)
-	//{
-	//	// 敵を浮上させる
-	//	move_y++;
-	//	enemy_y -= move_y;
-	// 
-	//}
-
-	if(animation_count >= 180)
+	else if (inflat_bealloon_count >= 180 && inflat_bealloon_count <= 210)
 	{
-		// 3秒経ったら
-		// カウントを0に戻す
-		animation_count = 0;
+		// 敵を浮上させる
+		location.y -= enemy_speed;
+		Flight();
+	}
+	else
+	{
+		inflat_bealloon_count = 0;
 
 		// 敵の状態遷移
 		// デバッグ用
-		enemy_state = EnemyState::kDeath;
+		//enemy_state = EnemyState::kDeath;
 
-		//enemy_state = EnemyState::kFlight;
+		enemy_state = EnemyState::kFlight;
 	}
 
 	// if(パワーアップのフラグが立っていたら)type++
@@ -483,12 +481,9 @@ void Enemy::InflatBealloon()
 		// タイプの変更
 		enemy_type++;
 
-		// スピードの変更
-		enemy_speed++;
-
+		// スピードの変更（？）
 		// power_up_flg = FALSE;
 	}
-
 }
 
 // 空中で羽ばたくアニメーション処理
@@ -633,9 +628,9 @@ void Enemy::Death()
 	}
 
 	// 現在の座標 + enemy_y >= 480 にする必要がある
-	//if (enemy_y >= 480)
+	//if (location.y >= 480)
 	//{
-
+		// enemy_life = FALSE;
 	//}
 }
 

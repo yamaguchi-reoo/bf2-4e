@@ -45,7 +45,7 @@ private:
 	int second;								// 秒数のカウント
 
 	// アニメーション用カウント
-	//int inflat_bealloon_count;			// 風船を膨らましきるまでのカウント
+	int inflat_bealloon_count;			// 風船を膨らましきるまでのカウント
 	//int flight_count;						// 羽ばたくアニメーション用カウント
 	int animation_count;					// アニメーション用カウント
 
