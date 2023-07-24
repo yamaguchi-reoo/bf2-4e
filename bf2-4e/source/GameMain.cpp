@@ -22,7 +22,7 @@ GameMain::GameMain()
             stage_floor[i] = new StageFloor(i,stage);
         }
         // 敵の生成
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 1; i++)
         {
             // ピンク色の敵が3体
             enemy[i] = new Enemy(i * 100.0f + 200.0f, 252.0f, 0);
@@ -79,7 +79,8 @@ AbstractScene* GameMain::Update()
 
         player->Update();
 
-        for (int i = 0; i < 3; i++)
+        // ステージ1の敵の更新処理
+        for (int i = 0; i < 1; i++)
         {
             enemy[i]->Update();
 
@@ -104,6 +105,30 @@ AbstractScene* GameMain::Update()
                     player->PlayerGroundWalk();
                     DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
                     color = 0x0ff000;
+                }
+
+                // 敵とステージの当たり判定
+                for (int j = 0; j < 1; j++)
+                {
+                    if (stage_floor[i]->HitBox(enemy[j]) == true)
+                    {
+                        if (enemy[j]->enemy_state == EnemyState::kFlight)
+                        {
+                            // 飛んでいるときにステージに着地したとき
+                            // 直ぐに飛び立つ
+                            
+                            // デバッグ用
+                            //enemy[j]->enemy_state = EnemyState::kUpright;
+                        }
+                        else if (enemy[j]->enemy_state == EnemyState::kParachute)
+                        {
+                            // パラシュート状態でステージに着地したとき
+                            // 直立状態になる
+                            
+                            // 現状->ステージに触れたら直立状態になる
+                            enemy[j]->enemy_state = EnemyState::kUpright;
+                        }
+                    }
                 }
             }
             break;
@@ -211,9 +236,10 @@ void GameMain::Draw() const
         DrawFormatString(20, 50, color, "Game Main");
         player->Draw();        //プレイヤー画像の描画処理
 
-        for (int i = 0; i < 3; i++)
+        // ステージ1の敵の描画処理
+        for (int i = 0; i < 1; i++)
         {
-            enemy[i]->Draw();         //敵画像の描画処理
+            enemy[i]->Draw();
         }
     }
 

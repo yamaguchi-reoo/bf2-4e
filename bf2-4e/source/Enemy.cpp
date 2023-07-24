@@ -6,6 +6,7 @@
 
 // 静的メンバ変数
 //int Enemy::animation_count;
+//EnemyState Enemy::enemy_state;
 
 //float sinangle2 = 0;		// デバッグ用
 
@@ -185,19 +186,21 @@ void Enemy::Draw() const
 
 	//SetFontSize(15);
 	//DrawFormatString(0, 150, 0xffffff, "player_x = %3f, player_y = %3f", player_x, player_y);
-	DrawFormatString(0, 130, 0xffffff, "E enemy_x = %3f, enemy_y = %3f", location.x, location.y);
-	DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
+	DrawFormatString(0, 130, 0xffffff, "E location.x = %3f, location.y = %3f", location.x, location.y);
+	//DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
 	//DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
 	//DrawFormatString(0, 160, 0xffffff, "E xc = %3f, yc = %3f", xc, yc);
-	DrawFormatString(0, 190, 0xff0000, "E now_image = %d", now_image);
+	//DrawFormatString(0, 190, 0xff0000, "E now_image = %d", now_image);
 	//DrawFormatString(200, 250, 0xff0000, "E state = %d", enemy_state);
-	//DrawFormatString(200, 250, 0xff0000, "E angle2 = %f", angle2);
-	//DrawFormatString(200, 250, 0xff0000, "E enemy_start_x = %f", enemy_start_x);
-	//DrawFormatString(200, 250, 0xff0000, "E sinangle2 = %f", sinangle2);
+	//DrawFormatString(0, 200, 0xff0000, "E angle2 = %f", angle2);
+	//DrawFormatString(0, 230, 0xff0000, "E angle = %f", angle);
+	//DrawFormatString(0, 250, 0xff0000, "E sinangle2 = %f", sinangle2);
 	//DrawFormatString(200, 250, 0xff0000, "E a = %f", difference_y);
 	//DrawFormatString(20, 250, 0xff0000, "E avoidance_flg = %d", avoidance_flg);
 	//DrawFormatString(20, 250, 0xff0000, "E enemy_speed = %f", enemy_speed);
-	DrawFormatString(20, 250, 0xff0000, "E enemy_state = %d", enemy_state);
+	//DrawFormatString(20, 250, 0xff0000, "E enemy_state = %d", enemy_state);
+	//DrawFormatString(20, 250, 0xff0000, "E enemy_type = %d", enemy_type);
+	//DrawFormatString(20, 250, 0xff0000, "E enemy_start_x = %f", enemy_start_x);
 #endif	//_DEBUG
 
 	if (enemy_type == 0)
@@ -221,11 +224,11 @@ void Enemy::Draw() const
 		// 画面の端に行ったら反対側にも描画
 		if (location.x <= 32)
 		{
-			DrawRotaGraph((int)location.x + 640, (int)location.y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+			DrawRotaGraph((int)location.x + 640, (int)location.y, 1, 0, enemy_green_image[now_image], TRUE, turn_flg);
 		}
 		if (location.x >= 608)
 		{
-			DrawRotaGraph((int)location.x - 640, (int)location.y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+			DrawRotaGraph((int)location.x - 640, (int)location.y, 1, 0, enemy_green_image[now_image], TRUE, turn_flg);
 		}
 	}
 	else
@@ -235,13 +238,16 @@ void Enemy::Draw() const
 		// 画面の端に行ったら反対側にも描画
 		if (location.x <= 32)
 		{
-			DrawRotaGraph((int)location.x + 640, (int)location.y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+			DrawRotaGraph((int)location.x + 640, (int)location.y, 1, 0, enemy_red_image[now_image], TRUE, turn_flg);
 		}
 		if (location.x >= 608)
 		{
-			DrawRotaGraph((int)location.x - 640, (int)location.y, 1, 0, enemy_pink_image[now_image], TRUE, turn_flg);
+			DrawRotaGraph((int)location.x - 640, (int)location.y, 1, 0, enemy_red_image[now_image], TRUE, turn_flg);
 		}
 	}
+
+	DrawBox(location.x - ((erea.width / 2) * erea.width_rate), location.y - ((erea.height / 2) * erea.height_rate), location.x - ((erea.width / 2) * erea.width_rate) + erea.width, location.y - ((erea.height / 2) * erea.height_rate) + erea.height, 0xffff00, FALSE);
+
 }
 
 // 敵の上下左右移動処理
@@ -476,7 +482,6 @@ void Enemy::InflatBealloon()
 		enemy_state = EnemyState::kFlight;
 	}
 
-	// if(パワーアップのフラグが立っていたら)type++
 	// パワーアップ処理
 	if (power_up_flg == TRUE)
 	{
@@ -484,7 +489,7 @@ void Enemy::InflatBealloon()
 		enemy_type++;
 
 		// スピードの変更（？）
-		// power_up_flg = FALSE;
+		power_up_flg = FALSE;
 	}
 }
 
@@ -566,17 +571,23 @@ void Enemy::Parachute()
 	location.x = (sinf(angle2) * amplitude) + enemy_start_x;
 	// 落下処理
 	location.y += 0.5f;
-
-	// if(地面についたら)直立状態に変更（ステージとの当たり判定）
-	//power_up_flg = TRUE;
-	// enemy_start_x = -100.0f;
-	// animation_count = 0;
-	//enemy_state = EnemyState::kUpright;
 }
 
 // 直立状態の処理
 void Enemy::Upright()
 {
+	// if(地面についたら)直立状態に変更（ステージとの当たり判定）
+	// enemy_start_x = -100.0f;
+	// animation_count = 0;
+	//enemy_state = EnemyState::kUpright;
+
+	if (enemy_start_x != -100.0f)
+	{
+		angle = 0;
+		animation_count = 0;
+		enemy_start_x = -100.0f;
+	}
+
 	// 直立状態の画像
 	now_image = 0;
 

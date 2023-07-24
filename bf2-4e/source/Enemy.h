@@ -59,7 +59,7 @@ private:
 	int now_image;							// 今から表示される画像
 	int next_image;							// 次に表示される画像
 
-	EnemyState enemy_state;					// 敵の状態
+	//EnemyState enemy_state;					// 敵の状態
 
 	// 追いかける対象の座標
 	float player_x;							// プレイヤーのX座標
@@ -85,6 +85,9 @@ private:
 	float difference_y;						// 回避行動の条件用のプレイヤーと敵の座標の差
 
 public:
+	EnemyState enemy_state;					// 敵の状態
+
+	//static EnemyState enemy_state;
 	// コンストラクタ
 	Enemy(float set_x, float set_y, int set_type);
 	//Enemy();
