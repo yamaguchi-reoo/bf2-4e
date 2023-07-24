@@ -10,7 +10,8 @@
 //float sinangle2 = 0;		// デバッグ用
 
 // コンストラクタ
-Enemy::Enemy()
+Enemy::Enemy(float set_x, float set_y, int set_type)
+//Enemy::Enemy()
 {
 	for (int i = 0; i < 18; i++)
 	{
@@ -24,21 +25,22 @@ Enemy::Enemy()
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 18, 6, 3, 64, 64, enemy_red_image);
 	
 	// 敵の情報（構造体から）
-	location.x = 200.0f;			// 中心座標X
-	location.y = 252.0f;			// 中心座標Y
+	location.x = set_x;			// 中心座標X
+	location.y = set_y;			// 中心座標Y
+	//location.x = 200.0f;			// 中心座標X
+	//location.y = 252.0f;			// 中心座標Y
 	erea.width = 64.0;
 	erea.height = 64.0;
 	erea.width_rate = 1.0;
 	erea.height_rate = 1.0;
 
-	//enemy_x = 608.0f;				// デバッグ用
-	//enemy_y = 32.0f;				// デバッグ用
 	//enemy_x = 200.0f;
 	//enemy_y = 252.0f;
 	enemy_speed = 0.5f;
 	acceleration = 0.1f;						// 加速度
 	enemy_angle = 0;
-	enemy_type = 0;
+	enemy_type = set_type;
+	//enemy_type = 0;
 	power_up_flg = FALSE;
 	enemy_life = TRUE;
 
@@ -586,6 +588,7 @@ void Enemy::Upright()
 	}
 
 	// if(一定時間たったら)風船を膨らませる状態に変更
+	// 多分3秒くらい
 	// 膨らませきったらパワーアップ
 	enemy_state = EnemyState::kInflatBealloon;
 
@@ -669,7 +672,7 @@ void Enemy::AfterWarp()
 	{
 		location.x = 608;
 	}
-	if (location.x >= 672)
+	else if (location.x >= 672)
 	{
 		location.x = 32;
 	}

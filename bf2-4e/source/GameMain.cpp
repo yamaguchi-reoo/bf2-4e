@@ -7,7 +7,7 @@ GameMain::GameMain()
     // 初期化処理
     //object = new Stage();
     player = new Player();
-    enemy = new Enemy();
+    //enemy = new Enemy();
     collision = new BoxCollision();
 
     stage = 0;
@@ -20,6 +20,12 @@ GameMain::GameMain()
         for (int i = 0; i < 3; i++)
         {
             stage_floor[i] = new StageFloor(i,stage);
+        }
+        // 敵の生成
+        for (int i = 0; i < 3; i++)
+        {
+            // ピンク色の敵が3体
+            enemy[i] = new Enemy(i * 100.0f + 200.0f, 252.0f, 0);
         }
         break;
     case 1://ステージ2
@@ -73,7 +79,11 @@ AbstractScene* GameMain::Update()
 
         player->Update();
 
-        enemy->Update();
+        for (int i = 0; i < 3; i++)
+        {
+            enemy[i]->Update();
+
+        }
 
         //collision->HitBox(object);
 
@@ -173,7 +183,7 @@ AbstractScene* GameMain::Update()
     //collision->HitBox(object);
 
 
-
+    // ステージの管理
     if(PadInput::OnButton(XINPUT_BUTTON_Y)) {
         if (stage == 4)
         {
@@ -201,8 +211,10 @@ void GameMain::Draw() const
         DrawFormatString(20, 50, color, "Game Main");
         player->Draw();        //プレイヤー画像の描画処理
 
-        enemy->Draw();         //敵画像の描画処理
-
+        for (int i = 0; i < 3; i++)
+        {
+            enemy[i]->Draw();         //敵画像の描画処理
+        }
     }
 
     //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け

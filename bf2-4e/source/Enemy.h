@@ -2,6 +2,11 @@
 #include "Player.h"
 #include "BoxCollision.h"
 
+// 敵の最大数
+//#define ENEMY_MAX (6)
+
+
+
 // 敵の状態
 enum class EnemyState
 {
@@ -45,11 +50,11 @@ private:
 	int second;								// 秒数のカウント
 
 	// アニメーション用カウント
-	int inflat_bealloon_count;			// 風船を膨らましきるまでのカウント
+	int inflat_bealloon_count;				// 風船を膨らましきるまでのカウント
 	//int flight_count;						// 羽ばたくアニメーション用カウント
 	int animation_count;					// アニメーション用カウント
 
-	int avoidance_count;					// 回避するときの時間
+	int avoidance_count;					// 回避時間
 
 	int now_image;							// 今から表示される画像
 	int next_image;							// 次に表示される画像
@@ -59,8 +64,6 @@ private:
 	// 追いかける対象の座標
 	float player_x;							// プレイヤーのX座標
 	float player_y;							// プレイヤーのY座標
-	//int mouse_x;							// マウスのX座標（プレイヤーの座標に変わる）
-	//int mouse_y;							// マウスのY座標（プレイヤーの座標に変わる）
 
 	// 移動するときに使う変数
 	float move_x;							// 敵の座標Xの移動量
@@ -83,7 +86,8 @@ private:
 
 public:
 	// コンストラクタ
-	Enemy();
+	Enemy(float set_x, float set_y, int set_type);
+	//Enemy();
 	// デストラクタ
 	~Enemy();
 
