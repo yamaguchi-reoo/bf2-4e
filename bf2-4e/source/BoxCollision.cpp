@@ -16,11 +16,14 @@ bool BoxCollision::HitBox(BoxCollision* bCollider)
 	float enemy_x2 = enemy_x1 + bCollider->erea.width;
 	float enemy_y2 = enemy_y1 + bCollider->erea.height;
 
+	
 
 	if ((player_x1 < enemy_x2) && (enemy_x1 < player_x2) && (player_y1 < enemy_y2) && (enemy_y1 < player_y2))
 	{
 		return true;
 	}
+	old_location_top = player_y1;
+	old_location_bottom = enemy_y2;
 
 	return ret;
 }
@@ -63,12 +66,11 @@ bool BoxCollision:: HitTopBox(BoxCollision* bCollider)
 
 	if ((int)player_y1 <= (int)enemy_y2)
 	{
-		if ((int)old_location_top < (int)old_location_bottom) {
+		if ((int)old_location_top > (int)old_location_bottom) {
 			ret = true;
 		}	
 	}
-	old_location_top = player_y1;
-	old_location_bottom = enemy_y2;
+	
 
 	return ret;
 }

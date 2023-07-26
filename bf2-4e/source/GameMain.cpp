@@ -88,12 +88,15 @@ AbstractScene* GameMain::Update()
                 player->Player_Flg();
                 color = 0x0ffff0;
             }
+            else {
+                color = 0xffffff;
+            }
             for (int i = 0; i < 3; i++)
             {
                 
                 if (stage_floor[i]->HitBox(player) == true)
                 {
-                    
+                    color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
                         player->PlayerGroundWalk();
@@ -102,7 +105,7 @@ AbstractScene* GameMain::Update()
 
                     }
                     //player->PlayerGroundWalk();
-                    DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
+                    //DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
                    
                 }
               
