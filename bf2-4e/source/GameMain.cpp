@@ -9,6 +9,7 @@ GameMain::GameMain()
     player = new Player();
     //enemy = new Enemy();
     collision = new BoxCollision();
+    stageitem = new StageItem();
 
     stage = 0;
     flg = false;
@@ -68,7 +69,7 @@ GameMain::~GameMain()
 AbstractScene* GameMain::Update()
 {
     //ポーズ切り替え処理
-    if (PadInput::OnButton(XINPUT_BUTTON_START))       // STARTが押されたとき
+    if (PadInput::OnButton(XINPUT_BUTTON_START))       // STARTボタンが押されたとき
     {
         pause_flag = !pause_flag;
     }
@@ -77,6 +78,7 @@ AbstractScene* GameMain::Update()
     if (pause_flag == FALSE)
     {
         //ゲームメイン処理を入れる
+        stageitem->Update();
 
         player->Update();
 
@@ -253,10 +255,17 @@ void GameMain::Draw() const
         }
     }
 
+    player->Draw();        //プレイヤー画像の描画処理
+
+    enemy->Draw();         //敵画像の描画処理
+
+    stageitem->Draw();     //ステージアイテムの描画処理
+
     //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0); 
 
     //↓UI、ステージを書く
+
     //ステージ画像の描画処理
     switch (stage)
     {
@@ -329,3 +338,4 @@ void GameMain::ChangeScene()
         break;
     }
 }
+
