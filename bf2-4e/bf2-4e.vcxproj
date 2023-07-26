@@ -31,6 +31,7 @@
     <ClInclude Include="source\StageFloor.h" />
     <ClInclude Include="source\StageItem.h" />
     <ClInclude Include="source\Struct.h" />
+    <ClInclude Include="source\Thunder.h" />
     <ClInclude Include="source\Title.h" />
     <ClInclude Include="source\UI.h" />
   </ItemGroup>
@@ -44,6 +45,7 @@
     <ClCompile Include="source\SceneManager.cpp" />
     <ClCompile Include="source\StageFloor.cpp" />
     <ClCompile Include="source\StageItem.cpp" />
+    <ClCompile Include="source\Thunder.cpp" />
     <ClCompile Include="source\Title.cpp" />
     <ClCompile Include="source\UI.cpp" />
   </ItemGroup>

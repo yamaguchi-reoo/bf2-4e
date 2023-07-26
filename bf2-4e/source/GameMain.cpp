@@ -10,6 +10,7 @@ GameMain::GameMain()
     enemy = new Enemy();
     collision = new BoxCollision();
     stageitem = new StageItem();
+    thunder = new Thunder();
 
     stage = 0;
     flg = false;
@@ -76,6 +77,8 @@ AbstractScene* GameMain::Update()
         player->Update();
 
         enemy->Update();
+
+        thunder->Update();
 
         //collision->HitBox(object);
 
@@ -220,6 +223,8 @@ void GameMain::Draw() const
 
     enemy->Draw();         //敵画像の描画処理
 
+    thunder->Draw();        //雷画像の描画処理
+
     //stageitem->Draw();     //ステージアイテムの描画処理
 
     //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
@@ -299,4 +304,3 @@ void GameMain::ChangeScene()
         break;
     }
 }
-

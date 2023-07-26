@@ -6,6 +6,7 @@
 #include "Enemy.h"
 #include "BoxCollision.h"
 #include"StageItem.h"
+#include"Thunder.h"
 
 class GameMain : public AbstractScene {
 private:
@@ -16,6 +17,7 @@ private:
     StageFloor* stage_floor[8];
 
     StageItem* stageitem;
+    Thunder* thunder;       //雷クラスのオブジェクト化
 
     bool pause_flag;     //ポーズのフラグ取り
 
