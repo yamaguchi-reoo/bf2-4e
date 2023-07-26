@@ -19,6 +19,8 @@ private:
     int stage;
     bool flg;
 
+    //int enemy_max[6] = {2,4,4,4,4,5};           // ステージごとの敵の数
+
 public:
     // コンストラクタ
     GameMain();

@@ -13,6 +13,7 @@ GameMain::GameMain()
     stage = 0;
     flg = false;
 
+
     color = 0xffffff;
     switch (stage)
     {
@@ -127,6 +128,15 @@ AbstractScene* GameMain::Update()
                             
                             // Œ»ó->ƒXƒe[ƒW‚ÉG‚ê‚½‚ç’¼—§ó‘Ô‚É‚È‚é
                             enemy[j]->enemy_state = EnemyState::kUpright;
+                        }
+                    }
+                    
+                    // “G“¯m‚Ì“–‚½‚è”»’è
+                    for (int k = 0; k < 1; k++)
+                    {
+                        if (j != k && enemy[j]->HitBox(enemy[k]) == true)
+                        {
+                            // “Gj ‚É“Gk@‚ª“–‚½‚Á‚½‚Ìˆ—‚ğ‘‚­
                         }
                     }
                 }

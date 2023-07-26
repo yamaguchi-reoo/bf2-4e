@@ -12,7 +12,6 @@
 
 // コンストラクタ
 Enemy::Enemy(float set_x, float set_y, int set_type)
-//Enemy::Enemy()
 {
 	for (int i = 0; i < 18; i++)
 	{
@@ -30,23 +29,21 @@ Enemy::Enemy(float set_x, float set_y, int set_type)
 	location.y = set_y;			// 中心座標Y
 	//location.x = 200.0f;			// 中心座標X
 	//location.y = 252.0f;			// 中心座標Y
-	erea.width = 64.0;
+	erea.width = 45.0;
 	erea.height = 64.0;
 	erea.width_rate = 1.0;
 	erea.height_rate = 1.0;
 
-	//enemy_x = 200.0f;
-	//enemy_y = 252.0f;
 	enemy_speed = 0.5f;
-	acceleration = 0.1f;						// 加速度
-	enemy_angle = 0;
+	acceleration = 0.1f;						// 加速度（未使用）
+	enemy_angle = 0;							// 未使用
 	enemy_type = set_type;
-	//enemy_type = 0;
 	power_up_flg = FALSE;
 	enemy_life = TRUE;
 
-	inertia_count = 0;
-	inertia_flg = FALSE;					// 慣性が働かない
+	// 慣性用変数
+	inertia_count = 0;						// 未使用
+	inertia_flg = FALSE;					// 慣性が働かない未使用
 
 	// 移動するときの計算に使う変数
 	xc = 0.0f;
@@ -62,14 +59,9 @@ Enemy::Enemy(float set_x, float set_y, int set_type)
 	//flight_count = 0;
 	animation_count = 0;
 
-	// 慣性用のカウント
-	avoidance_count = 0;
-
 	// アニメーション用変数
 	now_image = 0;
 	next_image = 0;
-
-	enemy_state = EnemyState::kInflatBealloon;
 
 	// 追いかける対象の座標
 	player_x = 0.0f;
@@ -79,20 +71,26 @@ Enemy::Enemy(float set_x, float set_y, int set_type)
 	move_x = 0.0f;
 	move_y = 0.0f;
 
+	// 画像反転用
 	turn_flg = FALSE;				// 反転はしない
 	old_turn_flg = turn_flg;
 
+	// 敵の強さ変更用
 	ckeck_flg = TRUE;				// 座標の差を取得する
 	ckeck_count = 0;
 
+	// パラシュート用
 	angle = 0.0f;
 	angle2 = 0.0f;
 	amplitude = 50.0f;
 	enemy_start_x = -100.0f;
 
+	// 回避行動用変数
+	avoidance_count = 0;
 	avoidance_flg = FALSE;						// 回避行動のフラグ
-
 	difference_y = 0.0f;
+
+	enemy_state = EnemyState::kInflatBealloon;			// 敵の状態
 }
 
 // デストラクタ
@@ -246,6 +244,7 @@ void Enemy::Draw() const
 		}
 	}
 
+	// 敵の当たり判定範囲
 	DrawBox(location.x - ((erea.width / 2) * erea.width_rate), location.y - ((erea.height / 2) * erea.height_rate), location.x - ((erea.width / 2) * erea.width_rate) + erea.width, location.y - ((erea.height / 2) * erea.height_rate) + erea.height, 0xffff00, FALSE);
 
 }

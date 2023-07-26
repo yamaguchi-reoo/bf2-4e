@@ -5,8 +5,6 @@
 // 敵の最大数
 //#define ENEMY_MAX (6)
 
-
-
 // 敵の状態
 enum class EnemyState
 {
@@ -37,7 +35,7 @@ private:
 	int enemy_life;							// 敵の生死状態（TRUE:生きている　FALSE:死亡）
 
 	int inertia_count;						// 慣性が働くカウント
-	int inertia_flg;
+	int inertia_flg;						// 慣性フラグ
 
 	// 移動するときの計算に使う変数
 	float xc;								// 三平方の定理（斜辺）
@@ -54,12 +52,8 @@ private:
 	//int flight_count;						// 羽ばたくアニメーション用カウント
 	int animation_count;					// アニメーション用カウント
 
-	int avoidance_count;					// 回避時間
-
 	int now_image;							// 今から表示される画像
 	int next_image;							// 次に表示される画像
-
-	//EnemyState enemy_state;					// 敵の状態
 
 	// 追いかける対象の座標
 	float player_x;							// プレイヤーのX座標
@@ -80,17 +74,15 @@ private:
 	float amplitude;						// パラシュート状態で下降するときの振れ幅
 	float enemy_start_x;					// パラシュート状態になったx座標
 
+	int avoidance_count;					// 回避時間
 	int avoidance_flg;						// 回避行動のフラグ
-
 	float difference_y;						// 回避行動の条件用のプレイヤーと敵の座標の差
 
 public:
 	EnemyState enemy_state;					// 敵の状態
 
-	//static EnemyState enemy_state;
 	// コンストラクタ
 	Enemy(float set_x, float set_y, int set_type);
-	//Enemy();
 	// デストラクタ
 	~Enemy();
 
