@@ -21,8 +21,9 @@ public:
 	void HitCeiling();			//プレイヤーの移動範囲
 	void PlayerFalling();		//プレイヤーにかかる重力
 
-	bool PlayerBackLash();
-	void PlayerBack();
+	bool PlayerFlg();			//立っているか判断する
+	void PlayerReversalFlg();	//フラグを反転させる
+	void Bounce();				//反発（仮）
 
 public:
 	Player();			//コンストラクタ

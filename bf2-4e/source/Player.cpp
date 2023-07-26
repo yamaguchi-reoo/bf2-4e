@@ -21,7 +21,7 @@ Player::Player()
 	
 	ground_flg = 1;
 	location.x = 40.0;
-	location.y = 386.0;
+	location.y = 383.8;
 	erea.width = 64.0;
 	erea.height = 64.0;
 	erea.width_rate = 1.0;
@@ -47,8 +47,8 @@ void Player::Update()
 	HitCeiling();
 	PlayerFalling();
 	move_y += player_gravity;
-	location.x += move_x;
 	location.y += move_y;
+	location.x += move_x;
 	get_location_x = location.x;
 	get_location_y = location.y;
 	move_x = 0;
@@ -58,10 +58,10 @@ void Player::Draw()const
 {
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, player_images[0], TRUE, direction);
 	DrawBoxAA(location.x - ((erea.width / 2.f) * erea.width_rate), 
-			location.y - ((erea.height / 2.f) * erea.height_rate), 
-			location.x - ((erea.width / 2.f) * erea.width_rate) + erea.width,
-			location.y - ((erea.height / 2.f) * erea.height_rate) + erea.height,
-			0xff00ff, FALSE);
+	location.y - ((erea.height / 2.f) * erea.height_rate), 
+	location.x - ((erea.width / 2.f) * erea.width_rate) + erea.width,
+	location.y - ((erea.height / 2.f) * erea.height_rate) + erea.height,
+	0xff00ff, FALSE);
 }
 
 //ÉvÉåÉCÉÑÅ[ÇÃà⁄ìÆ
@@ -144,15 +144,22 @@ void Player::PlayerFalling()
 		move_y += -0.2f;
 	}
 }
-bool Player::PlayerBackLash() {
-	
-
+bool Player::PlayerFlg() {
 	if (ground_flg == 0) {
 		return true;
 	}
 	
 	return  false;
 }
-void Player::PlayerBack() {
+void Player::PlayerReversalFlg() {
 	ground_flg = !ground_flg;
+	//player_flg = !player_flg;
+}
+
+void  Player::Bounce()
+{
+	if (move_y < 0)
+	{
+		move_y = move_y * -0.8;
+	}
 }

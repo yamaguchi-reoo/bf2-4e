@@ -3,6 +3,9 @@
 
 class BoxCollision
 {
+private:
+	int old_location_top;
+	int old_location_bottom;
 protected:
 	Location location;
 	Erea erea;
@@ -16,4 +19,6 @@ public:
 	Erea GetErea()const;
 
 	void SetLocation(Location location);
+	
+	bool HitTopBox(BoxCollision* bCollider);
 };
