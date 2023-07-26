@@ -4,12 +4,12 @@
 class BoxCollision
 {
 private:
-
+	int old_location_top;
+	int old_location_bottom;
 protected:
 	Location location;
 	Erea erea;
 	
-
 
 public:
 	bool HitBox(BoxCollision* bCollider);

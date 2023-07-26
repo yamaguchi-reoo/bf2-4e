@@ -59,12 +59,16 @@ bool BoxCollision:: HitTopBox(BoxCollision* bCollider)
 	float enemy_x2 = enemy_x1 + bCollider->erea.width;
 	float enemy_y2 = enemy_y1 + bCollider->erea.height;
 
+	
+
 	if ((int)player_y1 <= (int)enemy_y2)
 	{
-		if ((int)player_y1 == (int)enemy_y2) {
+		if ((int)old_location_top < (int)old_location_bottom) {
 			ret = true;
-		}
-		
+		}	
 	}
+	old_location_top = player_y1;
+	old_location_bottom = enemy_y2;
+
 	return ret;
 }

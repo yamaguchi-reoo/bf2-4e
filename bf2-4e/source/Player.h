@@ -21,8 +21,8 @@ public:
 	void HitCeiling();			//プレイヤーの移動範囲
 	void PlayerFalling();		//プレイヤーにかかる重力
 
-	bool PlayerBackLash();
-	void PlayerBack();
+	bool PlayerFlg();
+	void Player_Flg();
 	int  adsfg();
 
 public:

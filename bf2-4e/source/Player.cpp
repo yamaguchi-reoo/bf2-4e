@@ -43,12 +43,14 @@ void Player::Update()
 	//PlayerGroundWalk();
 	PlayerFlight();
 	Move();
-	MoveLocation();
+	//MoveLocation();
 	HitCeiling();
 	PlayerFalling();
 	move_y += player_gravity;
+	if (ground_flg == 1) {
+		location.y += move_y;
+	}
 	location.x += move_x;
-	location.y += move_y;
 	get_location_x = location.x;
 	get_location_y = location.y;
 	move_x = 0;
@@ -58,10 +60,10 @@ void Player::Draw()const
 {
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, player_images[0], TRUE, direction);
 	DrawBoxAA(location.x - ((erea.width / 2.f) * erea.width_rate), 
-			location.y - ((erea.height / 2.f) * erea.height_rate), 
-			location.x - ((erea.width / 2.f) * erea.width_rate) + erea.width,
-			location.y - ((erea.height / 2.f) * erea.height_rate) + erea.height,
-			0xff00ff, FALSE);
+	location.y - ((erea.height / 2.f) * erea.height_rate), 
+	location.x - ((erea.width / 2.f) * erea.width_rate) + erea.width,
+	location.y - ((erea.height / 2.f) * erea.height_rate) + erea.height,
+	0xff00ff, FALSE);
 }
 
 //プレイヤーの移動
@@ -100,7 +102,7 @@ void Player::Move()
 //プレイヤーの地面での歩行動作
 void Player::PlayerGroundWalk()
 {
-	player_flg = 0;
+	//player_flg = 0;
 	ground_flg = 0;
 	if((PadInput::OnButton(XINPUT_BUTTON_X) == 0 && ground_flg == 0) || 
 		(PadInput::OnButton(XINPUT_BUTTON_B) == 0 && ground_flg == 0))
@@ -144,7 +146,7 @@ void Player::PlayerFalling()
 		move_y += -0.2f;
 	}
 }
-bool Player::PlayerBackLash() {
+bool Player::PlayerFlg() {
 	
 
 	if (ground_flg == 0) {
@@ -153,12 +155,12 @@ bool Player::PlayerBackLash() {
 	
 	return  false;
 }
-void Player::PlayerBack() {
+void Player::Player_Flg() {
 	ground_flg = !ground_flg;
 	//player_flg = !player_flg;
 }
 
 int  Player::adsfg()
 {
-	return  gravity_A;
+	return  move_y;
 }
