@@ -12,6 +12,7 @@
     <ClCompile Include="source\StageFloor.cpp" />
     <ClCompile Include="source\StageItem.cpp" />
     <ClCompile Include="source\UI.cpp" />
+    <ClCompile Include="source\Thunder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\AbstractScene.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="source\UI.h" />
     <ClInclude Include="source\StageFloor.h" />
     <ClInclude Include="source\StageItem.h" />
+    <ClInclude Include="source\Thunder.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="source\Log.txt" />
