@@ -257,8 +257,6 @@ void GameMain::Draw() const
 
     player->Draw();        //プレイヤー画像の描画処理
 
-    enemy->Draw();         //敵画像の描画処理
-
     stageitem->Draw();     //ステージアイテムの描画処理
 
     //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
