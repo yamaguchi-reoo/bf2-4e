@@ -21,7 +21,7 @@ Player::Player()
 	
 	ground_flg = 1;
 	location.x = 40.0;
-	location.y = 386.0;
+	location.y = 383.8;
 	erea.width = 64.0;
 	erea.height = 64.0;
 	erea.width_rate = 1.0;
