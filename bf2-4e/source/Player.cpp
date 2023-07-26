@@ -47,9 +47,7 @@ void Player::Update()
 	HitCeiling();
 	PlayerFalling();
 	move_y += player_gravity;
-	if (ground_flg == 1) {
-		location.y += move_y;
-	}
+	location.y += move_y;
 	location.x += move_x;
 	get_location_x = location.x;
 	get_location_y = location.y;
