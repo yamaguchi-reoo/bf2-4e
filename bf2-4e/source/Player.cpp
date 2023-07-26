@@ -43,7 +43,7 @@ void Player::Update()
 	//PlayerGroundWalk();
 	PlayerFlight();
 	Move();
-	MoveLocation();
+	//MoveLocation();
 	HitCeiling();
 	PlayerFalling();
 	move_y += player_gravity;
@@ -100,7 +100,7 @@ void Player::Move()
 //プレイヤーの地面での歩行動作
 void Player::PlayerGroundWalk()
 {
-	player_flg = 0;
+	//player_flg = 0;
 	ground_flg = 0;
 	if((PadInput::OnButton(XINPUT_BUTTON_X) == 0 && ground_flg == 0) || 
 		(PadInput::OnButton(XINPUT_BUTTON_B) == 0 && ground_flg == 0))

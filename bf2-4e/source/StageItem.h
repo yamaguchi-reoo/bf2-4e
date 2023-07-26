@@ -7,13 +7,23 @@ private:
 	//雷
 	int thunder_cloud_image[2];
 	int thunder_image[5];
+	int thunder_effect_image[2];
 
 	//サカナ
 	int fish_image;
 
-	//アニメーションの待機変数
-	int time;
-	int anime_num;
+	/*アニメーションの待機変数*/
+	//雷雲
+	int cloud_time;
+	int cloud_anime_num;
+
+	//かみなり
+	int thunder_time;
+	int thunder_anime_num;
+
+	//雷モドキ
+	int thunder_effect_time;
+	int thunder_effect_anime_num;
 
 public:
 	//コンストラクタ
