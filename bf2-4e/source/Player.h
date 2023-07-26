@@ -7,23 +7,19 @@ class Player :public BoxCollision
 {
 private:
 	int player_images[30];	//プレイヤーのイメージ画像
-	bool player_flg;			//0:地面にいる状態　１：落下状態
+	bool ground_flg;		//0:地面にいる状態　１：落下状態
 	int direction;			//プレイヤーの向き
-	float speed_x;			//プレイヤーの速度(x座標)
-	float speed_y;			//プレイヤーの速度(y座標)
-	float flying_diameter;		//プレイヤーの上昇
-	float gravity_A = 0.7f;
+	float player_gravity;	//プレイヤーにかかる重力
 
-	int move_x;
-	int move_y;
-	int player_angle;
+	float move_x;			//プレイヤーの移動量(横)
+	float move_y;			//プレイヤーの移動量(縦)
 
 public:
 	void Move();				//プレイヤーの移動
 	void PlayerFlight();		//プレイヤーの空中状態
 	void PlayerGroundWalk();	//プレイヤーの地面歩行
-	void MoveLocation();		//プレイヤーの移動範囲
-	void PlayerGravity();		//プレイヤーにかかる重力
+	void HitCeiling();			//プレイヤーの移動範囲
+	void PlayerFalling();		//プレイヤーにかかる重力
 
 	bool PlayerBackLash();
 	void PlayerBack();
