@@ -43,7 +43,6 @@ void Player::Update()
 	//PlayerGroundWalk();
 	PlayerFlight();
 	Move();
-	MoveLocation();
 	HitCeiling();
 	PlayerFalling();
 	move_y += player_gravity;
@@ -100,7 +99,6 @@ void Player::Move()
 //プレイヤーの地面での歩行動作
 void Player::PlayerGroundWalk()
 {
-	player_flg = 0;
 	ground_flg = 0;
 	if((PadInput::OnButton(XINPUT_BUTTON_X) == 0 && ground_flg == 0) || 
 		(PadInput::OnButton(XINPUT_BUTTON_B) == 0 && ground_flg == 0))
@@ -121,12 +119,12 @@ void Player::PlayerFlight()
 
 void Player::HitCeiling()
 {
-	if (location.y < 16)
+	if (location.y < 16)	//プレイヤーの頭部分が天井に当たった場合
 	{
 		location.y = 24;
-		if(move_y < 0)
+		if(move_y < 0)		//プレイヤーの縦の移動量より０が大きい場合
 		{
-			move_y = move_y * -0.8;
+			move_y = move_y * -0.8;	//プレイヤーの移動量に反発係数を乗算する
 		}
 	}
 }
