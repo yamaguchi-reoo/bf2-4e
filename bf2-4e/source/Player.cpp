@@ -147,20 +147,18 @@ void Player::PlayerFalling()
 	}
 }
 bool Player::PlayerFlg() {
-	
-
 	if (ground_flg == 0) {
 		return true;
 	}
 	
 	return  false;
 }
-void Player::Player_Flg() {
+void Player::PlayerReversalFlg() {
 	ground_flg = !ground_flg;
 	//player_flg = !player_flg;
 }
 
-void  Player::adsfg()
+void  Player::Bounce()
 {
 	if (move_y < 0)
 	{

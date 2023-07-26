@@ -85,7 +85,7 @@ AbstractScene* GameMain::Update()
         case 0://ステージ1
             if (player->PlayerFlg() == true)
             {
-                player->Player_Flg();
+                player->PlayerReversalFlg();
                 color = 0x0ffff0;
             }
             else {
@@ -103,7 +103,7 @@ AbstractScene* GameMain::Update()
                         color = 0x0ff000;
                         //}
                     }
-                    player->adsfg();
+                    player->Bounce();
                 }
               
             }
@@ -111,7 +111,7 @@ AbstractScene* GameMain::Update()
         case 1://ステージ2
             if (player->PlayerFlg() == true)
             {
-                player->Player_Flg();
+                player->PlayerReversalFlg();
                 color = 0x0ffff0;
             }
             for (int i = 0; i < 5; i++)
@@ -127,7 +127,7 @@ AbstractScene* GameMain::Update()
         case 2://ステージ3
             if (player->PlayerFlg() == true)
             {
-                player->Player_Flg();
+                player->PlayerReversalFlg();
                 color = 0x0ffff0;
             }
             for (int i = 0; i < 7; i++)
@@ -143,7 +143,7 @@ AbstractScene* GameMain::Update()
         case 3://ステージ4
             if (player->PlayerFlg() == true)
             {
-                player->Player_Flg();
+                player->PlayerReversalFlg();
                 color = 0x0ffff0;
             }
             for (int i = 0; i < 7; i++)
@@ -159,7 +159,7 @@ AbstractScene* GameMain::Update()
         case 4://ステージ5
             if (player->PlayerFlg() == true)
             {
-                player->Player_Flg();
+                player->PlayerReversalFlg();
                 color = 0x0ffff0;
             }
             for (int i = 0; i < 8; i++)
