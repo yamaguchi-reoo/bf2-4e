@@ -160,7 +160,10 @@ void Player::Player_Flg() {
 	//player_flg = !player_flg;
 }
 
-int  Player::adsfg()
+void  Player::adsfg()
 {
-	return  move_y;
+	if (move_y < 0)
+	{
+		move_y = move_y * -0.8;
+	}
 }

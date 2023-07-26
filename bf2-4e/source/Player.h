@@ -23,7 +23,7 @@ public:
 
 	bool PlayerFlg();
 	void Player_Flg();
-	int  adsfg();
+	void  adsfg();
 
 public:
 	Player();			//コンストラクタ

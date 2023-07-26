@@ -102,11 +102,8 @@ AbstractScene* GameMain::Update()
                         player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
-
                     }
-                    //player->PlayerGroundWalk();
-                    //DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
-                   
+                    player->adsfg();
                 }
               
             }
