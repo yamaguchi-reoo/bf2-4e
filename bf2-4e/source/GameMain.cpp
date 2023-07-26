@@ -93,9 +93,17 @@ AbstractScene* GameMain::Update()
                 
                 if (stage_floor[i]->HitBox(player) == true)
                 {
-                    player->PlayerGroundWalk();
+                    
+                    //player->PlayerGroundWalk();
                     DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
-                    color = 0x0ff000;
+                   
+                }
+                if (stage_floor[i]->HitTopBox(player) == true && stage_floor[i]->HitBox(player) == true) {
+                    if (player->adsfg() > 0) {
+                        player->PlayerGroundWalk();
+                        color = 0x0ff000;
+                    }
+
                 }
             }
             break;
@@ -211,7 +219,7 @@ void GameMain::Draw() const
 
     enemy->Draw();         //敵画像の描画処理
 
-    stageitem->Draw();     //ステージアイテムの描画処理
+    //stageitem->Draw();     //ステージアイテムの描画処理
 
     //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0); 

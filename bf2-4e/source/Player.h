@@ -23,6 +23,7 @@ public:
 
 	bool PlayerBackLash();
 	void PlayerBack();
+	int  adsfg();
 
 public:
 	Player();			//コンストラクタ
