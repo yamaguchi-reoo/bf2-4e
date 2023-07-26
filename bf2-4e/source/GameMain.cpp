@@ -161,16 +161,30 @@ AbstractScene* GameMain::Update()
         switch (stage)
         {
         case 0://ステージ1
-            if (player->PlayerBackLash() == true)
+            if (player->PlayerFlg() == true)
             {
-                player->PlayerBack();
+                player->PlayerReversalFlg();
                 color = 0x0ffff0;
+            }
+            else {
+                color = 0xffffff;
             }
             for (int i = 0; i < 3; i++)
             {
                 
                 if (stage_floor[i]->HitBox(player) == true)
                 {
+                    color = 0xf00fff;
+                    if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
+                        //if (player->adsfg() < 0) {
+                        player->PlayerGroundWalk();
+                        color = 0x0ff000;
+                        //}
+                    }
+                    player->Bounce();
+                }
+              
+            }
                     player->PlayerGroundWalk();
                     DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
                     color = 0x0ff000;
@@ -211,9 +225,9 @@ AbstractScene* GameMain::Update()
             }
             break;
         case 1://ステージ2
-            if (player->PlayerBackLash() == true)
+            if (player->PlayerFlg() == true)
             {
-                player->PlayerBack();
+                player->PlayerReversalFlg();
                 color = 0x0ffff0;
             }
             for (int i = 0; i < 5; i++)
@@ -227,9 +241,9 @@ AbstractScene* GameMain::Update()
             }
             break;
         case 2://ステージ3
-            if (player->PlayerBackLash() == true)
+            if (player->PlayerFlg() == true)
             {
-                player->PlayerBack();
+                player->PlayerReversalFlg();
                 color = 0x0ffff0;
             }
             for (int i = 0; i < 7; i++)
@@ -243,9 +257,9 @@ AbstractScene* GameMain::Update()
             }
             break;
         case 3://ステージ4
-            if (player->PlayerBackLash() == true)
+            if (player->PlayerFlg() == true)
             {
-                player->PlayerBack();
+                player->PlayerReversalFlg();
                 color = 0x0ffff0;
             }
             for (int i = 0; i < 7; i++)
@@ -259,9 +273,9 @@ AbstractScene* GameMain::Update()
             }
             break;
         case 4://ステージ5
-            if (player->PlayerBackLash() == true)
+            if (player->PlayerFlg() == true)
             {
-                player->PlayerBack();
+                player->PlayerReversalFlg();
                 color = 0x0ffff0;
             }
             for (int i = 0; i < 8; i++)
@@ -357,7 +371,6 @@ void GameMain::Draw() const
     }
 
     player->Draw();        //プレイヤー画像の描画処理
-
     stageitem->Draw();     //ステージアイテムの描画処理
 
     //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
