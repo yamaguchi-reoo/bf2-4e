@@ -21,12 +21,12 @@ Player::Player()
 	
 	ground_flg = 1;
 	location.x = 40.0;
-	location.y = 386.0;
-	erea.width = 64.0;
-	erea.height = 64.0;
-	erea.width_rate = 1.0;
-	erea.height_rate = 1.0;
-	player_gravity = 0.03f;
+	location.y = 384.0;
+	erea.width = 32.0;
+	erea.height = 62.0;
+	erea.width_rate = 1.0f;
+	erea.height_rate = 1.0f;
+	player_gravity = 0.08f;
 
 	get_location_x = 0.0f;
 	get_location_y = 0.0f;
@@ -56,7 +56,7 @@ void Player::Update()
 void Player::Draw()const
 {
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, player_images[0], TRUE, direction);
-	DrawBoxAA(location.x - ((erea.width / 2.f) * erea.width_rate), 
+	DrawBoxAA(location.x - ((erea.width / 2) * erea.width_rate), 
 			location.y - ((erea.height / 2.f) * erea.height_rate), 
 			location.x - ((erea.width / 2.f) * erea.width_rate) + erea.width,
 			location.y - ((erea.height / 2.f) * erea.height_rate) + erea.height,
@@ -131,7 +131,7 @@ void Player::HitCeiling()
 
 void Player::PlayerFalling()
 {
-	if (PadInput::OnButton(XINPUT_BUTTON_X) == 1)
+	if (PadInput::OnButton(XINPUT_BUTTON_A) == 1)
 	{
 		ground_flg = 1;
 		move_y += -1.5f;
@@ -139,7 +139,11 @@ void Player::PlayerFalling()
 	if (ground_flg == 1 && PadInput::OnPressed(XINPUT_BUTTON_B) == 1)	//Bボタンを押している間かつプレイヤーが浮上状態の時
 	{
 		ground_flg = 1;
-		move_y += -0.2f;
+		move_y += -0.3f;
+		if (-3 > move_y)
+		{
+			move_y = -3;
+		}
 	}
 }
 bool Player::PlayerBackLash() {

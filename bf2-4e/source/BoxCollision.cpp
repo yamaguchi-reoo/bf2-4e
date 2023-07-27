@@ -5,10 +5,10 @@ bool BoxCollision::HitBox(BoxCollision* bCollider)
 	bool ret = false;	//返り値
 
 	//プレイヤーの当たり判定の範囲
-	float player_x1 = location.x -(erea.width * erea.width_rate);
-	float player_y1 = location.y - (erea.height * erea.height_rate);
-	float player_x2 = player_x1 + erea.width;
-	float player_y2 = player_y1 + erea.height;
+	float player_x1 = (int)location.x -((int)erea.width * (int)erea.width_rate);
+	float player_y1 = (int)location.y - ((int)erea.height * (int)erea.height_rate);
+	float player_x2 = player_x1 + (int)erea.width;
+	float player_y2 = player_y1 + (int)erea.height;
 
 	//エネミーの当たり判定の範囲
 	float enemy_x1 = bCollider->location.x - ((bCollider->erea.width / 2) * bCollider->erea.width_rate);
@@ -16,7 +16,7 @@ bool BoxCollision::HitBox(BoxCollision* bCollider)
 	float enemy_x2 = enemy_x1 + bCollider->erea.width;
 	float enemy_y2 = enemy_y1 + bCollider->erea.height;
 
-	if ((player_x1 < enemy_x2) && (enemy_x1 < player_x2) && (player_y1 < enemy_y2) && (enemy_y1 < player_y2))
+	if ((player_x1 < enemy_x2) && (enemy_x1 < player_x2) && (player_y1 < enemy_y2) && (enemy_y1 <= player_y2))
 	{
 		return true;
 	}
