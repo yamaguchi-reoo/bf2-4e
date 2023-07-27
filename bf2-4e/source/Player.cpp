@@ -21,12 +21,12 @@ Player::Player()
 	
 	ground_flg = 1;
 	location.x = 40.0;
-	location.y = 384.0;
-	erea.width = 32.0;
-	erea.height = 62.0;
-	erea.width_rate = 1.0f;
-	erea.height_rate = 1.0f;
-	player_gravity = 0.08f;
+	location.y = 383.8;
+	erea.width = 64.0;
+	erea.height = 64.0;
+	erea.width_rate = 1.0;
+	erea.height_rate = 1.0;
+	player_gravity = 0.03f;
 
 	get_location_x = 0.0f;
 	get_location_y = 0.0f;
@@ -43,11 +43,12 @@ void Player::Update()
 	//PlayerGroundWalk();
 	PlayerFlight();
 	Move();
+	//MoveLocation();
 	HitCeiling();
 	PlayerFalling();
 	move_y += player_gravity;
-	location.x += move_x;
 	location.y += move_y;
+	location.x += move_x;
 	get_location_x = location.x;
 	get_location_y = location.y;
 	move_x = 0;
@@ -56,11 +57,11 @@ void Player::Update()
 void Player::Draw()const
 {
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, player_images[0], TRUE, direction);
-	DrawBoxAA(location.x - ((erea.width / 2) * erea.width_rate), 
-			location.y - ((erea.height / 2.f) * erea.height_rate), 
-			location.x - ((erea.width / 2.f) * erea.width_rate) + erea.width,
-			location.y - ((erea.height / 2.f) * erea.height_rate) + erea.height,
-			0xff00ff, FALSE);
+	DrawBoxAA(location.x - ((erea.width / 2.f) * erea.width_rate), 
+	location.y - ((erea.height / 2.f) * erea.height_rate), 
+	location.x - ((erea.width / 2.f) * erea.width_rate) + erea.width,
+	location.y - ((erea.height / 2.f) * erea.height_rate) + erea.height,
+	0xff00ff, FALSE);
 }
 
 //プレイヤーの移動
@@ -99,6 +100,7 @@ void Player::Move()
 //プレイヤーの地面での歩行動作
 void Player::PlayerGroundWalk()
 {
+	//player_flg = 0;
 	ground_flg = 0;
 	if((PadInput::OnButton(XINPUT_BUTTON_X) == 0 && ground_flg == 0) || 
 		(PadInput::OnButton(XINPUT_BUTTON_B) == 0 && ground_flg == 0))
@@ -119,19 +121,19 @@ void Player::PlayerFlight()
 
 void Player::HitCeiling()
 {
-	if (location.y < 16)	//プレイヤーの頭部分が天井に当たった場合
+	if (location.y < 16)
 	{
 		location.y = 24;
-		if(move_y < 0)		//プレイヤーの縦の移動量より０が大きい場合
+		if(move_y < 0)
 		{
-			move_y = move_y * -0.8;	//プレイヤーの移動量に反発係数を乗算する
+			move_y = move_y * -0.8;
 		}
 	}
 }
 
 void Player::PlayerFalling()
 {
-	if (PadInput::OnButton(XINPUT_BUTTON_A) == 1)
+	if (PadInput::OnButton(XINPUT_BUTTON_X) == 1)
 	{
 		ground_flg = 1;
 		move_y += -1.5f;
@@ -139,22 +141,25 @@ void Player::PlayerFalling()
 	if (ground_flg == 1 && PadInput::OnPressed(XINPUT_BUTTON_B) == 1)	//Bボタンを押している間かつプレイヤーが浮上状態の時
 	{
 		ground_flg = 1;
-		move_y += -0.3f;
-		if (-3 > move_y)
-		{
-			move_y = -3;
-		}
+		move_y += -0.2f;
 	}
 }
-bool Player::PlayerBackLash() {
-	
-
+bool Player::PlayerFlg() {
 	if (ground_flg == 0) {
 		return true;
 	}
 	
 	return  false;
 }
-void Player::PlayerBack() {
+void Player::PlayerReversalFlg() {
 	ground_flg = !ground_flg;
+	//player_flg = !player_flg;
+}
+
+void  Player::Bounce()
+{
+	if (move_y < 0)
+	{
+		move_y = move_y * -0.8;
+	}
 }
