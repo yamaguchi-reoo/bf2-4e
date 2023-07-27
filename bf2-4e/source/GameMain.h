@@ -12,7 +12,7 @@ class GameMain : public AbstractScene {
 private:
    // Stage* object;
     Player* player;         //プレイヤークラスのオブジェクト化
-    Enemy* enemy;           // Enemyクラスのオブジェクト化
+    Enemy* enemy[6];           // Enemyクラスのオブジェクト化
     BoxCollision* collision; //Collisionクラスのオブジェクト化 
     StageFloor* stage_floor[10];
 
@@ -24,6 +24,8 @@ private:
     int color;
     int stage;
     bool flg;
+
+    //int enemy_max[6] = {2,4,4,4,4,5};           // ステージごとの敵の数
 
 public:
     // コンストラクタ

@@ -7,13 +7,13 @@ GameMain::GameMain()
     // 初期化処理
     //object = new Stage();
     player = new Player();
-    enemy = new Enemy();
     collision = new BoxCollision();
     stageitem = new StageItem();
     thunder = new Thunder();
 
     stage = 0;
     flg = false;
+
 
     color = 0xffffff;
     switch (stage)
@@ -23,30 +23,69 @@ GameMain::GameMain()
         {
             stage_floor[i] = new StageFloor(i,stage);
         }
+        // 敵の生成
+        for (int i = 0; i <= 2; i++)
+        {
+            // ピンク色の敵が3体
+            enemy[i] = new Enemy(i * 100.0f + 220.0f, 252.0f, 0);
+        }
         break;
     case 1://ステージ2
         for (int i = 0; i < 5; i++)
         {
             stage_floor[i] = new StageFloor(i,stage);
         }
-        break;
+        // 敵の生成
+        for (int i = 0; i <= 2; i++)
+        {
+            // ピンク色の敵が3体
+            enemy[i] = new Enemy(i * 100.0f + 220.0f, 252.0f, 0);
+        }
+        // 緑の敵が2体
+        enemy[3] = new Enemy(150.0f, 135.0f, 1);
+        enemy[4] = new Enemy(510.0f, 115.0f, 1);
     case 2://ステージ3
         for (int i = 0; i <10 ;i++)
         {
             stage_floor[i] = new StageFloor(i,stage);
         }
+        // ピンク色の敵が1体
+        enemy[0] = new Enemy(320.0f, 335.0f, 0);
+        // 緑色の敵が2体
+        enemy[1] = new Enemy(190.0f, 232.0f, 1);
+        enemy[2] = new Enemy(345.0f, 150.0f, 1);
+        // 赤色の敵が2体
+        enemy[3] = new Enemy(220.0f, 65.0f, 2);
+        enemy[4] = new Enemy(530.0f, 65.0f, 2);
         break;
     case 3://ステージ4
         for (int i = 0; i < 7; i++)
         {
             stage_floor[i] = new StageFloor(i, stage);
         }
+        // ピンク色の敵が3体
+        enemy[0] = new Enemy(145.0f, 235.0f, 0);
+        enemy[1] = new Enemy(265.0f, 266.0f, 0);
+        enemy[2] = new Enemy(485.0f, 250.0f, 0);
+        // 緑色の敵が1体
+        enemy[3] = new Enemy(355.0f, 150.0f, 1);
+        // 赤色の敵が1体
+        enemy[4] = new Enemy(390.0f, 335.0f, 2);
         break;
     case 4://ステージ5
         for (int i = 0; i < 8; i++)
         {
             stage_floor[i] = new StageFloor(i,stage);
         }
+        // ピンク色の敵が2体
+        enemy[0] = new Enemy(230.0f, 300.0f, 0);
+        enemy[1] = new Enemy(380.0f, 300.0f, 0);
+        // 緑色の敵が3体
+        enemy[2] = new Enemy(110.0f, 165.0f, 1);
+        enemy[3] = new Enemy(270.0f, 132.0f, 1);
+        enemy[4] = new Enemy(510.0f, 117.0f, 1);
+        // 赤色の敵が1体
+        enemy[5] = new Enemy(240.0f, 50.0f, 2);
         break;
     }
 
@@ -76,11 +115,50 @@ AbstractScene* GameMain::Update()
 
         player->Update();
 
-        enemy->Update();
 
         thunder->Update();
 
         //collision->HitBox(object);
+
+        // ステージごとの敵の更新処理
+        switch (stage)
+        {
+        case 0:
+            // ステージ1
+            for (int i = 0; i <= 2; i++)
+            {
+                enemy[i]->Update();
+            }
+            break;
+        case 1:
+            // ステージ2
+            for (int i = 0; i <= 4; i++)
+            {
+                enemy[i]->Update();
+            }
+            break;
+        case 2:
+             // ステージ3
+            for (int i = 0; i <= 4; i++)
+            {
+                enemy[i]->Update();
+            }
+            break;
+        case 3:
+            // ステージ4
+            for (int i = 0; i <= 4; i++)
+            {
+                enemy[i]->Update();
+            }
+            break;
+        case 4:
+            // ステージ5
+            for (int i = 0; i <= 5; i++)
+            {
+                enemy[i]->Update();
+            }
+            break;
+        }
 
         //プレイヤーが床に当たったら......
         switch (stage)
@@ -96,7 +174,6 @@ AbstractScene* GameMain::Update()
             }
             for (int i = 0; i < 3; i++)
             {
-                
                 if (stage_floor[i]->HitBox(player) == true)
                 {
                     color = 0xf00fff;
@@ -108,7 +185,6 @@ AbstractScene* GameMain::Update()
                     }
                     player->Bounce();
                 }
-              
             }
             break;
         case 1://ステージ2
@@ -207,7 +283,7 @@ AbstractScene* GameMain::Update()
     //collision->HitBox(object);
 
 
-
+    // ステージの管理
     if(PadInput::OnButton(XINPUT_BUTTON_Y)) {
         if (stage == 4)
         {
@@ -235,7 +311,45 @@ void GameMain::Draw() const
         DrawFormatString(20, 50, color, "Game Main");
         player->Draw();        //プレイヤー画像の描画処理
 
-        enemy->Draw();         //敵画像の描画処理
+        // ステージごとの敵の描画処理
+        switch (stage)
+        {
+        case 0:
+            // ステージ1
+            for (int i = 0; i <= 2; i++)
+            {
+                enemy[i]->Draw();
+            }
+            break;
+        case 1:
+            // ステージ2
+            for (int i = 0; i <= 4; i++)
+            {
+                enemy[i]->Draw();
+            }
+            break;
+        case 2:
+            // ステージ3
+            for (int i = 0; i <= 4; i++)
+            {
+                enemy[i]->Draw();
+            }
+            break;
+        case 3:
+            // ステージ4
+            for (int i = 0; i <= 4; i++)
+            {
+                enemy[i]->Draw();
+            }
+            break;
+        case 4:
+            // ステージ5
+            for (int i = 0; i <= 5; i++)
+            {
+                enemy[i]->Draw();
+            }
+            break;
+        }
 
     }
 
@@ -272,6 +386,7 @@ void GameMain::Draw() const
         {
             stage_floor[i]->Draw();
         }
+        break;
     case 3:
         for (int i = 0; i < 7; i++)
         {
@@ -294,33 +409,78 @@ void GameMain::ChangeScene()
     switch (stage)
     {
     case 0:
+        // ステージ1
         for (int i = 0; i < 3; i++)
         {
             stage_floor[i] = new StageFloor(i,stage);
         }
+        // 敵の生成
+        for (int i = 0; i <= 2; i++)
+        {
+            // ピンク色の敵が3体
+            enemy[i] = new Enemy(i * 100.0f + 220.0f, 252.0f, 0);
+        }
         break;
     case 1:
+        // ステージ2
         for (int i = 0; i < 5; i++)
         {
             stage_floor[i] = new StageFloor(i,stage);
         }
+        // 敵の生成
+        for (int i = 0; i <= 2; i++)
+        {
+            // ピンク色の敵が3体
+            enemy[i] = new Enemy(i * 100.0f + 220.0f, 252.0f, 0);
+        }
+        // 緑の敵が2体
+        enemy[3] = new Enemy(150.0f, 135.0f, 1);
+        enemy[4] = new Enemy(510.0f, 115.0f, 1);
         break;
     case 2:
         for (int i = 0; i < 10; i++)
         {
             stage_floor[i] = new StageFloor(i,stage);
         }
+        // ピンク色の敵が1体
+        enemy[0] = new Enemy(320.0f, 335.0f, 0);
+        // 緑色の敵が2体
+        enemy[1] = new Enemy(190.0f, 232.0f, 1);
+        enemy[2] = new Enemy(345.0f, 150.0f, 1);
+        // 赤色の敵が2体
+        enemy[3] = new Enemy(220.0f, 65.0f, 2);
+        enemy[4] = new Enemy(530.0f, 65.0f, 2);
         break;
     case 3:
+        // ステージ4
         for (int i = 0; i < 7; i++)
         {
             stage_floor[i] = new StageFloor(i, stage);
         }
+        // ピンク色の敵が3体
+        enemy[0] = new Enemy(145.0f, 235.0f, 0);
+        enemy[1] = new Enemy(265.0f, 266.0f, 0);
+        enemy[2] = new Enemy(485.0f, 250.0f, 0);
+        // 緑色の敵が1体
+        enemy[3] = new Enemy(355.0f, 150.0f, 1);
+        // 赤色の敵が1体
+        enemy[4] = new Enemy(390.0f, 335.0f, 2);
+        break;
     case 4:
+        // ステージ5
         for (int i = 0; i < 8; i++)
         {
             stage_floor[i] = new StageFloor(i,stage);
         }
+        // ピンク色の敵が2体
+        enemy[0] = new Enemy(230.0f, 300.0f, 0);
+        enemy[1] = new Enemy(380.0f, 300.0f, 0);
+        // 緑色の敵が3体
+        enemy[2] = new Enemy(110.0f, 165.0f, 1);
+        enemy[3] = new Enemy(270.0f, 132.0f, 1);
+        enemy[4] = new Enemy(510.0f, 117.0f, 1);
+        // 赤色の敵が1体
+        enemy[5] = new Enemy(240.0f, 50.0f, 2);
         break;
     }
 }
