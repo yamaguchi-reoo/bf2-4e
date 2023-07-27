@@ -121,6 +121,7 @@ StageFloor::StageFloor(int i,int _stage)
 			location.y = 98;
 			erea.width = 42;
 			erea.height = 17;
+			SetImageLocation(location.x, location.y);
 			floor_image01 = LoadGraph("source/Resource/images/Stage/Stage_Footing05.png");
 			break;
 		case 5:
