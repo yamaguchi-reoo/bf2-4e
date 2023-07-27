@@ -171,7 +171,6 @@ AbstractScene* GameMain::Update()
             }
             for (int i = 0; i < 3; i++)
             {
-                
                 if (stage_floor[i]->HitBox(player) == true)
                 {
                     color = 0xf00fff;
@@ -182,45 +181,6 @@ AbstractScene* GameMain::Update()
                         //}
                     }
                     player->Bounce();
-                }
-              
-            }
-                    player->PlayerGroundWalk();
-                    DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
-                    color = 0x0ff000;
-                }
-
-                // 敵とステージの当たり判定
-                for (int j = 0; j < 1; j++)
-                {
-                    if (stage_floor[i]->HitBox(enemy[j]) == true)
-                    {
-                        if (enemy[j]->enemy_state == EnemyState::kFlight)
-                        {
-                            // 飛んでいるときにステージに着地したとき
-                            // 直ぐに飛び立つ
-                            
-                            // デバッグ用
-                            //enemy[j]->enemy_state = EnemyState::kUpright;
-                        }
-                        else if (enemy[j]->enemy_state == EnemyState::kParachute)
-                        {
-                            // パラシュート状態でステージに着地したとき
-                            // 直立状態になる
-                            
-                            // 現状->ステージに触れたら直立状態になる
-                            enemy[j]->enemy_state = EnemyState::kUpright;
-                        }
-                    }
-                    
-                    // 敵同士の当たり判定
-                    for (int k = 0; k < 1; k++)
-                    {
-                        if (j != k && enemy[j]->HitBox(enemy[k]) == true)
-                        {
-                            // 敵j に敵k　が当たった時の処理を書く
-                        }
-                    }
                 }
             }
             break;
