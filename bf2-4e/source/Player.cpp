@@ -18,15 +18,15 @@ Player::Player()
 		player_images[i] = NULL;
 	}
 	LoadDivGraph("Source/Resource/images/Player/Player_Animation.png",30,8,4,64,64, player_images);
-	
+
 	ground_flg = 1;
 	location.x = 40.0;
-	location.y = 383.8;
-	erea.width = 64.0;
-	erea.height = 64.0;
-	erea.width_rate = 1.0;
-	erea.height_rate = 1.0;
-	player_gravity = 0.03f;
+	location.y = 384.8f;
+	erea.width = 32.0f;
+	erea.height = 62.0f;
+	erea.width_rate = 1.0f;
+	erea.height_rate = 1.0f;
+	player_gravity = 0.08f;
 
 	get_location_x = 0.0f;
 	get_location_y = 0.0f;
@@ -51,7 +51,6 @@ void Player::Update()
 	location.x += move_x;
 	get_location_x = location.x;
 	get_location_y = location.y;
-	move_x = 0;
 }
 
 void Player::Draw()const
@@ -62,6 +61,7 @@ void Player::Draw()const
 	location.x - ((erea.width / 2.f) * erea.width_rate) + erea.width,
 	location.y - ((erea.height / 2.f) * erea.height_rate) + erea.height,
 	0xff00ff, FALSE);
+	DrawFormatString(0, 400, 0xffffff, "move_x = %3f, move_y = %3f", move_x, move_y);
 }
 
 //プレイヤーの移動
@@ -72,8 +72,19 @@ void Player::Move()
 	{
 		//プレイヤーの向き(右)
 		direction = DIRECTION_RIGHT;
-		//プレイヤーの移動(左)
-		move_x += 2.0f;
+		//プレイヤーの移動(右(地面にいる状態))
+		if (ground_flg == 0)
+		{
+			move_x += 2.0f;
+		}
+		else if (ground_flg == 1 && (PadInput::OnButton(XINPUT_BUTTON_X) == 1 || PadInput::OnPressed(XINPUT_BUTTON_B) == 1))
+		{
+			move_x += 2.0f;
+		}
+		else
+		{
+			move_x += 0.04f;
+		}
 	}
 
 	//左
@@ -81,8 +92,15 @@ void Player::Move()
 	{
 		//プレイヤーの向き(左)
 		direction = DIRECTION_LEFT;
-		//プレイヤーの移動(左)
-		move_x -= 2.0f;
+		//プレイヤーの移動(左(地面にいる状態))
+		if (ground_flg == 0)
+		{
+			move_x -= 2.0f;
+		}
+		else if (ground_flg == 1 && (PadInput::OnButton(XINPUT_BUTTON_X) == 1 || PadInput::OnPressed(XINPUT_BUTTON_B) == 1))
+		{
+			move_x -= 2.0f;
+		}
 	}
 
 	//プレイヤーが画面右端を越えた場合、画面反対の端にワープする
@@ -112,7 +130,7 @@ void Player::PlayerGroundWalk()
 //プレイヤーの空中状態
 void Player::PlayerFlight()
 {
-	if (PadInput::OnButton(XINPUT_BUTTON_X) == 1|| PadInput::OnPressed(XINPUT_BUTTON_B) == 1)
+	if (PadInput::OnButton(XINPUT_BUTTON_A) == 1|| PadInput::OnPressed(XINPUT_BUTTON_B) == 1)
 	{
 		ground_flg = 1;
 		player_images[17];
@@ -121,19 +139,19 @@ void Player::PlayerFlight()
 
 void Player::HitCeiling()
 {
-	if (location.y < 16)
+	if (location.y < 16.f)
 	{
-		location.y = 24;
+		location.y = 24.f;
 		if(move_y < 0)
 		{
-			move_y = move_y * -0.8;
+			move_y = move_y * -0.8f;
 		}
 	}
 }
 
 void Player::PlayerFalling()
 {
-	if (PadInput::OnButton(XINPUT_BUTTON_X) == 1)
+	if (PadInput::OnButton(XINPUT_BUTTON_A) == 1)
 	{
 		ground_flg = 1;
 		move_y += -1.5f;
@@ -143,7 +161,13 @@ void Player::PlayerFalling()
 		ground_flg = 1;
 		move_y += -0.2f;
 	}
+	if (move_y < -5)
+	{
+		move_y = -5.f;
+		move_y = move_y * 0.8f;
+	}
 }
+
 bool Player::PlayerFlg() {
 	if (ground_flg == 0) {
 		return true;
@@ -160,6 +184,6 @@ void  Player::Bounce()
 {
 	if (move_y < 0)
 	{
-		move_y = move_y * -0.8;
+		move_y = move_y * -0.8f;
 	}
 }
