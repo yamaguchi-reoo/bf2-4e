@@ -1,7 +1,7 @@
 #include "Thunder.h"
 #include "StageItem.h"
 #include "DxLib.h"
-
+#include "Fps.h"
 
 Thunder::Thunder()
 {
@@ -17,7 +17,7 @@ Thunder::Thunder()
 	thunder_effect_anime_num = 0;	//雷モドキ
 
 	cloud_time = 0;
-
+	const int thirty_seconds = 30000; // 30秒のミリ秒単位
 }
 
 Thunder::~Thunder()
@@ -28,19 +28,24 @@ void Thunder::Update()
 {
 	/*　点滅　アニメーション　*/
 	//雷雲
-	//++cloud_time;
-	if (++cloud_time % 3 == 0)
+	cloud_time += GetNowDrawScreenUpdateTime(); // フレーム間の時間を加算
+	if (cloud_time >= thirty_seconds)
 	{
-		if (cloud_anime_num < 2)
+		++cloud_time;
+		if (++cloud_time % 3 == 0)
 		{
-			cloud_anime_num++;
+			if (cloud_anime_num < 2)
+			{
+				cloud_anime_num++;
+			}
+			else
+			{
+				cloud_anime_num = 1;
+			}
 		}
-		else
-		{
-			cloud_anime_num = 1;
-		}
+		// 30秒後の時間をリセット
+		cloud_time = 0;
 	}
-
 
 	//雷
 	++thunder_time;

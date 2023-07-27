@@ -1,6 +1,5 @@
 #pragma once
-
-#pragma once
+#include "Fps.h"
 
 class Thunder
 {
@@ -11,13 +10,16 @@ private:
 	int thunder_image[6];
 	int thunder_effect_image[3];
 
-	//サカナ
-	int fish_image;
-
 	/*アニメーションの待機変数*/
 	//雷雲
 	int cloud_time;
 	int cloud_anime_num;
+
+	void GetNowDrawScreenUpdateTime();
+	const int thirty_seconds;
+
+	int thunder_cloud_time;
+	int thunder_cloud_anime_num;
 
 	//かみなり
 	int thunder_time;
@@ -26,6 +28,8 @@ private:
 	//雷モドキ
 	int thunder_effect_time;
 	int thunder_effect_anime_num;
+
+	Fps fps();
 
 public:
 	//コンストラクタ
