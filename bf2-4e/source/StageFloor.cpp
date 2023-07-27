@@ -279,7 +279,7 @@ StageFloor::StageFloor(int i,int _stage)
 			location.y = 416;
 			erea.width = 210;
 			erea.height = 32;
-			SetImageLocation(location.x, location.y);
+			SetImageLocation(0, location.y);
 			floor_image01 = LoadGraph("source/Resource/images/Stage/Stage_Land_Left02.png");
 			break;
 		case 7:
@@ -287,7 +287,7 @@ StageFloor::StageFloor(int i,int _stage)
 			location.y = 416;
 			erea.width = 210;
 			erea.height = 32;
-			SetImageLocation(0, location.y);
+			SetImageLocation(location.x, location.y);
 			floor_image01 = LoadGraph("source/Resource/images/Stage/Stage_Land_Right02.png");
 			break;
 		}
