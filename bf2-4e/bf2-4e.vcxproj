@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Fish.h" />
     <ClInclude Include="source\BoxCollision.h" />
     <ClInclude Include="source\AbstractScene.h" />
     <ClInclude Include="source\common.h" />
@@ -36,6 +37,7 @@
     <ClInclude Include="source\UI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Fish.cpp" />
     <ClCompile Include="source\BoxCollision.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\GameMain.cpp" />
