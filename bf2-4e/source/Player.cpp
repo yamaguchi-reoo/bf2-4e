@@ -51,6 +51,7 @@ void Player::Update()
 	location.x += move_x;
 	get_location_x = location.x;
 	get_location_y = location.y;
+	move_x = 0;
 }
 
 void Player::Draw()const
