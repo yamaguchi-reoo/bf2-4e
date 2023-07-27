@@ -355,7 +355,7 @@ void GameMain::Draw() const
 
     player->Draw();        //ƒvƒŒƒCƒ„[‰æ‘œ‚Ì•`‰æˆ—
 
-    enemy->Draw();         //“G‰æ‘œ‚Ì•`‰æˆ—
+    //enemy->Draw();         //“G‰æ‘œ‚Ì•`‰æˆ—
 
     thunder->Draw();        //—‹‰æ‘œ‚Ì•`‰æˆ—
 
