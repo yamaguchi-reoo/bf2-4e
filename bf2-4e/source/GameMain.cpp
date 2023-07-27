@@ -10,6 +10,7 @@ GameMain::GameMain()
     collision = new BoxCollision();
     stageitem = new StageItem();
     thunder = new Thunder();
+    fish = new Fish();
 
     stage = 0;
     flg = false;
@@ -115,6 +116,7 @@ AbstractScene* GameMain::Update()
 
         player->Update();
 
+        fish->Update();
 
         thunder->Update();
 
@@ -303,13 +305,14 @@ void GameMain::Draw() const
     {
         SetFontSize(16);
         DrawFormatString(20, 50, 0xffffff, " PAUSE ");
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA,0);     //ステージ以外全て消す
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 0);  //ステージ以外全て消す
     }
     else 
     {
         SetFontSize(16);
         DrawFormatString(20, 50, color, "Game Main");
-        player->Draw();        //プレイヤー画像の描画処理
+        player->Draw();     //プレイヤー画像の描画処理
+        fish->Draw();
 
         // ステージごとの敵の描画処理
         switch (stage)

@@ -7,6 +7,7 @@
 #include "BoxCollision.h"
 #include"StageItem.h"
 #include"Thunder.h"
+#include"Fish.h"
 
 class GameMain : public AbstractScene {
 private:
@@ -18,6 +19,7 @@ private:
 
     StageItem* stageitem;
     Thunder* thunder;       //雷クラスのオブジェクト化
+    Fish* fish;
 
     bool pause_flag;     //ポーズのフラグ取り
 
