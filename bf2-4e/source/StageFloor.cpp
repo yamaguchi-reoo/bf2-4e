@@ -85,21 +85,21 @@ StageFloor::StageFloor(int i,int _stage)
 			location.x = 159;
 			location.y = 267;
 			erea.width = 62;
-			erea.height = 32;
+			erea.height = 16;
 			floor_image01 = LoadGraph("source/Resource/images/Stage/Stage_Footing04.png");
 			break;
 		case 2:
 			location.x = 320;
 			location.y = 183;
 			erea.width = 62;
-			erea.height = 32;
+			erea.height = 16;
 			floor_image01 = LoadGraph("source/Resource/images/Stage/Stage_Footing04.png");
 			break;
 		case 3:
 			location.x = 499;
 			location.y = 98;
 			erea.width = 62;
-			erea.height = 32;
+			erea.height = 16;
 			floor_image01 = LoadGraph("source/Resource/images/Stage/Stage_Footing04.png");
 			break;
 		case 4:
@@ -110,13 +110,31 @@ StageFloor::StageFloor(int i,int _stage)
 			floor_image01 = LoadGraph("source/Resource/images/Stage/Stage_Footing05.png");
 			break;
 		case 5:
+			location.x = 178.5;
+			location.y = 283;
+			erea.width = 22;
+			erea.height = 51;
+			break;
+		case 6:
+			location.x = 339.5;
+			location.y = 183 + 16;
+			erea.width = 22;
+			erea.height = 51;
+			break;
+		case 7:
+			location.x = 518.5;
+			location.y = 98 + 16;
+			erea.width = 22;
+			erea.height = 51 + 0.5;
+			break;
+		case 8:
 			location.x = 0;
 			location.y = 416;
 			erea.width = 160;
 			erea.height = 32;
 			floor_image01 = LoadGraph("source/Resource/images/Stage/Stage_Land_Left01.png");
 			break;
-		case 6:
+		case 9:
 			location.x = 480;
 			location.y = 416;
 			erea.width = 160;

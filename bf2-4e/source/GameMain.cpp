@@ -31,7 +31,7 @@ GameMain::GameMain()
         }
         break;
     case 2://ステージ3
-        for (int i = 0; i <7 ;i++)
+        for (int i = 0; i <10 ;i++)
         {
             stage_floor[i] = new StageFloor(i,stage);
         }
@@ -121,9 +121,14 @@ AbstractScene* GameMain::Update()
             {
                 if (stage_floor[i]->HitBox(player) == true)
                 {
-                    player->PlayerGroundWalk();
-                    DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
-                    color = 0x0ff000;
+                    color = 0xf00fff;
+                    if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
+                        //if (player->adsfg() < 0) {
+                        player->PlayerGroundWalk();
+                        color = 0x0ff000;
+                        //}
+                    }
+                    player->Bounce();
                 }
             }
             break;
@@ -133,13 +138,18 @@ AbstractScene* GameMain::Update()
                 player->PlayerReversalFlg();
                 color = 0x0ffff0;
             }
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 10; i++)
             {
                 if (stage_floor[i]->HitBox(player) == true)
                 {
-                    player->PlayerGroundWalk();
-                    DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
-                    color = 0x0ff000;
+                    color = 0xf00fff;
+                    if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
+                        //if (player->adsfg() < 0) {
+                        player->PlayerGroundWalk();
+                        color = 0x0ff000;
+                        //}
+                    }
+                    player->Bounce();
                 }
             }
             break;
@@ -153,9 +163,14 @@ AbstractScene* GameMain::Update()
             {
                 if (stage_floor[i]->HitBox(player) == true)
                 {
-                    player->PlayerGroundWalk();
-                    DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
-                    color = 0x0ff000;
+                    color = 0xf00fff;
+                    if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
+                        //if (player->adsfg() < 0) {
+                        player->PlayerGroundWalk();
+                        color = 0x0ff000;
+                        //}
+                    }
+                    player->Bounce();
                 }
             }
             break;
@@ -169,9 +184,14 @@ AbstractScene* GameMain::Update()
             {
                 if (stage_floor[i]->HitBox(player) == true)
                 {
-                    player->PlayerGroundWalk();
-                    DrawString(100, 100, "asdfyuytrssdfghj", 0x00ff00, TRUE);
-                    color = 0x0ff000;
+                    color = 0xf00fff;
+                    if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
+                        //if (player->adsfg() < 0) {
+                        player->PlayerGroundWalk();
+                        color = 0x0ff000;
+                        //}
+                    }
+                    player->Bounce();
                 }
             }
             break;
@@ -248,7 +268,7 @@ void GameMain::Draw() const
         }
         break;
     case 2:
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 10; i++)
         {
             stage_floor[i]->Draw();
         }
@@ -286,7 +306,7 @@ void GameMain::ChangeScene()
         }
         break;
     case 2:
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 10; i++)
         {
             stage_floor[i] = new StageFloor(i,stage);
         }

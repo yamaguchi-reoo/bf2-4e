@@ -14,7 +14,7 @@ private:
     Player* player;         //プレイヤークラスのオブジェクト化
     Enemy* enemy;           // Enemyクラスのオブジェクト化
     BoxCollision* collision; //Collisionクラスのオブジェクト化 
-    StageFloor* stage_floor[8];
+    StageFloor* stage_floor[10];
 
     StageItem* stageitem;
     Thunder* thunder;       //雷クラスのオブジェクト化
