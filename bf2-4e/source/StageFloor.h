@@ -9,6 +9,8 @@ private:
 	//‰æ‘œ—p•Ï”
 	int floor_image01;
 	int floor_image02;
+	int image_x;
+	int image_y;
 	int sea_image;
 	int stage_number;
 public:
@@ -22,6 +24,9 @@ public:
 
 	// •`‰æ‚ÉŠÖ‚·‚é‚±‚Æ‚ğÀ‘•
 	void  Draw() const;
+
+	void SetImageLocation(int _x, int _y);
+
 
 };
 

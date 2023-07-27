@@ -2,6 +2,9 @@
 #include "Player.h"
 #include "BoxCollision.h"
 
+// 敵の最大数
+//#define ENEMY_MAX (6)
+
 // 敵の状態
 enum class EnemyState
 {
@@ -22,16 +25,17 @@ private:
 	int enemy_red_image[18];				// 赤色の敵の画像
 
 	// 敵の情報
-	float enemy_x;							// 敵のX座標
-	float enemy_y;							// 敵のY座標
+	//float enemy_x;							// 敵のX座標
+	//float enemy_y;							// 敵のY座標
 	float enemy_speed;						// 敵のスピード
-	//float acceleration;					// 加速度
+	float acceleration;						// 加速度
 	int enemy_angle;						// 敵の移動角度
 	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
 	int power_up_flg;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
 	int enemy_life;							// 敵の生死状態（TRUE:生きている　FALSE:死亡）
 
-	int Inertia_count;						// 慣性が働くカウント
+	int inertia_count;						// 慣性が働くカウント
+	int inertia_flg;						// 慣性フラグ
 
 	// 移動するときの計算に使う変数
 	float xc;								// 三平方の定理（斜辺）
@@ -44,22 +48,16 @@ private:
 	int second;								// 秒数のカウント
 
 	// アニメーション用カウント
-	//int inflat_bealloon_count;			// 風船を膨らましきるまでのカウント
+	int inflat_bealloon_count;				// 風船を膨らましきるまでのカウント
 	//int flight_count;						// 羽ばたくアニメーション用カウント
 	int animation_count;					// アニメーション用カウント
-
-	int avoidance_count;					// 回避するときの時間
 
 	int now_image;							// 今から表示される画像
 	int next_image;							// 次に表示される画像
 
-	EnemyState enemy_state;					// 敵の状態
-
 	// 追いかける対象の座標
 	float player_x;							// プレイヤーのX座標
 	float player_y;							// プレイヤーのY座標
-	//int mouse_x;							// マウスのX座標（プレイヤーの座標に変わる）
-	//int mouse_y;							// マウスのY座標（プレイヤーの座標に変わる）
 
 	// 移動するときに使う変数
 	float move_x;							// 敵の座標Xの移動量
@@ -76,13 +74,15 @@ private:
 	float amplitude;						// パラシュート状態で下降するときの振れ幅
 	float enemy_start_x;					// パラシュート状態になったx座標
 
+	int avoidance_count;					// 回避時間
 	int avoidance_flg;						// 回避行動のフラグ
-
 	float difference_y;						// 回避行動の条件用のプレイヤーと敵の座標の差
 
 public:
+	EnemyState enemy_state;					// 敵の状態
+
 	// コンストラクタ
-	Enemy();
+	Enemy(float set_x, float set_y, int set_type);
 	// デストラクタ
 	~Enemy();
 
