@@ -96,7 +96,10 @@ GameMain::GameMain()
 
 GameMain::~GameMain() 
 {
-    delete stage_floor;
+    for (int i = 0; i < 10; i++)
+    {
+        delete stage_floor[i];
+    }
     // I—¹ˆ—
 };
 

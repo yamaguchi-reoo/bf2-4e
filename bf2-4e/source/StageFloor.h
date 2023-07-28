@@ -8,7 +8,7 @@ private:
 
 	//‰æ‘œ—p•Ï”
 	int floor_image01;
-	int floor_image02;
+	//int floor_image02;
 	int image_x;
 	int image_y;
 	int sea_image;

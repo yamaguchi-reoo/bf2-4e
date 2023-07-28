@@ -3,12 +3,15 @@
 class Fish:public BoxCollision
 {
 private:
+	float fish_x;
+	float fish_y;
+
 	int fish_image[10];
-	int fish_animation_count;
-	int fish_time;
+	float fish_animation_count;
+	//int fish_time;
 
 	int now_image;							// ¡‚©‚ç•\¦‚³‚ê‚é‰æ‘œ
-	int next_image;
+	//int next_image;
 
 public:
 	Fish();
@@ -16,5 +19,7 @@ public:
 
 	void Update();
 	void Draw()const;
+
+	void PlayerEat();
 };
 
