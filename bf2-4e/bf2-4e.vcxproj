@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="source\BoxCollision.h" />
     <ClInclude Include="source\AbstractScene.h" />
+    <ClInclude Include="source\Bubble.h" />
     <ClInclude Include="source\common.h" />
     <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\Fps.h" />
@@ -37,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\BoxCollision.cpp" />
+    <ClCompile Include="source\Bubble.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\GameMain.cpp" />
     <ClCompile Include="source\main.cpp" />
