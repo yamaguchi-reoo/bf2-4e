@@ -1,5 +1,8 @@
 #pragma once
 #include "Fps.h"
+#include "math.h"
+#define _USE_MATH_DEFINES
+
 
 class Thunder
 {
@@ -35,7 +38,19 @@ private:
 	int thunder_effect_time;
 	int thunder_effect_anime_num;
 
+	float BallAngle;		//ボールの角度
+	int Speed;				//ボールのスピード
+	int MoveX;				//ボールのX移動量
+	int MoveY;				//ボールのY移動量
+	int BallX;				//ボールのX座標
+	int BallY;				//ボールのY座標
+	int BallFlg;			//ボールの状態(0...移動中 1...バー接触 2...スタート状態)
+
+
 public:
+	void ChangeAngle();		//角度変更処理
+	void MoveBall();		//
+
 	//コンストラクタ
 	Thunder();
 

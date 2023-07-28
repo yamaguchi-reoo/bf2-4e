@@ -1,7 +1,7 @@
 #include "Thunder.h"
 #include "StageItem.h"
 #include "DxLib.h"
-#include "Fps.h"
+#include "math.h"
 
 Thunder::Thunder()
 {
@@ -20,6 +20,18 @@ Thunder::Thunder()
 
 	is_thunder_shoot_ready = false;
 	thunder_shoot_flg = false;
+
+	//ボール
+	BallX = 320;
+	BallY = 440 - 5;
+
+	//角度処理
+	BallAngle = 0;
+	MoveX = 0;
+	MoveY = 0;
+
+	//ボールのスピード
+	//Speed = 3;
 }
 
 Thunder::~Thunder()
@@ -98,6 +110,65 @@ void Thunder::Update()
 		thunder_effect_anime_num = 0;
 	}
 
+}
+void Thunder::ChangeAngle()
+{
+	//角度の変更処理
+	float rad = BallAngle * (float)M_PI * 2;
+	MoveX = (int)(Speed * cosf(rad));
+	MoveY = (int)(Speed * sinf(rad));
+}
+
+void Thunder::MoveBall()
+{
+	// ボールの移動
+	if (BallFlg != 2)
+	{
+		BallX += MoveX;
+		BallY += MoveY;
+	}
+	else
+	{
+		/*BallX = BarX + 30;
+		BallY = BarY - 6;*/
+	}
+
+	// 壁・天井での反射
+	if (BallX < 4 || BallX > 640 - 4)
+	{ // 横の壁
+		if (BallX < 4)
+		{
+			BallX = 4;
+		}
+		else
+		{
+			BallX = 640 - 4;
+		}
+		BallAngle = (1 - BallAngle) + 0.5f;
+		if (BallAngle > 1) BallAngle -= 1.0f;
+		ChangeAngle();
+	}
+
+	if (BallY < 8)
+	{ // 上の壁
+		BallAngle = (1 - BallAngle);
+		ChangeAngle();
+	}
+	if (BallY > 480 + 4)
+	{
+		//ボールをスタート状態にする
+		BallFlg = 2;
+
+		//if (--RestBall <= 0) {
+		//	if (g_Score >= g_Ranking[9].score) {
+		//		g_GameState = 8;//ランキング入力処理へ
+		//	}
+		//	else {
+		//		g_GameState = 6;//ゲームオーバー処理へ
+
+		//	}
+		//}
+	}
 }
 
 void Thunder::Draw() const
