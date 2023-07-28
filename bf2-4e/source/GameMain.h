@@ -7,6 +7,7 @@
 #include "BoxCollision.h"
 #include"StageItem.h"
 #include"Thunder.h"
+#include"Fish.h"
 
 #include "Bubble.h"
 
@@ -20,6 +21,7 @@ private:
 
     StageItem* stageitem;
     Thunder* thunder;       //雷クラスのオブジェクト化
+    Fish* fish;
 
     Bubble* bubble;         //シャボン玉のオブジェクト化
 
