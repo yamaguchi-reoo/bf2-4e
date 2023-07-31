@@ -184,9 +184,12 @@ AbstractScene* GameMain::Update()
             }
             else {
                 color = 0xffffff;
-                if (fish->HitBox(player) == true) {
+                if (fish->HitBox(player) == true ) {
                     fish->PlayerEat();
                     color = 0x000000;
+                }
+                else {
+                    fish->FishReset();
                 }
             }
             for (int i = 0; i < 3; i++)

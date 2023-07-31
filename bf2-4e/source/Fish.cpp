@@ -30,7 +30,10 @@ Fish::~Fish()
 
 void Fish::Update()
 {
-
+	if (fish_y > 470)
+	{
+		fish_y = 470;
+	}
 }
 
 void Fish::Draw() const
@@ -63,24 +66,13 @@ void Fish::PlayerEat()
 	else if (fish_animation_count <= 80)
 	{
 		fish_y += 1.7;
-		if (fish_y > 460)
-		{
-			fish_y = 460;
-		}
 	}
 	else if (fish_animation_count <= 100)
 	{
 		fish_animation_count = -100;
 	}
-	
-
 }
 void Fish::FishReset()
 {
-	fish_animation_count = 0;
-	fish_time = 0;
-	second = 0;
-
-	fish_x = 100;
-	fish_y = 450;
+	//fish_y += 1.7;
 }
