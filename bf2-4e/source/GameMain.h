@@ -26,6 +26,8 @@ private:
     int color;
     int stage;
     bool flg;
+    int time;
+    int fps;
 
     //int enemy_max[6] = {2,4,4,4,4,5};           // ステージごとの敵の数
 

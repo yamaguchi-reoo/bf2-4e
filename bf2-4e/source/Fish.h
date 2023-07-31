@@ -8,7 +8,8 @@ private:
 
 	int fish_image[10];
 	float fish_animation_count;
-	//int fish_time;
+	int fish_time;
+	int second;
 
 	int now_image;							// ¡‚©‚ç•\¦‚³‚ê‚é‰æ‘œ
 	//int next_image;
@@ -21,5 +22,6 @@ public:
 	void Draw()const;
 
 	void PlayerEat();
+	void FishReset();
 };
 

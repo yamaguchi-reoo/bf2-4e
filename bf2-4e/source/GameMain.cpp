@@ -105,6 +105,14 @@ GameMain::~GameMain()
 
 AbstractScene* GameMain::Update()
 {
+    time++;
+    if (time >= 60)
+    {
+        // 秒数のカウントを増やす
+        fps++;
+        // fpsのカウントを0に戻す
+        time= 0;
+    }
     //ポーズ切り替え処理
     if (PadInput::OnButton(XINPUT_BUTTON_START))       // STARTボタンが押されたとき
     {
@@ -176,6 +184,10 @@ AbstractScene* GameMain::Update()
             }
             else {
                 color = 0xffffff;
+                if (fish->HitBox(player) == true) {
+                    fish->PlayerEat();
+                    color = 0x000000;
+                }
             }
             for (int i = 0; i < 3; i++)
             {
@@ -183,12 +195,11 @@ AbstractScene* GameMain::Update()
                 {
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
-                        //if (player->adsfg() < 0) {
                         player->PlayerGroundWalk();
                         color = 0x0ff000;
-                        //}
                     }
                     player->Bounce();
+
                 }
             }
             break;
@@ -303,7 +314,8 @@ void GameMain::Draw() const
 { 
     // やることは描画のみ、絶対に値の更新はしない
 
-    //ポーズ画面の描画
+    DrawFormatString(30, 100, 0xffffff, "%d", fps);
+   //ポーズ画面の描画
     if (pause_flag == TRUE)
     {
         SetFontSize(16);
