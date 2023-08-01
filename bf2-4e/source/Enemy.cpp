@@ -27,8 +27,6 @@ Enemy::Enemy(float set_x, float set_y, int set_type)
 	// 敵の情報（構造体から）
 	location.x = set_x;			// 中心座標X
 	location.y = set_y;			// 中心座標Y
-	//location.x = 200.0f;			// 中心座標X
-	//location.y = 252.0f;			// 中心座標Y
 	erea.width = 45.0;
 	erea.height = 64.0;
 	erea.width_rate = 1.0;
@@ -40,6 +38,7 @@ Enemy::Enemy(float set_x, float set_y, int set_type)
 	enemy_type = set_type;
 	power_up_flg = FALSE;
 	enemy_life = TRUE;
+	bound_flg = 0;							// 今は跳ね返らない状態
 
 	// 慣性用変数
 	inertia_count = 0;						// 未使用
@@ -154,6 +153,11 @@ void Enemy::Update()
 			// 空中で羽ばたくアニメーション処理
 			Flight();
 			//AirFall();
+			if (bound_flg == 1)
+			{
+				// 敵の跳ね返り（仮）
+				Bound();
+			}
 			break;
 		case EnemyState::kParachute:
 			// パラシュート状態のアニメーション処理
@@ -199,6 +203,7 @@ void Enemy::Draw() const
 	//DrawFormatString(20, 250, 0xff0000, "E enemy_state = %d", enemy_state);
 	//DrawFormatString(20, 250, 0xff0000, "E enemy_type = %d", enemy_type);
 	//DrawFormatString(20, 250, 0xff0000, "E enemy_start_x = %f", enemy_start_x);
+	//DrawFormatString(20, 250, 0xff0000, "E bound_flg = %d", bound_flg);
 #endif	//_DEBUG
 
 	if (enemy_type == 0)
@@ -245,6 +250,8 @@ void Enemy::Draw() const
 	}
 
 	// 敵の当たり判定範囲
+	//DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.height * erea.height_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffff00, FALSE);
+	
 	DrawBox(location.x - ((erea.width / 2) * erea.width_rate), location.y - ((erea.height / 2) * erea.height_rate), location.x - ((erea.width / 2) * erea.width_rate) + erea.width, location.y - ((erea.height / 2) * erea.height_rate) + erea.height, 0xffff00, FALSE);
 
 }
@@ -686,4 +693,37 @@ void Enemy::AfterWarp()
 	{
 		location.x = 32;
 	}
+}
+
+// 敵の跳ね返り（仮）
+void Enemy::Bound()
+{
+	location.x += move_x * -1.0f;
+	//location.y += move_y * -1.0f;
+
+	bound_flg = 0;
+
+	//if(enemy_speed > 0.01f)
+	//{
+	//	enemy_speed = enemy_speed - 0.00001f;
+	//	location.x += move_x * enemy_speed;
+	//	location.y += move_y * enemy_speed;
+	//}
+	//else if (enemy_speed < 0.01f)
+	//{
+	//	enemy_speed = enemy_speed + 0.00001f;
+	//	location.x += move_x * enemy_speed;
+	//	location.y += move_y * enemy_speed;
+	//}
+	//else
+	//{
+	//	bound_flg = 0;
+	//}
+
+}
+
+// フラグの設定
+void Enemy::SetBoundFlg(int set_flg)
+{
+	bound_flg = set_flg;
 }
