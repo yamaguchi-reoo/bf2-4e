@@ -37,6 +37,7 @@ private:
 	//雷モドキ
 	int thunder_effect_time;
 	int thunder_effect_anime_num;
+	bool thunder_shoot_flg;			//雷モドキが出ているどうか
 
 	float BallAngle;		//ボールの角度
 	int Speed;				//ボールのスピード
@@ -49,7 +50,7 @@ private:
 
 public:
 	void ChangeAngle();		//角度変更処理
-	void MoveBall();		//
+	void MoveBall();		//ボールの移動
 
 	//コンストラクタ
 	Thunder();

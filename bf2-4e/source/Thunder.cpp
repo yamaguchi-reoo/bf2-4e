@@ -175,10 +175,13 @@ void Thunder::Draw() const
 {
 	//—‹‚Ì•`‰æ
 	DrawRotaGraph(480, 100, 1.0f, 0, thunder_cloud_image[cloud_anime_num], TRUE, TRUE);				//‰_
+
 	if (thunder_shoot_flg == true)
 	{
 		DrawRotaGraph(480, 150, 1.0f, 0, thunder_image[thunder_anime_num], TRUE, TRUE);					//ˆîŒõ
 	}
+	
+	
 	DrawRotaGraph(480, 180, 1.0f, 0, thunder_effect_image[thunder_effect_anime_num], TRUE, TRUE);	//—‹ƒ‚ƒhƒL
 
 }
