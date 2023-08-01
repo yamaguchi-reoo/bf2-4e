@@ -180,11 +180,11 @@ void Enemy::Draw() const
 {
 #if _DEBUG
 	// ïbêîÇÃï`âÊ
-	DrawFormatString(10, 10, 0xFFFFFF, "E ïbêî%5d", second);
+	//DrawFormatString(10, 10, 0xFFFFFF, "E ïbêî%5d", second);
 
 	//SetFontSize(15);
 	//DrawFormatString(0, 150, 0xffffff, "player_x = %3f, player_y = %3f", player_x, player_y);
-	DrawFormatString(0, 130, 0xffffff, "E location.x = %3f, location.y = %3f", location.x, location.y);
+	//DrawFormatString(0, 130, 0xffffff, "E location.x = %3f, location.y = %3f", location.x, location.y);
 	//DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
 	//DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
 	//DrawFormatString(0, 160, 0xffffff, "E xc = %3f, yc = %3f", xc, yc);
@@ -245,7 +245,7 @@ void Enemy::Draw() const
 	}
 
 	// ìGÇÃìñÇΩÇËîªíËîÕàÕ
-	//DrawBox(location.x - ((erea.width / 2) * erea.width_rate), location.y - ((erea.height / 2) * erea.height_rate), location.x - ((erea.width / 2) * erea.width_rate) + erea.width, location.y - ((erea.height / 2) * erea.height_rate) + erea.height, 0xffff00, FALSE);
+	DrawBox(location.x - ((erea.width / 2) * erea.width_rate), location.y - ((erea.height / 2) * erea.height_rate), location.x - ((erea.width / 2) * erea.width_rate) + erea.width, location.y - ((erea.height / 2) * erea.height_rate) + erea.height, 0xffff00, FALSE);
 
 }
 
