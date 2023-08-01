@@ -105,14 +105,7 @@ GameMain::~GameMain()
 
 AbstractScene* GameMain::Update()
 {
-    time++;
-    if (time >= 60)
-    {
-        // 秒数のカウントを増やす
-        fps++;
-        // fpsのカウントを0に戻す
-        time= 0;
-    }
+   
     //ポーズ切り替え処理
     if (PadInput::OnButton(XINPUT_BUTTON_START))       // STARTボタンが押されたとき
     {
@@ -184,12 +177,25 @@ AbstractScene* GameMain::Update()
             }
             else {
                 color = 0xffffff;
-                if (fish->HitBox(player) == true ) {
-                    fish->PlayerEat();
-                    color = 0x000000;
+                if (player->GetLocationX() >= 160 && player->GetLocationX() <= 480 && player->GetLocationY() >= 360) //&& ++fps > 180)
+                {
+                    if (++fps > 180) 
+                    {
+                        if (fps > 300)
+                        {
+                            fps = 0;
+                        }
+                        fish->PlayerEat();
+                        if (fish->HitBox(player) == true)
+                        {
+                            player->PlayerReset();
+                        }
+                    }
                 }
-                else {
-                    fish->FishReset();
+                else
+                {
+                    //fish->FishReset();
+                    fps = 0;
                 }
             }
             for (int i = 0; i < 3; i++)

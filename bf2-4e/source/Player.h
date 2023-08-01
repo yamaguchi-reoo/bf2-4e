@@ -24,7 +24,9 @@ public:
 	bool PlayerFlg();			//立っているか判断する
 	void PlayerReversalFlg();	//フラグを反転させる
 	void Bounce();				//反発（仮）
-
+	int GetLocationX();
+	int GetLocationY();
+	void PlayerReset();
 public:
 	Player();			//コンストラクタ
 	~Player();			//デストラクタ	
