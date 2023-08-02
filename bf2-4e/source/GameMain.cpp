@@ -12,6 +12,8 @@ GameMain::GameMain()
     thunder = new Thunder();
     fish = new Fish();
 
+    bubble = new Bubble();
+
     stage = 0;
     flg = false;
 
@@ -123,6 +125,8 @@ AbstractScene* GameMain::Update()
         fish->Update();
 
         thunder->Update();
+
+        bubble->Update();
 
         //collision->HitBox(object);
 
@@ -385,6 +389,8 @@ void GameMain::Draw() const
     //enemy->Draw();         //敵画像の描画処理
 
     thunder->Draw();        //雷画像の描画処理
+
+    bubble->Draw();
 
     //stageitem->Draw();     //ステージアイテムの描画処理
 
