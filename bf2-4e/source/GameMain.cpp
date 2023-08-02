@@ -181,8 +181,10 @@ AbstractScene* GameMain::Update()
             }
             else {
                 color = 0xffffff;
+                //プレイヤーがX座標が160以上かつX座標が480未満でY座標が360以上で魚が出現
                 if (player->GetLocationX() >= 160 && player->GetLocationX() <= 480 && player->GetLocationY() >= 360) //&& ++fps > 180)
                 {
+                    //fps加算 
                     if (++fps > 180) 
                     {
                         if (fps > 300)
@@ -198,7 +200,6 @@ AbstractScene* GameMain::Update()
                 }
                 else
                 {
-                    //fish->FishReset();
                     fps = 0;
                 }
             }
