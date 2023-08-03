@@ -24,6 +24,7 @@ Fish::Fish()
 	fish_x = 160;
 	fish_y = 390;
 	fish_flg = 0;
+	fish_xmove_flg = 0;
 
 	time = 0;
 }
@@ -35,15 +36,25 @@ Fish::~Fish()
 
 void Fish::Update()
 {
-	//if (location.x >= 160)
-	//{
-	//	location.x++;
-	//}
-	//if (location.x >= 416)
-	//{
-	//	location.x--;
-	//}
-	//
+	//âEà⁄ìÆ
+	if (fish_xmove_flg == 0)
+	{
+		location.x++;
+		if (location.x == 420)
+		{
+			fish_xmove_flg = 1;
+		}
+	}
+	//ç∂à⁄ìÆ
+	if (fish_xmove_flg == 1)
+	{
+		location.x--;
+		if (location.x == 160)
+		{
+			fish_xmove_flg = 0;
+		}
+	}
+
 	if (fish_flg == 1) {
 		fish_animation_count++;
 
