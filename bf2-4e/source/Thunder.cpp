@@ -100,14 +100,31 @@ void Thunder::Update()
 	}
 
 	//雷モドキ
-	++thunder_effect_time;
-	if (thunder_effect_time % 2 == 0)
+	/*if (is_thunder_shoot_ready == true)
 	{
-		thunder_effect_anime_num = thunder_effect_anime_num + 1;
-	}
-	if (thunder_effect_anime_num == 3)
+		if (--thunder_frame < 0)
+		{
+			thunder_effect_shoot_flg = true;
+		}
+	}*/
+
+	if (thunder_shoot_flg == true)
 	{
-		thunder_effect_anime_num = 0;
+		if (++thunder_effect_time_anime % 5 == 0)
+		{
+			if (thunder_effect_anime_num < 5)		//雷モドキのアニメーション
+			{
+				thunder_effect_anime_num++;
+
+				thunder_effect_shoot_flg = true;
+			}
+			else
+			{
+				thunder_effect_shoot_flg = false;
+
+				is_thunder_effect_shoot_ready = false;
+			}
+		}
 	}
 
 }
@@ -158,16 +175,6 @@ void Thunder::MoveBall()
 	{
 		//ボールをスタート状態にする
 		BallFlg = 2;
-
-		//if (--RestBall <= 0) {
-		//	if (g_Score >= g_Ranking[9].score) {
-		//		g_GameState = 8;//ランキング入力処理へ
-		//	}
-		//	else {
-		//		g_GameState = 6;//ゲームオーバー処理へ
-
-		//	}
-		//}
 	}
 }
 
@@ -176,12 +183,15 @@ void Thunder::Draw() const
 	//雷の描画
 	DrawRotaGraph(480, 100, 1.0f, 0, thunder_cloud_image[cloud_anime_num], TRUE, TRUE);				//雲
 
+	//稲光の描画
 	if (thunder_shoot_flg == true)
 	{
 		DrawRotaGraph(480, 150, 1.0f, 0, thunder_image[thunder_anime_num], TRUE, TRUE);					//稲光
 	}
 	
-	
-	DrawRotaGraph(480, 180, 1.0f, 0, thunder_effect_image[thunder_effect_anime_num], TRUE, TRUE);	//雷モドキ
-
+	//雷モドキの描画
+	if (thunder_effect_shoot_flg == true)
+	{
+		DrawRotaGraph(480, 180, 1.0f, 0, thunder_effect_image[thunder_effect_anime_num], TRUE, TRUE);	//雷モドキ
+	}
 }
