@@ -31,7 +31,8 @@ private:
 	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
 	int power_up_flg;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
 	int enemy_life;							// 敵の生死状態（TRUE:生きている　FALSE:死亡）
-	int bound_flg;							// 敵の跳ね返り状態（TRUE:跳ね返る　FAlSE:跳ね返らない）
+	int bound_flg;							// 敵の跳ね返り状態（1:跳ね返る　0:跳ね返らない）
+	int levitation_flg;						// 敵の浮上（TRUE:浮上する）
 
 	int inertia_count;						// 慣性が働くカウント
 	int inertia_flg;						// 慣性フラグ
@@ -50,6 +51,7 @@ private:
 	int inflat_bealloon_count;				// 風船を膨らましきるまでのカウント
 	//int flight_count;						// 羽ばたくアニメーション用カウント
 	int animation_count;					// アニメーション用カウント
+	int levitation_count;					// 浮上するカウント
 
 	int now_image;							// 今から表示される画像
 	int next_image;							// 次に表示される画像
@@ -125,5 +127,11 @@ public:
 	void Bound();
 
 	void SetBoundFlg(int set_flg);
+
+	// 浮上する
+	void Levitation(void);
+
+	void SetLevitationFlg(int set_flg);
+
 };
 
