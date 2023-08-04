@@ -191,10 +191,11 @@ AbstractScene* GameMain::Update()
                         {
                             fps = 0;
                         }
-                        fish->PlayerEat();
+                        fish->FishReversalFlg();
                         if (fish->HitBox(player) == true)
                         {
                             player->PlayerReset();
+                            fish->PlayerEat();
                         }
                     }
                 }
@@ -213,7 +214,6 @@ AbstractScene* GameMain::Update()
                         color = 0x0ff000;
                     }
                     player->Bounce();
-
                 }
             }
             break;
