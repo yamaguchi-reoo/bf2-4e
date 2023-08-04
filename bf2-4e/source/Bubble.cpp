@@ -33,7 +33,7 @@ Bubble::Bubble()
 	Angle = 0;		// 角度
 	Length = 30;		// 半径の長さ
 
-	GetFlg = false;		////ゲットフラグ(true:Get false:NotGet)
+	GetFlg = false;		//ゲットフラグ(true:Get false:NotGet)
 
 	DrawFlg = true;		//画像の描画フラグ(true:描画する false:描画しない)
 }
@@ -45,10 +45,11 @@ Bubble::~Bubble()
 
 void Bubble::Update()
 {
+
 	location.x = PosX - erea.width / 2;
 	location.y = PosY - erea.height / 2;
 
-
+	//ゲット処理
 	if (GetFlg == true) 
 	{
 		if(now_image!=3){
@@ -117,6 +118,7 @@ void Bubble::MoveBubble(void)
 	PosY = CenterY;
 }
 
+//ゲットフラグ変更
 void Bubble::ChangeGetFlg(void)
 {
 	GetFlg = true;
