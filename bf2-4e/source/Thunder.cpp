@@ -92,7 +92,7 @@ void Thunder::Update()
 			}
 			else
 			{
-				thunder_shoot_flg = false;
+				thunder_shoot_flg = false;		//稲光をぐるぐる
 
 				is_thunder_shoot_ready = false;
 			}
@@ -100,15 +100,15 @@ void Thunder::Update()
 	}
 
 	//雷モドキ
-	/*if (is_thunder_shoot_ready == true)
+	if (is_thunder_effect_shoot_ready == true)
 	{
 		if (--thunder_frame < 0)
 		{
 			thunder_effect_shoot_flg = true;
 		}
-	}*/
+	}
 
-	if (thunder_shoot_flg == true)
+	if (is_thunder_effect_shoot_ready == true)
 	{
 		if (++thunder_effect_time_anime % 5 == 0)
 		{
@@ -128,6 +128,7 @@ void Thunder::Update()
 	}
 
 }
+
 void Thunder::ChangeAngle()
 {
 	//角度の変更処理
