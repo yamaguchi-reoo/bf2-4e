@@ -156,8 +156,9 @@ AbstractScene* GameMain::Update()
                             {
                                 // 飛んでいるときにステージに着地したとき
                                 // 直ぐに飛び立つ
-                                enemy[i]->SetLevitationFlg(1);
-                                // デバッグ用
+                               // enemy[i]->SetLevitationFlg(1);
+                                
+                               // デバッグ用
                                 //enemy[j]->enemy_state = EnemyState::kUpright;
                             }
                             else if (enemy[i]->enemy_state == EnemyState::kParachute)
