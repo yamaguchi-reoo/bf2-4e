@@ -73,6 +73,7 @@ public:
 		//ƒ{[ƒ‹‚ÌŠp“x‚ğ•Ô‚·
 		return &BallAngle;
 	}
+
 	void SetBallAngle(float Angle)
 	{
 		BallAngle = (1 - Angle);

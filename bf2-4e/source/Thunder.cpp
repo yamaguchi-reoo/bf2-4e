@@ -128,6 +128,8 @@ void Thunder::Update()
 	MoveBall();
 }
 
+
+
 void Thunder::ChangeAngle()
 {
 	//角度の変更処理
@@ -152,7 +154,8 @@ void Thunder::MoveBall()
 
 	// 壁・天井での反射
 	if (BallX < 4 || BallX > 640 - 4)
-	{ // 横の壁
+	{ 
+		// 横の壁
 		if (BallX < 4)
 		{
 			BallX = 4;
@@ -167,7 +170,8 @@ void Thunder::MoveBall()
 	}
 
 	if (BallY < 8)
-	{ // 上の壁
+	{ 
+		// 上の壁
 		BallAngle = (1 - BallAngle);
 		ChangeAngle();
 	}
