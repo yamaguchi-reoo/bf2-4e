@@ -13,6 +13,7 @@
     <ClCompile Include="source\StageItem.cpp" />
     <ClCompile Include="source\UI.cpp" />
     <ClCompile Include="source\Thunder.cpp" />
+    <ClCompile Include="source\Bubble.cpp" />
     <ClCompile Include="source\Fish.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -31,6 +32,7 @@
     <ClInclude Include="source\StageFloor.h" />
     <ClInclude Include="source\StageItem.h" />
     <ClInclude Include="source\Thunder.h" />
+    <ClInclude Include="source\Bubble.h" />
     <ClInclude Include="source\Fish.h" />
   </ItemGroup>
   <ItemGroup>

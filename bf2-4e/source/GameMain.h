@@ -9,6 +9,8 @@
 #include"Thunder.h"
 #include"Fish.h"
 
+#include "Bubble.h"
+
 class GameMain : public AbstractScene {
 private:
    // Stage* object;
@@ -21,11 +23,15 @@ private:
     Thunder* thunder;       //雷クラスのオブジェクト化
     Fish* fish;
 
+    Bubble* bubble;         //シャボン玉のオブジェクト化
+
     bool pause_flag;     //ポーズのフラグ取り
 
     int color;
     int stage;
     bool flg;
+    int time;
+    int fps;
 
     //int enemy_max[6] = {2,4,4,4,4,5};           // ステージごとの敵の数
 

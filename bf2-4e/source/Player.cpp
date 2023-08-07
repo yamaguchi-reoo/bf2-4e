@@ -158,3 +158,20 @@ void  Player::Bounce()
 		move_y = move_y * -0.8f;
 	}
 }
+int Player::GetLocationX()
+{
+	return location.x;
+}
+int Player::GetLocationY()
+{
+	return location.y;
+}
+
+void Player::PlayerReset()
+{
+	ground_flg = 1;
+	location.x = 40.0;
+	location.y = 384.8f;
+	erea.width = 32.0f;
+	erea.height = 62.0f;
+}

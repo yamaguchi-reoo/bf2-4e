@@ -26,6 +26,9 @@ public:
 	bool PlayerFlg();			//立っているか判断する
 	void PlayerReversalFlg();	//フラグを反転させる
 	void Bounce();				//反発（仮）
+	int GetLocationX();			//プレイヤーのX座標
+	int GetLocationY();			//プレイヤーのY座標
+	void PlayerReset();			//プレイヤーを初期位置に
 
 	//void ButtonAInterval();		//ボタン操作のインターバル
 	int AButtonFlg();

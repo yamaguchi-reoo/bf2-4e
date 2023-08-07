@@ -12,6 +12,8 @@ GameMain::GameMain()
     thunder = new Thunder();
     fish = new Fish();
 
+    bubble = new Bubble();
+
     stage = 0;
     flg = false;
 
@@ -120,6 +122,12 @@ AbstractScene* GameMain::Update()
 
         thunder->Update();
 
+        bubble->Update();
+
+        if (bubble->HitBox(player) == true)
+        {
+            bubble->ChangeGetFlg();
+        }
         //collision->HitBox(object);
 
         // ステージごとの敵の更新処理
@@ -130,6 +138,46 @@ AbstractScene* GameMain::Update()
             for (int i = 0; i <= 2; i++)
             {
                 enemy[i]->Update();
+
+                // 敵同士の当たり判定
+                //for (int j = 0; j <= 2; j++)
+                //{
+                //    if (i != j && enemy[i]->EnemyHitSideBox(enemy[j]) == true)
+                //    {
+                //        enemy[i]->SetBoundFlg(1);
+                //        //enemy[j]->SetBoundFlg(1);
+                //    }
+               // }
+
+                // 敵とステージの当たり判定
+                for (int j = 0; j < 3; j++)
+                {
+                    if (stage_floor[j]->EnemyHitBox(enemy[i]) == true)
+                    {
+                        if (stage_floor[j]->EnemyHitTopBox(enemy[i]) == true)
+                        {
+                            if (enemy[i]->enemy_state == EnemyState::kFlight)
+                            {
+                                // 飛んでいるときにステージに着地したとき
+                                // 直ぐに飛び立つ
+                               // enemy[i]->SetLevitationFlg(1);
+                                
+                               // デバッグ用
+                                //enemy[j]->enemy_state = EnemyState::kUpright;
+                            }
+                            else if (enemy[i]->enemy_state == EnemyState::kParachute)
+                            {
+                                // パラシュート状態でステージに着地したとき
+                                // 直立状態になる
+
+                                // 現状->ステージに触れたら直立状態になる
+                                enemy[i]->enemy_state = EnemyState::kUpright;
+                            }
+                        }
+                        // ステージに当たった時の敵の跳ね返りを書く
+                        //player->Bounce();
+                    }
+                }
             }
             break;
         case 1:
@@ -137,6 +185,37 @@ AbstractScene* GameMain::Update()
             for (int i = 0; i <= 4; i++)
             {
                 enemy[i]->Update();
+
+                // 敵とステージの当たり判定
+                for (int j = 0; j < 5; j++)
+                {
+                    if (stage_floor[j]->EnemyHitBox(enemy[i]) == true)
+                    {
+                        if (stage_floor[j]->EnemyHitTopBox(enemy[i]) == true)
+                        {
+                            if (enemy[i]->enemy_state == EnemyState::kFlight)
+                            {
+                                // 飛んでいるときにステージに着地したとき
+                                // 直ぐに飛び立つ
+                               // enemy[i]->SetLevitationFlg(1);
+
+                               // デバッグ用
+                                //enemy[j]->enemy_state = EnemyState::kUpright;
+                            }
+                            else if (enemy[i]->enemy_state == EnemyState::kParachute)
+                            {
+                                // パラシュート状態でステージに着地したとき
+                                // 直立状態になる
+
+                                // 現状->ステージに触れたら直立状態になる
+                                enemy[i]->enemy_state = EnemyState::kUpright;
+                            }
+                        }
+                        // ステージに当たった時の敵の跳ね返りを書く
+                        //player->Bounce();
+                    }
+                }
+
             }
             break;
         case 2:
@@ -144,6 +223,37 @@ AbstractScene* GameMain::Update()
             for (int i = 0; i <= 4; i++)
             {
                 enemy[i]->Update();
+
+                // 敵とステージの当たり判定
+                for (int j = 0; j < 10; j++)
+                {
+                    if (stage_floor[j]->EnemyHitBox(enemy[i]) == true)
+                    {
+                        if (stage_floor[j]->EnemyHitTopBox(enemy[i]) == true)
+                        {
+                            if (enemy[i]->enemy_state == EnemyState::kFlight)
+                            {
+                                // 飛んでいるときにステージに着地したとき
+                                // 直ぐに飛び立つ
+                               // enemy[i]->SetLevitationFlg(1);
+
+                               // デバッグ用
+                                //enemy[j]->enemy_state = EnemyState::kUpright;
+                            }
+                            else if (enemy[i]->enemy_state == EnemyState::kParachute)
+                            {
+                                // パラシュート状態でステージに着地したとき
+                                // 直立状態になる
+
+                                // 現状->ステージに触れたら直立状態になる
+                                enemy[i]->enemy_state = EnemyState::kUpright;
+                            }
+                        }
+                        // ステージに当たった時の敵の跳ね返りを書く
+                        //player->Bounce();
+                    }
+                }
+
             }
             break;
         case 3:
@@ -151,6 +261,37 @@ AbstractScene* GameMain::Update()
             for (int i = 0; i <= 4; i++)
             {
                 enemy[i]->Update();
+
+                // 敵とステージの当たり判定
+                for (int j = 0; j < 7; j++)
+                {
+                    if (stage_floor[j]->EnemyHitBox(enemy[i]) == true)
+                    {
+                        if (stage_floor[j]->EnemyHitTopBox(enemy[i]) == true)
+                        {
+                            if (enemy[i]->enemy_state == EnemyState::kFlight)
+                            {
+                                // 飛んでいるときにステージに着地したとき
+                                // 直ぐに飛び立つ
+                               // enemy[i]->SetLevitationFlg(1);
+
+                               // デバッグ用
+                                //enemy[j]->enemy_state = EnemyState::kUpright;
+                            }
+                            else if (enemy[i]->enemy_state == EnemyState::kParachute)
+                            {
+                                // パラシュート状態でステージに着地したとき
+                                // 直立状態になる
+
+                                // 現状->ステージに触れたら直立状態になる
+                                enemy[i]->enemy_state = EnemyState::kUpright;
+                            }
+                        }
+                        // ステージに当たった時の敵の跳ね返りを書く
+                        //player->Bounce();
+                    }
+                }
+
             }
             break;
         case 4:
@@ -158,6 +299,37 @@ AbstractScene* GameMain::Update()
             for (int i = 0; i <= 5; i++)
             {
                 enemy[i]->Update();
+
+                // 敵とステージの当たり判定
+                for (int j = 0; j < 8; j++)
+                {
+                    if (stage_floor[j]->EnemyHitBox(enemy[i]) == true)
+                    {
+                        if (stage_floor[j]->EnemyHitTopBox(enemy[i]) == true)
+                        {
+                            if (enemy[i]->enemy_state == EnemyState::kFlight)
+                            {
+                                // 飛んでいるときにステージに着地したとき
+                                // 直ぐに飛び立つ
+                               // enemy[i]->SetLevitationFlg(1);
+
+                               // デバッグ用
+                                //enemy[j]->enemy_state = EnemyState::kUpright;
+                            }
+                            else if (enemy[i]->enemy_state == EnemyState::kParachute)
+                            {
+                                // パラシュート状態でステージに着地したとき
+                                // 直立状態になる
+
+                                // 現状->ステージに触れたら直立状態になる
+                                enemy[i]->enemy_state = EnemyState::kUpright;
+                            }
+                        }
+                        // ステージに当たった時の敵の跳ね返りを書く
+                        //player->Bounce();
+                    }
+                }
+
             }
             break;
         }
@@ -361,6 +533,8 @@ void GameMain::Draw() const
     //enemy->Draw();         //敵画像の描画処理
 
     thunder->Draw();        //雷画像の描画処理
+
+    bubble->Draw();         //シャボン玉の描画処理
 
     //stageitem->Draw();     //ステージアイテムの描画処理
 
