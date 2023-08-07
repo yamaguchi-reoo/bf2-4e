@@ -126,11 +126,13 @@ public:
 	// 敵の跳ね返り（仮）
 	void Bound();
 
+	// 敵の跳ね返りフラグの設定
 	void SetBoundFlg(int set_flg);
 
 	// 浮上する
 	void Levitation(void);
 
+	// 敵の浮上フラグの設定
 	void SetLevitationFlg(int set_flg);
 
 };
