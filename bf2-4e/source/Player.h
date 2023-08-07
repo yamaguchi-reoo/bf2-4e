@@ -8,6 +8,8 @@ class Player :public BoxCollision
 private:
 	int player_images[30];	//プレイヤーのイメージ画像
 	bool ground_flg;		//0:地面にいる状態　１：落下状態
+	int a_button_flg;		//0:Aボタンが押されていない 1:押されてた
+	int fly_cnt;			//浮上時間制御変数
 	int direction;			//プレイヤーの向き
 	float player_gravity;	//プレイヤーにかかる重力
 
@@ -15,15 +17,18 @@ private:
 	float move_y;			//プレイヤーの移動量(縦)
 
 public:
-	void Move();				//プレイヤーの移動
-	void PlayerFlight();		//プレイヤーの空中状態
+	//void Move();				//プレイヤーの移動
+	//void PlayerFlight();		//プレイヤーの空中状態
 	void PlayerGroundWalk();	//プレイヤーの地面歩行
-	void HitCeiling();			//プレイヤーの移動範囲
-	void PlayerFalling();		//プレイヤーにかかる重力
+	//void HitCeiling();			//プレイヤーの移動範囲
+	/*void PlayerFalling();*/		//プレイヤーにかかる重力
 
 	bool PlayerFlg();			//立っているか判断する
 	void PlayerReversalFlg();	//フラグを反転させる
 	void Bounce();				//反発（仮）
+
+	//void ButtonAInterval();		//ボタン操作のインターバル
+	int AButtonFlg();
 
 public:
 	Player();			//コンストラクタ
