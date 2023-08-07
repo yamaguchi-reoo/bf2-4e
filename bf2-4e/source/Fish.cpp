@@ -32,6 +32,7 @@ Fish::~Fish()
 
 void Fish::Update()
 {
+	location.x = Player::get_location_x - 30;
 	//location.y = Player::get_location_y;
 	//‰EˆÚ“®
 	//if (fish_flg == 0)
@@ -54,7 +55,7 @@ void Fish::Update()
 
 	if (fish_flg == 2) 
 	 {
-		location.x = Player::get_location_x;
+		
 		fish_animation_count++;
 		if (fish_animation_count < 0)
 		{
@@ -87,7 +88,7 @@ void Fish::Update()
 			FishReset();
 		}
 	}
-	if (fish_flg == 3)
+	/*if (fish_flg == 3)
 	{
 		fish_animation_count++;
 		if (fish_animation_count <= 75)
@@ -115,19 +116,20 @@ void Fish::Update()
 		{
 			FishReset();
 		}
-	}
+	}*/
 }
 
 void Fish::Draw() const
 {
 	if (fish_flg == 2) {
 		DrawGraph(location.x, location.y, fish_image[now_image], TRUE);
+		//DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.width * erea.width_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffffff, FALSE);
 	}
 	//DrawFormatString(10, 10, 0xffffff, "%d", fish_animation_count, TRUE);
 	DrawFormatString(100, 20, 0xffffff, "%d",fish_animation_count, TRUE);
 	DrawFormatString(200, 20, 0xffffff, "%f", location.y, TRUE);
 	//DrawBox(location.x, location.y, location.x + erea.width, location.y + erea.height, 0xffffff, FALSE);
-	DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.width * erea.width_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffffff, FALSE);
+	
 
 }
 
@@ -150,4 +152,5 @@ void Fish::PlayerEat()
 
 int Fish::FishSpwn()
 {
+	return fish_animation_count;
 }
