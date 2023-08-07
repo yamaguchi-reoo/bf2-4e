@@ -25,8 +25,8 @@ private:
 	int thunder_cloud_anime_num;	//雷雲の画像のループ
 
 	//稲光
-	int thunder_time_anime;			//
-	int thunder_anime_num;			//雷雲の画像のループ
+	int thunder_time_anime;			//稲光のアニメーション
+	int thunder_anime_num;			//稲光の画像のループ
 	
 	int thunder_frame = 60;			//制限時間
 	int thunder_anime_frame;		//稲光のアニメーション用のフレーム
@@ -35,10 +35,10 @@ private:
 	bool thunder_shoot_flg;			//稲光が出ているどうか
 
 	//雷モドキ
-	int thunder_effect_time_anime;			//
+	int thunder_effect_time_anime;			//雷モドキのアニメーション
 
-	int thunder_effect_time = 60;				//制限時間
-	int thunder_effect_anime_num;			//
+	int thunder_effect_time = 60;			//制限時間
+	int thunder_effect_anime_num;			//雷モドキの画像のループ
 
 	bool thunder_effect_shoot_flg;			//雷モドキが出ているどうか
 	bool is_thunder_effect_shoot_ready;		//雷モドキを出すかどうか
@@ -55,6 +55,29 @@ private:
 public:
 	void ChangeAngle();		//角度変更処理
 	void MoveBall();		//ボールの移動
+
+	int GetBallX()
+	{
+		//ボールのX座標を返す
+		return BallX;
+	}
+
+	int GetBallY()
+	{
+		//ボールのY座標を返す
+		return BallY;
+	}
+
+	float* GetBallAngle()
+	{
+		//ボールの角度を返す
+		return &BallAngle;
+	}
+
+	void SetBallAngle(float Angle)
+	{
+		BallAngle = (1 - Angle);
+	}
 
 	//コンストラクタ
 	Thunder();
