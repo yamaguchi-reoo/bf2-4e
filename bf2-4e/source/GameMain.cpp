@@ -446,7 +446,7 @@ void GameMain::ChangeScene()
         // ステージ1
         for (int i = 0; i < 3; i++)
         {
-            stage_floor[i] = new StageFloor(i,stage);
+            stage_floor[i] = new StageFloor(i, stage);
         }
         // 敵の生成
         for (int i = 0; i <= 2; i++)
@@ -459,7 +459,7 @@ void GameMain::ChangeScene()
         // ステージ2
         for (int i = 0; i < 5; i++)
         {
-            stage_floor[i] = new StageFloor(i,stage);
+            stage_floor[i] = new StageFloor(i, stage);
         }
         // 敵の生成
         for (int i = 0; i <= 2; i++)
@@ -474,7 +474,7 @@ void GameMain::ChangeScene()
     case 2:
         for (int i = 0; i < 10; i++)
         {
-            stage_floor[i] = new StageFloor(i,stage);
+            stage_floor[i] = new StageFloor(i, stage);
         }
         // ピンク色の敵が1体
         enemy[0] = new Enemy(320.0f, 335.0f, 0);
@@ -504,7 +504,7 @@ void GameMain::ChangeScene()
         // ステージ5
         for (int i = 0; i < 8; i++)
         {
-            stage_floor[i] = new StageFloor(i,stage);
+            stage_floor[i] = new StageFloor(i, stage);
         }
         // ピンク色の敵が2体
         enemy[0] = new Enemy(230.0f, 300.0f, 0);
