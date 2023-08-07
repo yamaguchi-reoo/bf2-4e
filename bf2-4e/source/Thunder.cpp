@@ -8,12 +8,13 @@ Thunder::Thunder()
 	//雷の画像読込
 	LoadDivGraph("Source/Resource/images/Stage/Stage_CloudAnimation.png", 3, 3, 1, 128, 64, thunder_cloud_image);
 	LoadDivGraph("Source/Resource/images/Stage/Stage_ThunderAnimation.png", 6, 6, 1, 64, 64, thunder_image);
+
 	//雷モドキ
 	LoadDivGraph("Source/Resource/images/Stage/Stage_ThunderEffectAnimation.png", 3, 3, 1, 32, 32, thunder_effect_image);
 
 	/*点滅の初期化*/
 	cloud_anime_num = 0;			//雷雲
-	thunder_anime_num = 0;			//雷
+	thunder_anime_num = 0;			//稲光
 	thunder_effect_anime_num = 0;	//雷モドキ
 
 	thunder_cloud_anime_frame = 0;
@@ -88,45 +89,43 @@ void Thunder::Update()
 			{
 				thunder_anime_num++;
 
-				thunder_shoot_flg = true;
+				//thunder_shoot_flg = true;
 			}
 			else
 			{
-				thunder_shoot_flg = false;		//稲光をぐるぐる
+
+				thunder_effect_shoot_flg = true;
 
 				is_thunder_shoot_ready = false;
+
+				thunder_shoot_flg = false;
+
+				thunder_cloud_frame = 60;
 			}
 		}
 	}
 
 	//雷モドキ
-	if (is_thunder_effect_shoot_ready == true)
+	if (thunder_effect_shoot_flg == true)
 	{
-		if (--thunder_frame < 0)
+		if (++thunder_effect_time_anime % 10 == 0)
 		{
-			thunder_effect_shoot_flg = true;
-		}
-	}
-
-	if (is_thunder_effect_shoot_ready == true)
-	{
-		if (++thunder_effect_time_anime % 5 == 0)
-		{
-			if (thunder_effect_anime_num < 5)		//雷モドキのアニメーション
+			if (thunder_effect_anime_num < 2)		//雷モドキのアニメーション
 			{
 				thunder_effect_anime_num++;
-
-				thunder_effect_shoot_flg = true;
 			}
 			else
 			{
-				thunder_effect_shoot_flg = false;
-
-				is_thunder_effect_shoot_ready = false;
+				thunder_effect_anime_num = 1;
 			}
 		}
+		BallFlg = 2;
+		Speed = 3;
+		BallAngle = 0.625f;
+		ChangeAngle();
 	}
 
+	MoveBall();
 }
 
 void Thunder::ChangeAngle()
@@ -140,7 +139,7 @@ void Thunder::ChangeAngle()
 void Thunder::MoveBall()
 {
 	// ボールの移動
-	if (BallFlg != 2)
+	if (BallFlg == 2)
 	{
 		BallX += MoveX;
 		BallY += MoveY;
@@ -193,6 +192,6 @@ void Thunder::Draw() const
 	//雷モドキの描画
 	if (thunder_effect_shoot_flg == true)
 	{
-		DrawRotaGraph(480, 180, 1.0f, 0, thunder_effect_image[thunder_effect_anime_num], TRUE, TRUE);	//雷モドキ
+		DrawRotaGraph(BallX + MoveX, BallY+ MoveY, 1.0f, 0, thunder_effect_image[thunder_effect_anime_num], TRUE, TRUE);	//雷モドキ
 	}
 }
