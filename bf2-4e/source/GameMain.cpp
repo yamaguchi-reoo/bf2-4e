@@ -98,16 +98,12 @@ GameMain::GameMain()
 
 GameMain::~GameMain() 
 {
-    for (int i = 0; i < 10; i++)
-    {
-        delete stage_floor[i];
-    }
+    delete stage_floor;
     // 終了処理
 };
 
 AbstractScene* GameMain::Update()
 {
-   
     //ポーズ切り替え処理
     if (PadInput::OnButton(XINPUT_BUTTON_START))       // STARTボタンが押されたとき
     {
@@ -128,6 +124,10 @@ AbstractScene* GameMain::Update()
 
         bubble->Update();
 
+        if (bubble->HitBox(player) == true)
+        {
+            bubble->ChangeGetFlg();
+        }
         //collision->HitBox(object);
 
         // ステージごとの敵の更新処理
@@ -181,27 +181,6 @@ AbstractScene* GameMain::Update()
             }
             else {
                 color = 0xffffff;
-                //プレイヤーがX座標が160以上かつX座標が480未満でY座標が360以上で魚が出現
-                if (player->GetLocationX() >= 160 && player->GetLocationX() <= 480 && player->GetLocationY() >= 360) //&& ++fps > 180)
-                {
-                    //fps加算 
-                    if (++fps > 180) 
-                    {
-                        if (fps > 300)
-                        {
-                            fps = 0;
-                        }
-                        fish->PlayerEat();
-                        if (fish->HitBox(player) == true)
-                        {
-                            player->PlayerReset();
-                        }
-                    }
-                }
-                else
-                {
-                    fps = 0;
-                }
             }
             for (int i = 0; i < 3; i++)
             {
@@ -209,11 +188,12 @@ AbstractScene* GameMain::Update()
                 {
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
+                        //if (player->adsfg() < 0) {
                         player->PlayerGroundWalk();
                         color = 0x0ff000;
+                        //}
                     }
                     player->Bounce();
-
                 }
             }
             break;
@@ -328,8 +308,7 @@ void GameMain::Draw() const
 { 
     // やることは描画のみ、絶対に値の更新はしない
 
-    DrawFormatString(30, 100, 0xffffff, "%d", fps);
-   //ポーズ画面の描画
+    //ポーズ画面の描画
     if (pause_flag == TRUE)
     {
         SetFontSize(16);
@@ -391,7 +370,7 @@ void GameMain::Draw() const
 
     thunder->Draw();        //雷画像の描画処理
 
-    bubble->Draw();
+    bubble->Draw();         //シャボン玉の描画処理
 
     //stageitem->Draw();     //ステージアイテムの描画処理
 

@@ -12,13 +12,15 @@ Bubble::Bubble()
 
 	animation_count = 0;					// アニメーション用カウント
 
+	delete_count = 0;						//消去用カウント
+
 	now_image = 0;							// 今から表示される画像
 	next_image = 0;							// 次に表示される画像
 
 	location.x = 50;
 	location.y = 70;
-	erea.height = 64;
-	erea.width = 64;
+	erea.height = 40;
+	erea.width = 40;
 	erea.width_rate = 0;
 	erea.height_rate = 0;
 
@@ -30,6 +32,10 @@ Bubble::Bubble()
 	CenterY = 400;	// 中心座標Y
 	Angle = 0;		// 角度
 	Length = 30;		// 半径の長さ
+
+	GetFlg = false;		////ゲットフラグ(true:Get false:NotGet)
+
+	DrawFlg = true;		//画像の描画フラグ(true:描画する false:描画しない)
 }
 
 Bubble::~Bubble()
@@ -39,13 +45,35 @@ Bubble::~Bubble()
 
 void Bubble::Update()
 {
-	BubbleAnimation();
-	MoveBubble();
+	location.x = PosX - erea.width / 2;
+	location.y = PosY - erea.height / 2;
+
+
+	if (GetFlg == true) 
+	{
+		if(now_image!=3){
+			now_image = 3;
+		}
+		if (++delete_count >= 50) 
+		{
+			DrawFlg = false;
+		}
+	}
+	else
+	{
+		BubbleAnimation();
+		MoveBubble();
+	}
+	
 }
 
 void Bubble::Draw() const
 {
-	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, BubbleImage[now_image], TRUE);
+	if (DrawFlg == true) 
+	{
+		DrawRotaGraph((int)PosX, (int)PosY, 1, 0, BubbleImage[now_image], TRUE);
+		DrawBox((int)location.x, (int)location.y, (int)location.x + erea.width, (int)location.y + erea.height, 0xffffff, false);
+	}
 }
 
 void Bubble::BubbleAnimation(void) 
@@ -70,7 +98,7 @@ void Bubble::BubbleAnimation(void)
 void Bubble::MoveBubble(void)
 {
 	// 中心座標に角度と長さを使用した円の位置を加算する
-		// 度数法の角度を弧度法に変換
+	// 度数法の角度を弧度法に変換
 	float radius = Angle * 3.14f / 180.0f;
 
 	// 三角関数を使用し、円の位置を割り出す。
@@ -78,7 +106,7 @@ void Bubble::MoveBubble(void)
 	float add_y = sin(radius) * Length;
 
 	// 結果ででた位置を中心位置に加算し、それを描画位置とする
-	location.x = CenterX + add_x;
+	PosX = CenterX + add_x;
 	//location.y = CenterY + add_y;
 
 	// 角度を変える
@@ -86,5 +114,10 @@ void Bubble::MoveBubble(void)
 
 	//浮上する
 	CenterY -= 0.5f;
-	location.y = CenterY;
+	PosY = CenterY;
+}
+
+void Bubble::ChangeGetFlg(void)
+{
+	GetFlg = true;
 }
