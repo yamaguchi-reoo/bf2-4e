@@ -311,7 +311,7 @@ void StageFloor::Draw()const
 {
 	
 	DrawGraph(image_x, image_y, floor_image01,TRUE);
-	DrawGraph(160, 444, sea_image, TRUE);
+	//DrawGraph(160, 444, sea_image, TRUE);
 	//DrawBox(location.x, location.y, location.x + erea.width, location.y + erea.height, 0xffffff, FALSE);
 	DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.width * erea.width_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffffff, FALSE);
 	//DrawBox(location.x - (erea.width / 2), location.y - (erea.height / 2), location.x + (erea.width / 2), location.y + (erea.height / 2), 0xff00ff, FALSE);
