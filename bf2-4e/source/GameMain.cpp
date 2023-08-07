@@ -345,6 +345,28 @@ AbstractScene* GameMain::Update()
             }
             else {
                 color = 0xffffff;
+                //プレイヤーがX座標が160以上かつX座標が480未満でY座標が360以上で魚が出現
+                if (player->GetLocationX() >= 160 && player->GetLocationX() <= 480 && player->GetLocationY() >= 390) //&& ++fps > 180)
+                {
+                    //fps加算 
+                    if (++fps > 180)
+                    {
+                        if (fps > 220)
+                        {
+                            fps = 0;
+                        }
+                        fish->FishReversalFlg();
+                        if (fish->HitBox(player) == true)
+                        {
+                            //player->PlayerReset();
+                            //fish->PlayerEat();
+                        }
+                    }
+                }
+                else
+                {
+                    fps = 0;
+                }
             }
             for (int i = 0; i < 3; i++)
             {

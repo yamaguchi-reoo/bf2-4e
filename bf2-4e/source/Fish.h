@@ -6,11 +6,9 @@ private:
 	float fish_x;
 	float fish_y;
 
-	int fish_image[10];
-	float fish_animation_count;
-	int fish_flg;
-	int fish_xmove_flg;
-	int time;
+	int fish_image [10] ;
+	int fish_animation_count;//フレームレートカウント
+	int fish_flg;		//0..右移動 1..左移動 2..浮上 3..プレイヤー喰らう
 
 	int now_image;							// 今から表示される画像
 	//int next_image;
@@ -22,7 +20,10 @@ public:
 	void Update();
 	void Draw()const;
 
-	void PlayerEat();
+	void FishReversalFlg();
 	void FishReset();
+	void PlayerEat();
+
+	int FishSpwn();
 };
 
