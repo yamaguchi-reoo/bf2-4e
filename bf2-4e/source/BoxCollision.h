@@ -28,5 +28,5 @@ public:
 
 	bool EnemyHitBox(BoxCollision* bCollider);
 	bool EnemyHitTopBox(BoxCollision* bCollider);
-	bool EnemyHitSideBox(BoxCollision* bCollider);
+	bool EnemyRightSideBox(BoxCollision* bCollider);
 };

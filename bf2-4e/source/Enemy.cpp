@@ -4,12 +4,6 @@
 #include <math.h>
 #include "PadInput.h"		// デバッグ用
 
-// 静的メンバ変数
-//int Enemy::animation_count;
-//EnemyState Enemy::enemy_state;
-
-//float sinangle2 = 0;		// デバッグ用
-
 // コンストラクタ
 Enemy::Enemy(float set_x, float set_y, int set_type)
 {
@@ -50,9 +44,6 @@ Enemy::Enemy(float set_x, float set_y, int set_type)
 	yc = 0.0f;
 	x = 0.0f;
 	y = 0.0f;
-
-	fps_count = 0;
-	second = 0;
 
 	// アニメーション用カウント
 	inflat_bealloon_count = 0;
@@ -121,21 +112,11 @@ void Enemy::Update()
 		}
 	}
 
-	// 敵の色ごとの動作確認用　※後で削除
 	// LBボタン
-	if (PadInput::OnButton(XINPUT_BUTTON_LEFT_SHOULDER) == 1)
+	// Xボタン
+	if (PadInput::OnButton(XINPUT_BUTTON_X) == 1)
 	{
 		enemy_state = EnemyState::kParachute;
-	}
-
-	// 後で消すやつ
-	fps_count++;
-	if (fps_count >= 60)
-	{
-		// 秒数のカウントを増やす
-		second++;
-		// fpsのカウントを0に戻す
-		fps_count = 0;
 	}
 
 	/****************************
@@ -193,10 +174,6 @@ void Enemy::Update()
 void Enemy::Draw() const
 {
 #if _DEBUG
-	// 秒数の描画
-	//DrawFormatString(10, 10, 0xFFFFFF, "E 秒数%5d", second);
-
-	//SetFontSize(15);
 	//DrawFormatString(0, 130, 0xffffff, "E location.x = %3f, location.y = %3f", location.x, location.y);
 	//DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
 	//DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
@@ -204,10 +181,10 @@ void Enemy::Draw() const
 	//DrawFormatString(200, 250, 0xff0000, "E state = %d", enemy_state);
 	//DrawFormatString(20, 150, 0xffffff, "E enemy_speed = %f", enemy_speed);
 	//DrawFormatString(20, 250, 0xff0000, "E enemy_state = %d", enemy_state);
-	//DrawFormatString(20, 250, 0xff0000, "E bound_flg = %d", bound_flg);
+	DrawFormatString(20, 150, 0xff0000, "E bound_flg = %d", bound_flg);
 	//DrawFormatString(20, 200, 0xff0000, "E avoidance_flg = %d", avoidance_flg);
-	//DrawFormatString(20, 200, 0xff0000, "E turn_flg = %d", turn_flg);
-	//DrawFormatString(20, 250, 0xff0000, "E old_turn_flg = %d", old_turn_flg);
+	DrawFormatString(20, 200, 0xff0000, "E turn_flg = %d", turn_flg);
+	DrawFormatString(20, 250, 0xff0000, "E old_turn_flg = %d", old_turn_flg);
 #endif	//_DEBUG
 
 	if (enemy_type == 0)
@@ -256,10 +233,9 @@ void Enemy::Draw() const
 	// 敵の当たり判定範囲
 	//DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.height * erea.height_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffff00, FALSE);
 	
-	//DrawBox(location.x - ((erea.width / 2) * erea.width_rate), location.y - ((erea.height / 2) * erea.height_rate), location.x - ((erea.width / 2) * erea.width_rate) + erea.width, location.y - ((erea.height / 2) * erea.height_rate) + erea.height, 0xffff00, FALSE);
+	DrawBox(location.x - ((erea.width / 2) * erea.width_rate), location.y - ((erea.height / 2) * erea.height_rate), location.x - ((erea.width / 2) * erea.width_rate) + erea.width, location.y - ((erea.height / 2) * erea.height_rate) + erea.height, 0xffff00, FALSE);
 	
 	//DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y - (erea.width / 2 * erea.height_rate) + erea.height, location.x - (erea.width / 2 * erea.height_rate) + erea.width, location.y - (erea.width / 2 * erea.height_rate) + erea.height, 0xff0000, FALSE);
-
 }
 
 // 敵の上下左右移動処理
@@ -527,8 +503,7 @@ void Enemy::Upright()
 		power_up_flg = TRUE;
 	}
 
-	// if(一定時間たったら)風船を膨らませる状態に変更
-	// 多分3秒くらい
+	// 約3秒表示
 	if (++animation_count >= 180)
 	{
 		// 膨らませきったらパワーアップ
@@ -616,31 +591,27 @@ void Enemy::AfterWarp()
 	}
 }
 
-// 敵の跳ね返りフラグの設定
+// 敵の跳ね返り
 void Enemy::Bound()
 {
-	location.x += move_x * -1.0f;
+	//location.x += move_x * -1.0f;
 	//location.y += move_y * -1.0f;
 
-	bound_flg = 0;
+	location.x += move_x * enemy_speed;
 
-	//if(enemy_speed > 0.01f)
+	//move_x *= -1.0f;
+	// 加速度の影響を速度に与える
+	//enemy_speed -= acceleration / 3600;
+
+	//if (enemy_speed <= 0.0f)
 	//{
-	//	enemy_speed = enemy_speed - 0.00001f;
-	//	location.x += move_x * enemy_speed;
-	//	location.y += move_y * enemy_speed;
-	//}
-	//else if (enemy_speed < 0.01f)
-	//{
-	//	enemy_speed = enemy_speed + 0.00001f;
-	//	location.x += move_x * enemy_speed;
-	//	location.y += move_y * enemy_speed;
-	//}
-	//else
-	//{
+	//	enemy_speed = 0.0f;
+	//	//old_turn_flg = turn_flg;
 	//	bound_flg = 0;
 	//}
 
+	////location.x += move_x * enemy_speed * -1.0f;
+	//location.x += move_x * enemy_speed;
 }
 
 // フラグの設定
@@ -658,7 +629,7 @@ void Enemy::Levitation(void)
 		// タイプの変更
 		enemy_type++;
 
-		// 初速度の初期化
+		// 初速度の設定
 		enemy_speed = 0.1f;
 
 		power_up_flg = FALSE;

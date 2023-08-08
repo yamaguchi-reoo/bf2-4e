@@ -25,7 +25,7 @@ private:
 	int enemy_red_image[18];				// 赤色の敵の画像
 
 	// 敵の情報
-	float enemy_speed;						// 敵のスピード
+	float enemy_speed;						// 初速度
 	float acceleration;						// 加速度
 	int enemy_angle;						// 敵の移動角度
 	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
@@ -42,10 +42,6 @@ private:
 	float yc;								// 三平方の定理（斜辺）
 	float x;								// 計算後move_xに代入用
 	float y;								// 計算後move_yに代入用
-
-	// 後で消すやつ
-	int fps_count;							// fpsのカウント
-	int second;								// 秒数のカウント
 
 	// アニメーション用カウント
 	int inflat_bealloon_count;				// 風船を膨らましきるまでのカウント

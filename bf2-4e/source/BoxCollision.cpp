@@ -81,8 +81,8 @@ bool BoxCollision::EnemyHitBox(BoxCollision* bCollider)
 	bool ret = false;	//返り値
 
 	//ステージの当たり判定の範囲
-	float stage_x1 = location.x - (erea.width * erea.width_rate);
-	float stage_y1 = location.y - (erea.width * erea.height_rate);
+	float stage_x1 = location.x - (erea.width / 2 * erea.width_rate);
+	float stage_y1 = location.y - (erea.width / 2 * erea.height_rate);
 	float stage_x2 = stage_x1 + erea.width;
 	float stage_y2 = stage_y1 + erea.height;
 
@@ -109,8 +109,8 @@ bool BoxCollision::EnemyHitTopBox(BoxCollision* bCollider)
 	bool ret = false;	//返り値
 
 	//ステージの当たり判定の範囲
-	float stage_x1 = location.x - (erea.width * erea.width_rate);
-	float stage_y1 = location.y - (erea.width * erea.height_rate);
+	float stage_x1 = location.x - (erea.width / 2 * erea.width_rate);
+	float stage_y1 = location.y - (erea.width / 2 * erea.height_rate);
 	float stage_x2 = stage_x1 + erea.width;
 	float stage_y2 = stage_y1 + erea.height;
 
@@ -141,7 +141,8 @@ bool BoxCollision::EnemyHitTopBox(BoxCollision* bCollider)
 
 // 敵同士の当たり判定（横）
 // まだ直していない当たり判定は矩形のまま
-bool BoxCollision::EnemyHitSideBox(BoxCollision* bCollider)
+// 右側の当たり判定
+bool BoxCollision::EnemyRightSideBox(BoxCollision* bCollider)
 {
 	bool ret = false;	//返り値
 
@@ -157,8 +158,8 @@ bool BoxCollision::EnemyHitSideBox(BoxCollision* bCollider)
 	float enemy2_x2 = enemy2_x1 + bCollider->erea.width;
 	float enemy2_y2 = enemy2_y1 + bCollider->erea.height;
 
-	if ((enemy1_x1 < enemy2_x2) && (enemy2_x1 < enemy1_x2) && (enemy1_y1 < enemy2_y2) && (enemy2_y1 < enemy1_y2))
-	//if ((enemy1_x2 < enemy2_x1) /*&& (enemy2_x1 < enemy1_x2)*/ && (enemy1_y1 < enemy2_y2) && (enemy2_y1 < enemy1_y2))
+	//if ((enemy2_x1 < enemy1_x2) && (enemy1_y1 < enemy2_y2) && (enemy2_y1 < enemy1_y2) && (enemy1_x2 < enemy2_x2))
+	//if ((enemy1_x1 < enemy2_x1) && (enemy2_x1 < enemy1_x2) && (enemy1_y1 < enemy2_y1) && (enemy1_y2 < enemy2_y2))
 	{
 		ret = true;
 	}

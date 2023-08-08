@@ -135,24 +135,39 @@ AbstractScene* GameMain::Update()
         {
         case 0:
             // ステージ1
-            for (int i = 0; i <= 2; i++)
+            for (int i = 0; i <= 1; i++)
             {
                 enemy[i]->Update();
 
-                // 敵同士の当たり判定
-                //for (int j = 0; j <= 2; j++)
+                // デバッグ用プレイヤーと敵の当たり判定
+                //if (player->EnemyHitBox(enemy[i]) == true)
                 //{
-                //    if (i != j && enemy[i]->EnemyHitSideBox(enemy[j]) == true)
+                //    if (enemy[i]->enemy_state == EnemyState::kFlight)
                 //    {
-                //        enemy[i]->SetBoundFlg(1);
-                //        //enemy[j]->SetBoundFlg(1);
+                //        enemy[i]->enemy_state = EnemyState::kParachute;
+                //        //player->Bounce();
                 //    }
-               // }
+                //    else if (enemy[i]->enemy_state != EnemyState::kDeath && enemy[i]->enemy_state != EnemyState::kParachute)
+                //    {
+                //        enemy[i]->enemy_state = EnemyState::kDeath;
+                //    }
+                //}
+
+                // 敵同士の当たり判定
+                for (int j = 0; j <= 2; j++)
+                {
+                    if (i != j && enemy[i]->EnemyRightSideBox(enemy[j]) == true)
+                    //if (i != j && enemy[i]->EnemyHitBox(enemy[j]) == true)
+                    {
+                        enemy[i]->SetBoundFlg(1);
+                        //enemy[j]->SetBoundFlg(1);
+                    }
+                }
 
                 // 敵とステージの当たり判定
                 for (int j = 0; j < 3; j++)
                 {
-                    if (stage_floor[j]->EnemyHitBox(enemy[i]) == true)
+                    if (stage_floor[j]->EnemyHitBox(enemy[i]) == true && enemy[i]->enemy_state != EnemyState::kDeath)
                     {
                         if (stage_floor[j]->EnemyHitTopBox(enemy[i]) == true)
                         {
@@ -160,17 +175,10 @@ AbstractScene* GameMain::Update()
                             {
                                 // 飛んでいるときにステージに着地したとき
                                 // 直ぐに飛び立つ
-                               // enemy[i]->SetLevitationFlg(1);
-                                
-                               // デバッグ用
-                                //enemy[j]->enemy_state = EnemyState::kUpright;
+                               // enemy[i]->SetLevitationFlg(1);                                
                             }
                             else if (enemy[i]->enemy_state == EnemyState::kParachute)
                             {
-                                // パラシュート状態でステージに着地したとき
-                                // 直立状態になる
-
-                                // 現状->ステージに触れたら直立状態になる
                                 enemy[i]->enemy_state = EnemyState::kUpright;
                             }
                         }
@@ -198,24 +206,14 @@ AbstractScene* GameMain::Update()
                                 // 飛んでいるときにステージに着地したとき
                                 // 直ぐに飛び立つ
                                // enemy[i]->SetLevitationFlg(1);
-
-                               // デバッグ用
-                                //enemy[j]->enemy_state = EnemyState::kUpright;
                             }
                             else if (enemy[i]->enemy_state == EnemyState::kParachute)
                             {
-                                // パラシュート状態でステージに着地したとき
-                                // 直立状態になる
-
-                                // 現状->ステージに触れたら直立状態になる
                                 enemy[i]->enemy_state = EnemyState::kUpright;
                             }
                         }
-                        // ステージに当たった時の敵の跳ね返りを書く
-                        //player->Bounce();
                     }
                 }
-
             }
             break;
         case 2:
@@ -236,24 +234,14 @@ AbstractScene* GameMain::Update()
                                 // 飛んでいるときにステージに着地したとき
                                 // 直ぐに飛び立つ
                                // enemy[i]->SetLevitationFlg(1);
-
-                               // デバッグ用
-                                //enemy[j]->enemy_state = EnemyState::kUpright;
                             }
                             else if (enemy[i]->enemy_state == EnemyState::kParachute)
                             {
-                                // パラシュート状態でステージに着地したとき
-                                // 直立状態になる
-
-                                // 現状->ステージに触れたら直立状態になる
                                 enemy[i]->enemy_state = EnemyState::kUpright;
                             }
                         }
-                        // ステージに当たった時の敵の跳ね返りを書く
-                        //player->Bounce();
                     }
                 }
-
             }
             break;
         case 3:
@@ -280,18 +268,11 @@ AbstractScene* GameMain::Update()
                             }
                             else if (enemy[i]->enemy_state == EnemyState::kParachute)
                             {
-                                // パラシュート状態でステージに着地したとき
-                                // 直立状態になる
-
-                                // 現状->ステージに触れたら直立状態になる
                                 enemy[i]->enemy_state = EnemyState::kUpright;
                             }
                         }
-                        // ステージに当たった時の敵の跳ね返りを書く
-                        //player->Bounce();
                     }
                 }
-
             }
             break;
         case 4:
@@ -312,9 +293,6 @@ AbstractScene* GameMain::Update()
                                 // 飛んでいるときにステージに着地したとき
                                 // 直ぐに飛び立つ
                                // enemy[i]->SetLevitationFlg(1);
-
-                               // デバッグ用
-                                //enemy[j]->enemy_state = EnemyState::kUpright;
                             }
                             else if (enemy[i]->enemy_state == EnemyState::kParachute)
                             {
@@ -325,11 +303,8 @@ AbstractScene* GameMain::Update()
                                 enemy[i]->enemy_state = EnemyState::kUpright;
                             }
                         }
-                        // ステージに当たった時の敵の跳ね返りを書く
-                        //player->Bounce();
                     }
                 }
-
             }
             break;
         }
@@ -525,12 +500,9 @@ void GameMain::Draw() const
             }
             break;
         }
-
     }
 
     player->Draw();        //プレイヤー画像の描画処理
-
-    //enemy->Draw();         //敵画像の描画処理
 
     thunder->Draw();        //雷画像の描画処理
 
