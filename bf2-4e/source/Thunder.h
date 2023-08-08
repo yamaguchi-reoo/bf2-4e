@@ -1,10 +1,11 @@
 #pragma once
 #include "Fps.h"
+#include"BoxCollision.h"
 #include "math.h"
 #define _USE_MATH_DEFINES
 
 
-class Thunder
+class Thunder:public BoxCollision
 {
 private:
 	/* 画像用変数 */
@@ -15,13 +16,15 @@ private:
 
 	/*アニメーションの待機用変数*/
 	//雷雲
+	int cloud_X;				//雲のX座標
+	int cloud_Y;				//雲のY座標
 	int cloud_anime_num;
 
 	int thunder_cloud_frame = 60;	//制限時間
 	int thunder_cloud_anime_frame;	//雷雲のアニメーション用のフレーム
 
 	//雷雲のアニメーション
-	int thunder_cloud_time;			//
+	int thunder_cloud_time;	
 	int thunder_cloud_anime_num;	//雷雲の画像のループ
 
 	//稲光
@@ -45,28 +48,32 @@ private:
 
 	float BallAngle;		//ボールの角度
 	int Speed;				//ボールのスピード
-	int MoveX;				//ボールのX移動量
-	int MoveY;				//ボールのY移動量
-	int BallX;				//ボールのX座標
-	int BallY;				//ボールのY座標
+	float MoveX;				//ボールのX移動量
+	float MoveY;				//ボールのY移動量
+	//float BallX;				//ボールのX座標
+	//float BallY;				//ボールのY座標
 	int BallFlg;			//ボールの状態(0...移動中 1...バー接触 2...スタート状態)
 
+	int thunder_angle;		//雷の角度
 
 public:
 	void ChangeAngle();		//角度変更処理
 	void MoveBall();		//ボールの移動
+	void StartBall();		//スタートボール
+	int R_BallFlg();		//ボールの戻り値
 
-	int GetBallX()
-	{
-		//ボールのX座標を返す
-		return BallX;
-	}
 
-	int GetBallY()
-	{
-		//ボールのY座標を返す
-		return BallY;
-	}
+	//float GetBallX()
+	//{
+	//	//ボールのX座標を返す
+	//	return BallX;
+	//}
+
+	//float GetBallY()
+	//{
+	//	//ボールのY座標を返す
+	//	return BallY;
+	//}
 
 	float* GetBallAngle()
 	{
