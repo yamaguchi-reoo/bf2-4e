@@ -149,7 +149,6 @@ void Fish::PlayerEat()
 	fish_flg = 3;
 	
 }
-
 int Fish::FishSpwn()
 {
 	return fish_animation_count;
