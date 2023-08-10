@@ -1,8 +1,6 @@
 #pragma once
 #include "BoxCollision.h"
 
-#define MAX_FLYING_DIAMETER (1.20f)
-
 class Player :public BoxCollision
 {
 private:
@@ -15,19 +13,21 @@ private:
 
 	float move_x;			//プレイヤーの移動量(横)
 	float move_y;			//プレイヤーの移動量(縦)
+	float inertia;			//プレイヤーにかかる慣性力
+	int x_count;			//X座標移動時のカウントダウン用変数
 
 public:
-	//void Move();				//プレイヤーの移動
-	//void PlayerFlight();		//プレイヤーの空中状態
+	void Move();				//プレイヤーの移動
+	void PlayerFlight();		//プレイヤーの空中状態
 	void PlayerGroundWalk();	//プレイヤーの地面歩行
-	//void HitCeiling();			//プレイヤーの移動範囲
+	void HitCeiling();			//プレイヤーの移動範囲
 	/*void PlayerFalling();*/		//プレイヤーにかかる重力
 
 	bool PlayerFlg();			//立っているか判断する
 	void PlayerReversalFlg();	//フラグを反転させる
 	void Bounce();				//反発（仮）
-	int GetLocationX();			//プレイヤーのX座標
-	int GetLocationY();			//プレイヤーのY座標
+	float GetLocationX();			//プレイヤーのX座標
+	float GetLocationY();			//プレイヤーのY座標
 	void PlayerReset();			//プレイヤーを初期位置に
 
 	//void ButtonAInterval();		//ボタン操作のインターバル
