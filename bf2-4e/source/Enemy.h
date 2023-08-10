@@ -121,5 +121,13 @@ public:
 
 	// X座標のワープをした後の座標変更処理
 	void AfterWarp();
+
+
+	//シャボン玉スポーン時の敵の状態からの判断するための処理
+	bool EnemyStateJudgment(void);
+
+	public:
+		static float get_location_x;		// 敵のX座標参照用の変数
+		static float get_location_y;		// 敵ののY座標参照用の変数
 };
 

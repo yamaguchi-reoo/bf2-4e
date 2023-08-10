@@ -28,7 +28,7 @@ private:
 	
 public:
 	//コンストラクタ
-	Bubble();
+	Bubble(float posX,float posY, bool drawflg, bool getflg);
 
 	//デストラクタ
 	~Bubble();
@@ -48,4 +48,12 @@ public:
 	//ゲットフラグ変更
 	void ChangeGetFlg(void);
 
+	//描画フラグの参照
+	int GetDrawFlg(void);
+
+	//取得フラグの参照
+	int GetGetFlg(void);
+
+public:
+	static float NowUpdateBubble;
 };

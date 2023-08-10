@@ -12,7 +12,10 @@ GameMain::GameMain()
     thunder = new Thunder();
     fish = new Fish();
 
-    bubble = new Bubble();
+    for (int i = 0; i <= 5; i++) {
+        bubble[i] = new Bubble(0, 0, false,false);
+    }
+    //bubble = new Bubble();
 
     stage = 0;
     flg = false;
@@ -122,12 +125,15 @@ AbstractScene* GameMain::Update()
 
         thunder->Update();
 
-        bubble->Update();
-
-        if (bubble->HitBox(player) == true)
-        {
-            bubble->ChangeGetFlg();
+        for (int i = 0; i <= 5; i++) {
+            bubble[i]->Update();
+            //シャボン玉とプレイヤーのヒット処理
+            if (bubble[i]->HitBox(player) == true)
+            {
+                bubble[i]->ChangeGetFlg();
+            }
         }
+
         //collision->HitBox(object);
 
         // ステージごとの敵の更新処理
@@ -138,6 +144,14 @@ AbstractScene* GameMain::Update()
             for (int i = 0; i <= 2; i++)
             {
                 enemy[i]->Update();
+                //シャボン玉スポーン
+                if (enemy[i]->EnemyStateJudgment() == true) 
+                {
+                    if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false)) 
+                    {
+                        bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y,true, false);
+                    }
+                }
             }
             break;
         case 1:
@@ -145,6 +159,14 @@ AbstractScene* GameMain::Update()
             for (int i = 0; i <= 4; i++)
             {
                 enemy[i]->Update();
+                //シャボン玉スポーン
+                if (enemy[i]->EnemyStateJudgment() == true)
+                {
+                    if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false))
+                    {
+                        bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y, true, false);
+                    }
+                }
             }
             break;
         case 2:
@@ -152,6 +174,14 @@ AbstractScene* GameMain::Update()
             for (int i = 0; i <= 4; i++)
             {
                 enemy[i]->Update();
+                //シャボン玉スポーン
+                if (enemy[i]->EnemyStateJudgment() == true)
+                {
+                    if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false))
+                    {
+                        bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y, true, false);
+                    }
+                }
             }
             break;
         case 3:
@@ -159,6 +189,14 @@ AbstractScene* GameMain::Update()
             for (int i = 0; i <= 4; i++)
             {
                 enemy[i]->Update();
+                //シャボン玉スポーン
+                if (enemy[i]->EnemyStateJudgment() == true)
+                {
+                    if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false)) 
+                    {
+                        bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y, true, false);
+                    }
+                }
             }
             break;
         case 4:
@@ -166,6 +204,14 @@ AbstractScene* GameMain::Update()
             for (int i = 0; i <= 5; i++)
             {
                 enemy[i]->Update();
+                //シャボン玉スポーン
+                if (enemy[i]->EnemyStateJudgment() == true)
+                {
+                    if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false))
+                    {
+                        bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y, true,false);
+                    }
+                }
             }
             break;
         }
@@ -284,6 +330,7 @@ AbstractScene* GameMain::Update()
         }
 
     }
+
     // ここで値の更新など、処理)
 
     //object->Update();
@@ -369,9 +416,7 @@ void GameMain::Draw() const
     //enemy->Draw();         //敵画像の描画処理
 
     thunder->Draw();        //雷画像の描画処理
-
-    bubble->Draw();         //シャボン玉の描画処理
-
+   
     //stageitem->Draw();     //ステージアイテムの描画処理
 
     //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
@@ -412,7 +457,13 @@ void GameMain::Draw() const
             stage_floor[i]->Draw();
         }
         break;
-    }      
+    }  
+
+    //シャボン玉の描画処理
+    for (int i = 0; i <= 5; i++) {
+        bubble[i]->Draw();
+    } 
+
 };
 //ステージの切替
 void GameMain::ChangeScene()
@@ -496,4 +547,10 @@ void GameMain::ChangeScene()
         enemy[5] = new Enemy(240.0f, 50.0f, 2);
         break;
     }
+
+    // シャボン玉の初期化
+        for (int i = 0; i <= 5; i++)
+        {
+            bubble[i] = new Bubble(0, 0, false, false);
+        }
 }

@@ -2,7 +2,7 @@
 #include "Bubble.h"
 #include <math.h>
 
-Bubble::Bubble()
+Bubble::Bubble(float posX, float posY, bool drawflg, bool getflg)
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -17,8 +17,8 @@ Bubble::Bubble()
 	now_image = 0;							// ¡‚©‚ç•\Ž¦‚³‚ê‚é‰æ‘œ
 	next_image = 0;							// ŽŸ‚É•\Ž¦‚³‚ê‚é‰æ‘œ
 
-	location.x = 50;
-	location.y = 70;
+	location.x = 0;
+	location.y = 0;
 	erea.height = 40;
 	erea.width = 40;
 	erea.width_rate = 0;
@@ -28,14 +28,14 @@ Bubble::Bubble()
 	PosX = 0;		// •`‰æÀ•WX
 	PosY = 0;		// •`‰æÀ•WY
 	Radius = 0;		// ”¼Œa(•`‰æ—p)
-	CenterX = 100;	// ’†SÀ•WX
-	CenterY = 400;	// ’†SÀ•WY
+	CenterX = posX;	// ’†SÀ•WX
+	CenterY = posY;	// ’†SÀ•WY
 	Angle = 0;		// Šp“x
 	Length = 30;		// ”¼Œa‚Ì’·‚³
 
-	GetFlg = false;		//ƒQƒbƒgƒtƒ‰ƒO(true:Get false:NotGet)
+	GetFlg = getflg;//false;		//ƒQƒbƒgƒtƒ‰ƒO(true:Get false:NotGet)
 
-	DrawFlg = true;		//‰æ‘œ‚Ì•`‰æƒtƒ‰ƒO(true:•`‰æ‚·‚é false:•`‰æ‚µ‚È‚¢)
+	DrawFlg = drawflg;		//‰æ‘œ‚Ì•`‰æƒtƒ‰ƒO(true:•`‰æ‚·‚é false:•`‰æ‚µ‚È‚¢)
 }
 
 Bubble::~Bubble()
@@ -73,7 +73,7 @@ void Bubble::Draw() const
 	if (DrawFlg == true) 
 	{
 		DrawRotaGraph((int)PosX, (int)PosY, 1, 0, BubbleImage[now_image], TRUE);
-		DrawBox((int)location.x, (int)location.y, (int)location.x + erea.width, (int)location.y + erea.height, 0xffffff, false);
+		DrawBox((int)location.x, (int)location.y, (int)location.x + (int)erea.width, (int)location.y + (int)erea.height, 0xffffff, false);
 	}
 }
 
@@ -103,8 +103,8 @@ void Bubble::MoveBubble(void)
 	float radius = Angle * 3.14f / 180.0f;
 
 	// ŽOŠpŠÖ”‚ðŽg—p‚µA‰~‚ÌˆÊ’u‚ðŠ„‚èo‚·B
-	float add_x = cos(radius) * Length;
-	float add_y = sin(radius) * Length;
+	float add_x = (float)cos(radius) * Length;
+	float add_y = (float)sin(radius) * Length;
 
 	// Œ‹‰Ê‚Å‚Å‚½ˆÊ’u‚ð’†SˆÊ’u‚É‰ÁŽZ‚µA‚»‚ê‚ð•`‰æˆÊ’u‚Æ‚·‚é
 	PosX = CenterX + add_x;
@@ -123,3 +123,14 @@ void Bubble::ChangeGetFlg(void)
 {
 	GetFlg = true;
 }
+
+int Bubble::GetDrawFlg(void)
+{
+	return DrawFlg;
+}
+
+int Bubble::GetGetFlg(void)
+{
+	return GetFlg;
+}
+

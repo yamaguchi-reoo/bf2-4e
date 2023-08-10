@@ -23,7 +23,7 @@ private:
     Thunder* thunder;       //雷クラスのオブジェクト化
     Fish* fish;
 
-    Bubble* bubble;         //シャボン玉のオブジェクト化
+    Bubble* bubble[6];         //シャボン玉のオブジェクト化
 
     bool pause_flag;     //ポーズのフラグ取り
 
