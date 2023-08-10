@@ -34,15 +34,15 @@ Thunder::Thunder()
 	erea.width = 21;
 
 	//角度処理
-	BallAngle = 0;
-	MoveX = 0;
-	MoveY = 0;
+	ball_angle = 0.625f;
+	moveX = 0;
+	moveY = 0;
 
 	//ボールフラグ
-	BallFlg = 0;
+	ball_flg = 0;
 
 	//ボールのスピード
-	//Speed = 3;
+	speed = 3;
 
 	//角度の初期化
 	thunder_angle = 1;
@@ -127,14 +127,14 @@ void Thunder::Update()
 				thunder_effect_anime_num = 1;
 			}
 		}	
-		Speed = 3;
-		BallFlg = 0;
+		speed = 3;
+		ball_flg = 0;
 		
 
 		switch (thunder_angle)
 		{
 		case 1:
-			BallAngle = 0.625f;
+			ball_angle = 0.625f;
 			ChangeAngle();
 			break;
 
@@ -144,10 +144,10 @@ void Thunder::Update()
 	}
 
 	// ボールの移動
-	if (BallFlg != 2)
+	if (ball_flg != 2)
 	{
-		location.x += MoveX;
-		location.y += MoveY;
+		location.x += moveX;
+		location.y += moveY;
 	}
 
 	// 壁・天井での反射
@@ -162,16 +162,16 @@ void Thunder::Update()
 		{
 			location.x = 640 - erea.width;
 		}
-		BallAngle = (1 - BallAngle) + 0.5f;
-		if (BallAngle > 1) BallAngle -= 1.0f;
+		ball_angle = (1 - ball_angle) + 0.5f;
+		if (ball_angle > 1) ball_angle -= 1.0f;
 		/*ChangeAngle();*/
 	}
 
-	if (location.y < 0)
+	if (location.y < 20)
 	{
-		location.y = 0;
+		location.y *= -1;
 		// 上の壁
-		BallAngle = (1 - BallAngle);
+		ball_angle = (1 - ball_angle);
 		ChangeAngle();
 	}
 	//if (location.y > 480 + 4)
@@ -189,25 +189,25 @@ Thunder::~Thunder()
 void Thunder::ChangeAngle()
 {
 	//角度の変更処理
-	float rad = BallAngle * (float) M_PI * 2;
-	MoveX = Speed*(float) cos(rad);
-	MoveY = Speed*(float) sin(rad);
+	float rad = ball_angle * (float) M_PI * 2;
+	moveX = speed*(float) cos(rad);
+	moveY = speed*(float) sin(rad);
 }
 
 void Thunder::StartBall()
 {
-	BallFlg = 0;
+	ball_flg = 0;
 
 	//移動量計算
-	Speed = 3;
-	BallAngle = 0.625f;
+	speed = 3;
+	ball_angle = 0.625f;
 	ChangeAngle();
 }
 
 int Thunder::R_BallFlg()
 {
 	//ボールフラグ
-	return BallFlg;
+	return ball_flg;
 }
 
 void Thunder::MoveBall()

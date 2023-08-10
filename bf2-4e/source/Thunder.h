@@ -46,13 +46,13 @@ private:
 	bool thunder_effect_shoot_flg;			//雷モドキが出ているどうか
 	bool is_thunder_effect_shoot_ready;		//雷モドキを出すかどうか
 
-	float BallAngle;		//ボールの角度
-	int Speed;				//ボールのスピード
-	float MoveX;				//ボールのX移動量
-	float MoveY;				//ボールのY移動量
+	float ball_angle;		//ボールの角度
+	int speed;				//ボールのスピード
+	float moveX;				//ボールのX移動量
+	float moveY;				//ボールのY移動量
 	//float BallX;				//ボールのX座標
 	//float BallY;				//ボールのY座標
-	int BallFlg;			//ボールの状態(0...移動中 1...バー接触 2...スタート状態)
+	int ball_flg;			//ボールの状態(0...移動中 1...バー接触 2...スタート状態)
 
 	int thunder_angle;		//雷の角度
 
@@ -78,12 +78,12 @@ public:
 	float* GetBallAngle()
 	{
 		//ボールの角度を返す
-		return &BallAngle;
+		return &ball_angle;
 	}
 
 	void SetBallAngle(float Angle)
 	{
-		BallAngle = (1 - Angle);
+		ball_angle = (1 - Angle);
 	}
 
 	//コンストラクタ
