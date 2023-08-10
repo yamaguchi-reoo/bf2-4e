@@ -164,12 +164,12 @@ void Thunder::Update()
 		}
 		ball_angle = (1 - ball_angle) + 0.5f;
 		if (ball_angle > 1) ball_angle -= 1.0f;
-		/*ChangeAngle();*/
+		ChangeAngle();
 	}
 
-	if (location.y < 20)
+	if (location.y < 4)
 	{
-		//location.y = 0;
+		location.y = 0;
 		// ã‚Ì•Ç
 		ball_angle = (1 - ball_angle);
 		ChangeAngle();
@@ -213,18 +213,17 @@ int Thunder::R_BallFlg()
 void Thunder::MoveBall()
 {
 	
-	
 }
 
 void Thunder::Draw() const
 {
 	//—‹‰_‚Ì•`‰æ
-	DrawRotaGraph(cloud_X, cloud_Y, 1.0f, 0, thunder_cloud_image[cloud_anime_num], TRUE, TRUE);				//‰_
+	DrawRotaGraph(cloud_X, cloud_Y, 1.0f, 0, thunder_cloud_image[cloud_anime_num], TRUE, TRUE);							//‰_
 
 	//ˆîŒõ‚Ì•`‰æ
 	if (thunder_shoot_flg == true)
 	{
-		DrawRotaGraphF(480, 150, 1.0f, 0, thunder_image[thunder_anime_num], TRUE, TRUE);					//ˆîŒõ
+		DrawRotaGraphF(480, 150, 1.0f, 0, thunder_image[thunder_anime_num], TRUE, TRUE);								//ˆîŒõ
 	}
 	
 	//—‹ƒ‚ƒhƒL‚Ì•`‰æ
