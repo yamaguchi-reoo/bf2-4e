@@ -3,6 +3,7 @@
 #include "Title.h"
 #include "common.h"
 #include "PadInput.h"
+#include "KeyInput.h"
 #include "GameMain.h"
 #include "Fps.h"
 
@@ -34,6 +35,7 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
         ClearDrawScreen(); // 画面の初期化
         PadInput::UpdateKey();//入力処理
+        KeyInput::UpdateKey();
         // シーンマネジャーでシーンの描画開始
         sceneMng->Draw();
         fps.Update();	//更新
