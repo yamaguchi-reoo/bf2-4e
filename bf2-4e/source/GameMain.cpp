@@ -184,13 +184,13 @@ AbstractScene* GameMain::Update()
                         //player->Bounce();
                     }
                 }
-            }
+
                 //シャボン玉スポーン
-                if (enemy[i]->EnemyStateJudgment() == true) 
+                if (enemy[i]->EnemyStateJudgment() == true)
                 {
-                    if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false)) 
+                    if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false))
                     {
-                        bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y,true, false);
+                        bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y, true, false);
                     }
                 }
             }
@@ -231,7 +231,6 @@ AbstractScene* GameMain::Update()
                     }
                 }
 
-            }
                 //シャボン玉スポーン
                 if (enemy[i]->EnemyStateJudgment() == true)
                 {
@@ -278,7 +277,6 @@ AbstractScene* GameMain::Update()
                     }
                 }
 
-            }
                 //シャボン玉スポーン
                 if (enemy[i]->EnemyStateJudgment() == true)
                 {
@@ -325,11 +323,10 @@ AbstractScene* GameMain::Update()
                     }
                 }
 
-            }
                 //シャボン玉スポーン
                 if (enemy[i]->EnemyStateJudgment() == true)
                 {
-                    if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false)) 
+                    if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false))
                     {
                         bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y, true, false);
                     }
@@ -377,7 +374,7 @@ AbstractScene* GameMain::Update()
                 {
                     if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false))
                     {
-                        bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y, true,false);
+                        bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y, true, false);
                     }
                 }
             }
