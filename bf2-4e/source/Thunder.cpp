@@ -169,7 +169,7 @@ void Thunder::Update()
 
 	if (location.y < 20)
 	{
-		location.y *= -1;
+		//location.y = 0;
 		// ã‚Ì•Ç
 		ball_angle = (1 - ball_angle);
 		ChangeAngle();
