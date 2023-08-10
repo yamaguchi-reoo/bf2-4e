@@ -33,25 +33,49 @@ Player::Player()
 
 	move_x = 0.0f;
 	move_y = 0.0f;
+
+	a_button_flg = 0;
+	fly_cnt = 0;
 }
 Player::~Player()
 {
 
 }
+
 void Player::Update()
 {
+	/************ プレイヤー操作に関する処理 ************/
+
+	//Aボタンが押されたかを判定する処理
+	AButtonFlg();
+	// Aボタンが押された時
+	if (a_button_flg == 1)
+	{
+		//浮上用カウントを１０にする
+		fly_cnt = 10;
+		//プレイヤーを落下状態にする
+		ground_flg = 1;
+	}
+	//浮上用カウントが０より大きい場合
+	if (fly_cnt > 0)
+	{
+		//プレイヤーを2ずつ浮上させる
+		move_y = -2.f;
+		//浮上用カウントを1ずつ減らす
+		fly_cnt -= 1;
+	}
+	/*ButtonAInterval();*/
+	//プレイヤーの地面での歩行動作
 	//PlayerGroundWalk();
-	PlayerFlight();
-	Move();
-	//MoveLocation();
-	HitCeiling();
-	PlayerFalling();
-	move_y += player_gravity;
+	if (ground_flg == 1)
+	{
+		move_y += player_gravity;
+	}
 	location.y += move_y;
 	location.x += move_x;
 	get_location_x = location.x;
 	get_location_y = location.y;
-	move_x = 0;
+	move_x = 0.0f;
 }
 
 void Player::Draw()const
@@ -63,57 +87,41 @@ void Player::Draw()const
 	location.y - ((erea.height / 2.f) * erea.height_rate) + erea.height,
 	0xff00ff, FALSE);
 	DrawFormatString(0, 400, 0xffffff, "move_x = %3f, move_y = %3f", move_x, move_y);
+	DrawFormatString(300, 400, 0xffffff, "fly_cnt %d", fly_cnt);
 }
 
-//プレイヤーの移動
-void Player::Move()
+////Aボタンを押したときのインターバル処理
+//void Player::ButtonAInterval()
+//{
+//	//Aボタンが押されている間かつ浮上状態の時
+//	if (PadInput::OnPressed(XINPUT_BUTTON_A) == 1)
+//	{
+//		//浮上状態になる
+//		ground_flg = 1;
+//		move_y -= 4.0f;
+//		//10フレーム経つまで上昇し続ける
+//		for (int i = 0; i<100; i++)
+//		{
+//
+//		}
+//		//100フレーム経ったらY座標の移動量を0にする
+//		move_y = 0;
+//	}
+//}
+
+//Aボタンが押された時のフラグの切り替え
+int Player::AButtonFlg()
 {
-	//右
-	if (0.4f < PadInput::TipLeftLStick(STICKL_X))
+	if (PadInput::OnButton(XINPUT_BUTTON_A) == 1)
 	{
-		//プレイヤーの向き(右)
-		direction = DIRECTION_RIGHT;
-		//プレイヤーの移動(右(地面にいる状態))
-		if (ground_flg == 0)
-		{
-			move_x += 2.0f;
-		}
-		else if (ground_flg == 1 && (PadInput::OnButton(XINPUT_BUTTON_X) == 1 || PadInput::OnPressed(XINPUT_BUTTON_B) == 1))
-		{
-			move_x += 2.0f;
-		}
-		else
-		{
-			move_x += 0.04f;
-		}
+		a_button_flg = 1;
+	}
+	else
+	{
+		a_button_flg = 0;
 	}
 
-	//左
-	if (PadInput::TipLeftLStick(STICKL_X) < -0.4f)
-	{
-		//プレイヤーの向き(左)
-		direction = DIRECTION_LEFT;
-		//プレイヤーの移動(左(地面にいる状態))
-		if (ground_flg == 0)
-		{
-			move_x -= 2.0f;
-		}
-		else if (ground_flg == 1 && (PadInput::OnButton(XINPUT_BUTTON_X) == 1 || PadInput::OnPressed(XINPUT_BUTTON_B) == 1))
-		{
-			move_x -= 2.0f;
-		}
-	}
-
-	//プレイヤーが画面右端を越えた場合、画面反対の端にワープする
-	if (640 < (location.x - (erea.width / 2)))
-	{
-		location.x = -15;
-	}
-	//プレイヤーが画面左端を越えた場合、画面反対の端にワープする
-	if ((location.x + (erea.width / 2)) < 0)
-	{
-		 location.x = 655;
-	}
+	return a_button_flg;
 }
 
 //プレイヤーの地面での歩行動作
@@ -121,61 +129,23 @@ void Player::PlayerGroundWalk()
 {
 	//player_flg = 0;
 	ground_flg = 0;
-	if((PadInput::OnButton(XINPUT_BUTTON_X) == 0 && ground_flg == 0) || 
-		(PadInput::OnButton(XINPUT_BUTTON_B) == 0 && ground_flg == 0))
+	if ((PadInput::OnButton(XINPUT_BUTTON_A) == 0 && ground_flg == 0) ||
+		(PadInput::OnPressed(XINPUT_BUTTON_B) == 0 && ground_flg == 0))
 	{
-		move_y = -player_gravity;
+		//player_gravity;
 	}
 }
 
-//プレイヤーの空中状態
-void Player::PlayerFlight()
+bool Player::PlayerFlg() 
 {
-	if (PadInput::OnButton(XINPUT_BUTTON_A) == 1|| PadInput::OnPressed(XINPUT_BUTTON_B) == 1)
+	if (ground_flg == 0) 
 	{
-		ground_flg = 1;
-		player_images[17];
-	}
-}
-
-void Player::HitCeiling()
-{
-	if (location.y < 16.f)
-	{
-		location.y = 24.f;
-		if(move_y < 0)
-		{
-			move_y = move_y * -0.8f;
-		}
-	}
-}
-
-void Player::PlayerFalling()
-{
-	if (PadInput::OnButton(XINPUT_BUTTON_A) == 1)
-	{
-		ground_flg = 1;
-		move_y += -1.5f;
-	}
-	if (ground_flg == 1 && PadInput::OnPressed(XINPUT_BUTTON_B) == 1)	//Bボタンを押している間かつプレイヤーが浮上状態の時
-	{
-		ground_flg = 1;
-		move_y += -0.2f;
-	}
-	if (move_y < -5)
-	{
-		move_y = -5.f;
-		move_y = move_y * 0.8f;
-	}
-}
-
-bool Player::PlayerFlg() {
-	if (ground_flg == 0) {
 		return true;
 	}
 	
 	return  false;
 }
+
 void Player::PlayerReversalFlg() {
 	ground_flg = !ground_flg;
 	//player_flg = !player_flg;
