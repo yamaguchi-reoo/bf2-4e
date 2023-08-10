@@ -181,10 +181,11 @@ void Enemy::Draw() const
 	//DrawFormatString(200, 250, 0xff0000, "E state = %d", enemy_state);
 	//DrawFormatString(20, 150, 0xffffff, "E enemy_speed = %f", enemy_speed);
 	//DrawFormatString(20, 250, 0xff0000, "E enemy_state = %d", enemy_state);
-	DrawFormatString(20, 150, 0xff0000, "E bound_flg = %d", bound_flg);
+	//DrawFormatString(20, 150, 0xff0000, "E bound_flg = %d", bound_flg);
 	//DrawFormatString(20, 200, 0xff0000, "E avoidance_flg = %d", avoidance_flg);
-	DrawFormatString(20, 200, 0xff0000, "E turn_flg = %d", turn_flg);
-	DrawFormatString(20, 250, 0xff0000, "E old_turn_flg = %d", old_turn_flg);
+	//DrawFormatString(20, 200, 0xff0000, "E turn_flg = %d", turn_flg);
+	//DrawFormatString(20, 250, 0xff0000, "E old_turn_flg = %d", old_turn_flg);
+	//DrawFormatString(20, 250, 0xff0000, "E enemy_life = %d", enemy_life);
 #endif	//_DEBUG
 
 	if (enemy_type == 0)
@@ -521,6 +522,7 @@ void Enemy::Death()
 	if (animation_count <= 4)
 	{
 		now_image = 13;
+		enemy_life = FALSE;
 	}
 	else if (animation_count <= 8)
 	{
@@ -544,10 +546,10 @@ void Enemy::Death()
 	}
 
 	// 現在の座標 + enemy_y >= 480 にする必要がある
-	//if (location.y >= 480)
-	//{
-		// enemy_life = FALSE;
-	//}
+	/*if (location.y >= 480)
+	{
+		 enemy_life = FALSE;
+	}*/
 }
 
 // プレイヤーとの座標の差を取得するかの判定処理
@@ -652,4 +654,9 @@ void Enemy::Levitation(void)
 void Enemy::SetLevitationFlg(int set_flg)
 {
 	levitation_flg = set_flg;
+}
+
+int Enemy::GetEnemyLifeFlg()
+{
+	return enemy_life;
 }

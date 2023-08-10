@@ -131,5 +131,7 @@ public:
 	// “G‚Ì•‚ãƒtƒ‰ƒO‚Ìİ’è
 	void SetLevitationFlg(int set_flg);
 
+	int GetEnemyLifeFlg();
+
 };
 
