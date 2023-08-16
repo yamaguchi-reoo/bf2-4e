@@ -31,6 +31,7 @@ private:
 	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
 	int power_up_flg;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
 	int enemy_life;							// 敵の生死状態（TRUE:生きている　FALSE:死亡）
+	int enemy_death;						// 敵の死亡状態（TRUE:死亡）
 	int bound_flg;							// 敵の跳ね返り状態（1:跳ね返る　0:跳ね返らない）
 	int levitation_flg;						// 敵の浮上（TRUE:浮上する）
 
@@ -133,5 +134,8 @@ public:
 
 	int GetEnemyLifeFlg();
 
+	// 死亡状態フラグの取得
+	int GetEnemyDeathFlg();
+	void SetEnemyDeathFlg();
 };
 

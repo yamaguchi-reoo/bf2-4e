@@ -32,6 +32,7 @@ Enemy::Enemy(float set_x, float set_y, int set_type)
 	enemy_type = set_type;
 	power_up_flg = FALSE;
 	enemy_life = TRUE;
+	enemy_death = FALSE;
 	bound_flg = 0;							// 今は跳ね返らない状態
 	levitation_flg = 0;						// 浮上しない
 
@@ -131,6 +132,7 @@ void Enemy::Update()
 		case EnemyState::kFlight:
 			// 空中で羽ばたくアニメーション処理
 			Flight();
+			//AirFall();
 			if (levitation_flg == 1)
 			{
 				// 敵の浮上
@@ -174,7 +176,7 @@ void Enemy::Update()
 void Enemy::Draw() const
 {
 #if _DEBUG
-	//DrawFormatString(0, 130, 0xffffff, "E location.x = %3f, location.y = %3f", location.x, location.y);
+	DrawFormatString(0, 130, 0xffffff, "E location.x = %3f, location.y = %3f", location.x, location.y);
 	//DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
 	//DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
 	//DrawFormatString(0, 190, 0xff0000, "E now_image = %d", now_image);
@@ -234,9 +236,12 @@ void Enemy::Draw() const
 	// 敵の当たり判定範囲
 	//DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.height * erea.height_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffff00, FALSE);
 	
-	DrawBox(location.x - ((erea.width / 2) * erea.width_rate), location.y - ((erea.height / 2) * erea.height_rate), location.x - ((erea.width / 2) * erea.width_rate) + erea.width, location.y - ((erea.height / 2) * erea.height_rate) + erea.height, 0xffff00, FALSE);
+	DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y - (erea.height / 2 * erea.height_rate), location.x - (erea.width / 2 * erea.width_rate) + erea.width, location.y - (erea.height / 2 * erea.height_rate) + erea.height, 0xffff00, FALSE);
 	
-	//DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y - (erea.width / 2 * erea.height_rate) + erea.height, location.x - (erea.width / 2 * erea.height_rate) + erea.width, location.y - (erea.width / 2 * erea.height_rate) + erea.height, 0xff0000, FALSE);
+	// 風船部分
+	DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y - (erea.width / 2 * erea.height_rate), location.x - (erea.width / 2 * erea.height_rate) + erea.width, location.y, 0xff0000, FALSE);
+	// 体部分
+	DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y, location.x - (erea.width / 2 * erea.height_rate) + erea.width, location.y - (erea.height / 2 * erea.height_rate) + erea.height, 0x00ffff, FALSE);
 }
 
 // 敵の上下左右移動処理
@@ -522,7 +527,7 @@ void Enemy::Death()
 	if (animation_count <= 4)
 	{
 		now_image = 13;
-		enemy_life = FALSE;
+		enemy_death = TRUE;
 	}
 	else if (animation_count <= 8)
 	{
@@ -546,10 +551,10 @@ void Enemy::Death()
 	}
 
 	// 現在の座標 + enemy_y >= 480 にする必要がある
-	/*if (location.y >= 480)
+	if (location.y >= 480)
 	{
 		 enemy_life = FALSE;
-	}*/
+	}
 }
 
 // プレイヤーとの座標の差を取得するかの判定処理
@@ -659,4 +664,15 @@ void Enemy::SetLevitationFlg(int set_flg)
 int Enemy::GetEnemyLifeFlg()
 {
 	return enemy_life;
+}
+
+// 死亡状態フラグの取得
+int Enemy::GetEnemyDeathFlg()
+{
+	return enemy_death;
+}
+
+void Enemy::SetEnemyDeathFlg()
+{
+	enemy_death = FALSE;
 }

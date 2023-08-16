@@ -14,7 +14,6 @@ protected:
 	Location location;
 	Erea erea;
 	
-
 public:
 	bool HitBox(BoxCollision* bCollider);
 
@@ -29,4 +28,9 @@ public:
 	bool EnemyHitBox(BoxCollision* bCollider);
 	bool EnemyHitTopBox(BoxCollision* bCollider);
 	bool EnemyRightSideBox(BoxCollision* bCollider);
+
+	// •—‘D•”•ª‚Ì“–‚½‚è”»’è
+	bool HitBealloon(BoxCollision* bCollider);
+	// ‘Ì•”•ª‚Ì“–‚½‚è”»’è
+	bool HitBody(BoxCollision* bCollider);
 };

@@ -166,3 +166,54 @@ bool BoxCollision::EnemyRightSideBox(BoxCollision* bCollider)
 
 	return ret;
 }
+
+// 風船部分の当たり判定
+bool BoxCollision::HitBealloon(BoxCollision* bCollider)
+{
+	bool ret = false;	//返り値
+
+	//風船部分の当たり判定の範囲
+	float player_x1 = location.x - (erea.width / 2 * erea.width_rate);
+	float player_y1 = location.y - (erea.width / 2 * erea.height_rate);
+	float player_x2 = player_x1 + erea.width;
+	//float player_y2 = player_y1 + erea.height;
+	float player_y2 = location.y;
+
+	//体部分の判定の範囲
+	float enemy_x1 = bCollider->location.x - ((bCollider->erea.width / 2) * bCollider->erea.width_rate);
+	float enemy_y1 = bCollider->location.y;
+	float enemy_x2 = enemy_x1 + bCollider->erea.width;
+	float enemy_y2 = enemy_y1 - ((bCollider->erea.height / 2) * bCollider->erea.height_rate) + bCollider->erea.height;
+
+	if ((player_x1 < enemy_x2) && (enemy_x1 < player_x2) && (player_y1 < enemy_y2) && (enemy_y1 < player_y2))
+	{
+		return true;
+	}
+
+	return ret;
+}
+
+// 体部分の当たり判定
+bool BoxCollision::HitBody(BoxCollision* bCollider)
+{
+	bool ret = false;	//返り値
+
+	//体部分の当たり判定の範囲
+	float player_x1 = location.x - (erea.width / 2 * erea.width_rate);
+	float player_y1 = location.y;
+	float player_x2 = player_x1 + erea.width;
+	float player_y2 = player_y1 - (erea.width / 2 * erea.height_rate) + erea.height;
+
+	//風船部分の当たり判定の範囲
+	float enemy_x1 = bCollider->location.x - ((bCollider->erea.width / 2) * bCollider->erea.width_rate);
+	float enemy_y1 = bCollider->location.y - ((bCollider->erea.width / 2) * bCollider->erea.width_rate);
+	float enemy_x2 = enemy_x1 + bCollider->erea.width;
+	float enemy_y2 = bCollider->location.y;
+
+	if ((player_x1 < enemy_x2) && (enemy_x1 < player_x2) && (player_y1 < enemy_y2) && (enemy_y1 < player_y2))
+	{
+		return true;
+	}
+
+	return ret;
+}
