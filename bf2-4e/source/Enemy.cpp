@@ -42,6 +42,7 @@ Enemy::Enemy(float set_x, float set_y, int set_type)
 	enemy_type = set_type;
 	power_up_flg = FALSE;
 	enemy_death = FALSE;
+	enemy_delete = FALSE;
 	bound_flg = 0;							// 今は跳ね返らない状態
 	levitation_flg = 0;						// 浮上しない
 
@@ -198,7 +199,7 @@ void Enemy::Draw() const
 	//DrawFormatString(20, 200, 0xff0000, "E avoidance_flg = %d", avoidance_flg);
 	//DrawFormatString(20, 200, 0xff0000, "E turn_flg = %d", turn_flg);
 	//DrawFormatString(20, 250, 0xff0000, "E old_turn_flg = %d", old_turn_flg);
-	//DrawFormatString(20, 250, 0xff0000, "E enemy_life = %d", enemy_life);
+	DrawFormatString(20, 250, 0xff0000, "E enemy_death = %d", enemy_death);
 #endif	//_DEBUG
 
 	if (enemy_type == 0)
@@ -498,6 +499,13 @@ void Enemy::Parachute()
 	location.x = (sinf(angle2) * amplitude) + enemy_start_x;
 	// 落下処理
 	location.y += 0.5f;
+
+	if (location.y >= 480)
+	{
+		enemy_death = TRUE;
+		enemy_delete = TRUE;
+	}
+
 }
 
 // 直立状態の処理
@@ -532,14 +540,14 @@ void Enemy::Upright()
 // 死亡時のアニメーション処理
 void Enemy::Death()
 {
+	//enemy_death = TRUE;
+
 	// 画像は13, 14（2枚）
 	animation_count++;
 
 	if (animation_count <= 4)
 	{
 		now_image = 13;
-		//enemy_life = FALSE;
-		//enemy_delete = TRUE;
 	}
 	else if (animation_count <= 8)
 	{
@@ -562,10 +570,9 @@ void Enemy::Death()
 		location.y++;
 	}
 
-	// 現在の座標 + enemy_y >= 480 にする必要がある
 	if (location.y >= 480)
 	{
-		 enemy_death = FALSE;
+		 enemy_delete = TRUE;
 	}
 }
 
@@ -673,9 +680,21 @@ void Enemy::SetLevitationFlg(int set_flg)
 	levitation_flg = set_flg;
 }
 
+// 敵の死亡フラグの取得
 int Enemy::GetEnemyDeathFlg()
 {
 	return enemy_death;
+}
+
+void Enemy::SetEnemyDeathFlg(int flg)
+{
+	enemy_death = flg;
+}
+
+// 敵の削除フラグの取得
+int Enemy::GetEnemyDeleteFlg()
+{
+	return enemy_delete;
 }
 
 

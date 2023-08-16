@@ -27,6 +27,7 @@ private:
 	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
 	int power_up_flg;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
 	int enemy_death;						// 敵の生死状態（TRUE:死亡　FALSE:生存）
+	int enemy_delete;						// 敵の削除（TRUE:削除）
 	int bound_flg;							// 敵の跳ね返り状態（1:跳ね返る　0:跳ね返らない）
 	int levitation_flg;						// 敵の浮上（TRUE:浮上する）
 
@@ -124,8 +125,12 @@ public:
 	// 敵の浮上フラグの設定
 	void SetLevitationFlg(int set_flg);
 
+	// 敵の死亡フラグの取得
 	int GetEnemyDeathFlg();
+	void SetEnemyDeathFlg(int flg);
 
+	// 敵の削除フラグの取得
+	int GetEnemyDeleteFlg();
 
 	//シャボン玉スポーン時の敵の状態からの判断するための処理
 	bool EnemyStateJudgment(void);
