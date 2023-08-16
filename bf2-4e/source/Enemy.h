@@ -89,6 +89,9 @@ public:
 	// 敵の回避行動処理
 	void Avoidance();
 
+	// 慣性の処理
+	void Inertia();
+
 	// 風船を膨らませるアニメーション処理
 	void InflatBealloon();
 
@@ -127,6 +130,8 @@ public:
 
 	// 敵の死亡フラグの取得
 	int GetEnemyDeathFlg();
+
+	// 敵の死亡フラグの設定
 	void SetEnemyDeathFlg(int flg);
 
 	// 敵の削除フラグの取得

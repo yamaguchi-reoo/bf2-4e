@@ -535,6 +535,12 @@ void GameMain::ChangeScene()
         enemy[i] = nullptr;
     }
 
+    // ステージの配列を空にする
+    for (int i = 0; i < 10; i++)
+    {
+        stage_floor[i] = nullptr;
+    }
+
     switch (stage)
     {
     case 0:
