@@ -27,18 +27,12 @@ Enemy::Enemy(float set_x, float set_y, int set_type)
 	erea.height_rate = 1.0;
 
 	enemy_speed = 0.1f;
-	acceleration = 30.0f;						// 加速度（未使用）
-	enemy_angle = 0;							// 未使用 敵の移動角度
+	acceleration = 30.0f;						// 加速度
 	enemy_type = set_type;
 	power_up_flg = FALSE;
-	enemy_life = TRUE;
 	enemy_death = FALSE;
 	bound_flg = 0;							// 今は跳ね返らない状態
 	levitation_flg = 0;						// 浮上しない
-
-	// 慣性用変数
-	inertia_count = 0;						// 未使用
-	inertia_flg = FALSE;					// 慣性が働かない未使用
 
 	// 移動するときの計算に使う変数
 	xc = 0.0f;
@@ -236,12 +230,12 @@ void Enemy::Draw() const
 	// 敵の当たり判定範囲
 	//DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.height * erea.height_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffff00, FALSE);
 	
-	DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y - (erea.height / 2 * erea.height_rate), location.x - (erea.width / 2 * erea.width_rate) + erea.width, location.y - (erea.height / 2 * erea.height_rate) + erea.height, 0xffff00, FALSE);
-	
-	// 風船部分
-	DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y - (erea.width / 2 * erea.height_rate), location.x - (erea.width / 2 * erea.height_rate) + erea.width, location.y, 0xff0000, FALSE);
-	// 体部分
-	DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y, location.x - (erea.width / 2 * erea.height_rate) + erea.width, location.y - (erea.height / 2 * erea.height_rate) + erea.height, 0x00ffff, FALSE);
+	//DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y - (erea.height / 2 * erea.height_rate), location.x - (erea.width / 2 * erea.width_rate) + erea.width, location.y - (erea.height / 2 * erea.height_rate) + erea.height, 0xffff00, FALSE);
+	//
+	//// 風船部分
+	//DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y - (erea.width / 2 * erea.height_rate), location.x - (erea.width / 2 * erea.height_rate) + erea.width, location.y, 0xff0000, FALSE);
+	//// 体部分
+	//DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y, location.x - (erea.width / 2 * erea.height_rate) + erea.width, location.y - (erea.height / 2 * erea.height_rate) + erea.height, 0x00ffff, FALSE);
 }
 
 // 敵の上下左右移動処理
@@ -527,7 +521,8 @@ void Enemy::Death()
 	if (animation_count <= 4)
 	{
 		now_image = 13;
-		enemy_death = TRUE;
+		//enemy_life = FALSE;
+		//enemy_delete = TRUE;
 	}
 	else if (animation_count <= 8)
 	{
@@ -553,7 +548,7 @@ void Enemy::Death()
 	// 現在の座標 + enemy_y >= 480 にする必要がある
 	if (location.y >= 480)
 	{
-		 enemy_life = FALSE;
+		 enemy_death = FALSE;
 	}
 }
 
@@ -661,18 +656,7 @@ void Enemy::SetLevitationFlg(int set_flg)
 	levitation_flg = set_flg;
 }
 
-int Enemy::GetEnemyLifeFlg()
-{
-	return enemy_life;
-}
-
-// 死亡状態フラグの取得
 int Enemy::GetEnemyDeathFlg()
 {
 	return enemy_death;
-}
-
-void Enemy::SetEnemyDeathFlg()
-{
-	enemy_death = FALSE;
 }

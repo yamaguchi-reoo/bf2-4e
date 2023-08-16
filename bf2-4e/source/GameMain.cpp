@@ -5,9 +5,16 @@
 GameMain::GameMain() 
 {
     // 初期化処理
-    //object = new Stage();
     player = new Player();
+    for (int i = 0; i <= 5; i++)
+    {
+        enemy[i] = nullptr;
+    }
     collision = new BoxCollision();
+    for (int i = 0; i < 10; i++)
+    {
+        stage_floor[i] = nullptr;
+    }
     stageitem = new StageItem();
     thunder = new Thunder();
     fish = new Fish();
@@ -96,12 +103,19 @@ GameMain::GameMain()
     pause_flag = FALSE;
 
     enemy_death = 0;        // 倒した敵の数
-    wait_time = 0;           // ステージ遷移するまでの待機時間
+    wait_time = 0;          // ステージ遷移するまでの待機時間
 };
 
 GameMain::~GameMain() 
 {
-    delete stage_floor;
+    delete player;
+    delete[] &enemy;
+    delete collision;
+    delete[] &stage_floor;
+    delete stageitem;
+    delete thunder;
+    delete fish;
+    delete bubble;
     // 終了処理
 };
 
@@ -138,7 +152,7 @@ AbstractScene* GameMain::Update()
         {
         case 0:
             // ステージ1
-            for (int i = 0; i <= 0; i++)
+            for (int i = 0; i <= 2; i++)
             {
                 if (enemy[i] != nullptr)
                 {
@@ -146,23 +160,16 @@ AbstractScene* GameMain::Update()
 
                     if (enemy[i]->HitBealloon(player) == true)
                     {
-                        // 敵の風船にプレイヤーが当たった時
-                        enemy_death = 2;
-
                         if (enemy[i]->enemy_state == EnemyState::kFlight)
                         {
                             enemy[i]->enemy_state = EnemyState::kParachute;
-                           // player->Bounce();
                         }
-                        //else if (enemy[i]->enemy_state != EnemyState::kDeath && enemy[i]->enemy_state != EnemyState::kParachute)
-                        //{
-                        //    enemy[i]->enemy_state = EnemyState::kDeath;
-                        //}
                     }
-                    else if (enemy[i]->EnemyHitBox(player) == true)
+                    else if (enemy[i]->EnemyHitBox(player) == true && enemy[i]->enemy_state != EnemyState::kFlight)
                     {
                         if (enemy[i]->enemy_state != EnemyState::kDeath && enemy[i]->enemy_state != EnemyState::kParachute)
                         {
+                            enemy_death++;
                             enemy[i]->enemy_state = EnemyState::kDeath;
                         }
                     }
@@ -173,34 +180,6 @@ AbstractScene* GameMain::Update()
                     //else
                     //{
                     //    enemy_death = 1;
-                    //}
-
-                    // デバッグ用プレイヤーと敵の当たり判定
-                    //if (player->EnemyHitBox(enemy[i]) == true)
-                    //{
-                    //    if (enemy[i]->HitBealloon(player) == true && enemy[i]->enemy_state == EnemyState::kFlight)
-                    //    {
-                    //        // 敵の風船にプレイヤーが当たった時
-                    //        enemy_death = 2;
-
-                    //        enemy[i]->enemy_state = EnemyState::kParachute;
-
-                    //        //if (enemy[i]->enemy_state == EnemyState::kFlight)
-                    //        //{
-                    //        //    enemy[i]->enemy_state = EnemyState::kParachute;
-                    //        //    //player->Bounce();
-                    //        //}
-                    //        //else if (enemy[i]->enemy_state != EnemyState::kDeath && enemy[i]->enemy_state != EnemyState::kParachute)
-                    //        //{
-                    //        //    enemy[i]->enemy_state = EnemyState::kDeath;
-                    //        //}
-
-                    //    }
-
-                    //   if (enemy[i]->enemy_state != EnemyState::kDeath && enemy[i]->enemy_state != EnemyState::kParachute)
-                    //    {
-                    //        enemy[i]->enemy_state = EnemyState::kDeath;
-                    //    }
                     //}
 
                     // 敵同士の当たり判定
@@ -237,47 +216,25 @@ AbstractScene* GameMain::Update()
                         }
                     }
 
-                    // 敵を倒した後の処理
-                    //if (enemy[i]->GetEnemyDeathFlg() == 1)
-                    //{
-                    //    enemy[i]->SetEnemyDeathFlg();
-                    //    enemy_death++;
-
-                    //    //if (enemy_death >= 3)
-                    //    //{
-                    //    //    //WaitTimer(1000);
-                    //    //    if (stage == 4)
-                    //    //    {
-                    //    //        stage = -1;
-                    //    //    }
-                    //    //    // ステージ遷移
-                    //    //    ChangeScene();
-                    //    //}
-                    //}
-
-                    if (enemy[i]->GetEnemyLifeFlg() == 0)
+                    if (enemy_death >= 3)
+                    {
+                        if (++wait_time >= 10)
+                        {
+                            WaitTimer(1000);
+                            enemy[i] = nullptr;
+                            if (stage == 4)
+                            {
+                                stage = -1;
+                            }
+                            // ステージ遷移
+                            ChangeScene();
+                        }
+                    }
+                    else if (enemy[i]->GetEnemyDeathFlg() == 1)
                     {
                         enemy[i] = nullptr;
                     }
-
                 }
-                //else if (enemy_death >= 3)
-                //{
-                //    if (++wait_time >= 120)
-                //    {
-                //        if (stage == 4)
-                //        {
-                //            stage = -1;
-                //        }
-                //        // ステージ遷移
-                //        ChangeScene();
-                //    }
-                //}
-
-                //if (enemy[i]->GetEnemyLifeFlg() == 0)
-                //{
-                //    enemy[i] = nullptr;
-                //}
             }
             break;
         case 1:
@@ -572,7 +529,7 @@ void GameMain::Draw() const
         {
         case 0:
             // ステージ1（3体）
-            for (int i = 0; i <= 0; i++)
+            for (int i = 0; i <= 2; i++)
             {
                 if (enemy[i] != nullptr)
                 {
@@ -676,6 +633,16 @@ void GameMain::ChangeScene()
 {
     stage++;
     enemy_death = 0;
+    wait_time = 0;
+
+    // プレイヤーをゲーム開始位置へ
+    player = new Player();
+
+    // 敵の配列を空にする
+    //for (int i = 0; i <= 5; i++)
+    //{
+    //    enemy[i] = nullptr;
+    //}
 
     switch (stage)
     {

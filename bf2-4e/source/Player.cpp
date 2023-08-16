@@ -64,7 +64,7 @@ void Player::Draw()const
 	0xff00ff, FALSE);
 	DrawFormatString(0, 400, 0xffffff, "move_x = %3f, move_y = %3f", move_x, move_y);
 
-	DrawBox(location.x - ((erea.width / 2) * erea.width_rate), location.y, location.x - ((erea.width / 2) * erea.width_rate) + erea.width, location.y - ((erea.height / 2) * erea.height_rate) + erea.height, 0xffffff, FALSE);
+	//DrawBox(location.x - ((erea.width / 2) * erea.width_rate), location.y, location.x - ((erea.width / 2) * erea.width_rate) + erea.width, location.y - ((erea.height / 2) * erea.height_rate) + erea.height, 0xffffff, FALSE);
 }
 
 //ÉvÉåÉCÉÑÅ[ÇÃà⁄ìÆ

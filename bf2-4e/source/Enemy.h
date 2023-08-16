@@ -2,9 +2,6 @@
 #include "Player.h"
 #include "BoxCollision.h"
 
-// 敵の最大数
-//#define ENEMY_MAX (6)
-
 // 敵の状態
 enum class EnemyState
 {
@@ -27,16 +24,11 @@ private:
 	// 敵の情報
 	float enemy_speed;						// 初速度
 	float acceleration;						// 加速度
-	int enemy_angle;						// 敵の移動角度
 	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
 	int power_up_flg;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
-	int enemy_life;							// 敵の生死状態（TRUE:生きている　FALSE:死亡）
-	int enemy_death;						// 敵の死亡状態（TRUE:死亡）
+	int enemy_death;						// 敵の生死状態（TRUE:死亡　FALSE:生存）
 	int bound_flg;							// 敵の跳ね返り状態（1:跳ね返る　0:跳ね返らない）
 	int levitation_flg;						// 敵の浮上（TRUE:浮上する）
-
-	int inertia_count;						// 慣性が働くカウント
-	int inertia_flg;						// 慣性フラグ
 
 	// 移動するときの計算に使う変数
 	float xc;								// 三平方の定理（斜辺）
@@ -132,10 +124,6 @@ public:
 	// 敵の浮上フラグの設定
 	void SetLevitationFlg(int set_flg);
 
-	int GetEnemyLifeFlg();
-
-	// 死亡状態フラグの取得
 	int GetEnemyDeathFlg();
-	void SetEnemyDeathFlg();
 };
 

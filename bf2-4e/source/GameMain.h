@@ -35,8 +35,6 @@ private:
     int enemy_death;        // 倒した敵の数
     int wait_time;          // ステージ遷移するまでの待機時間
 
-    //int enemy_max[6] = {2,4,4,4,4,5};           // ステージごとの敵の数
-
 public:
     // コンストラクタ
     GameMain();
