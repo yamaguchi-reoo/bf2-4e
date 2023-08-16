@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\KeyInput.h" />
     <ClInclude Include="source\Fish.h" />
     <ClInclude Include="source\BoxCollision.h" />
     <ClInclude Include="source\AbstractScene.h" />
@@ -38,6 +39,7 @@
     <ClInclude Include="source\UI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\KeyInput.cpp" />
     <ClCompile Include="source\Fish.cpp" />
     <ClCompile Include="source\BoxCollision.cpp" />
     <ClCompile Include="source\Bubble.cpp" />
@@ -52,9 +54,6 @@
     <ClCompile Include="source\Thunder.cpp" />
     <ClCompile Include="source\Title.cpp" />
     <ClCompile Include="source\UI.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="source\Log.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

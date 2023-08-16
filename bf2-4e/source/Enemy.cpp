@@ -4,6 +4,17 @@
 #include <math.h>
 #include "PadInput.h"		// デバッグ用
 
+// 静的メンバ変数の定義
+float Enemy::get_location_x;
+float Enemy::get_location_y;
+
+
+// 静的メンバ変数
+//int Enemy::animation_count;
+//EnemyState Enemy::enemy_state;
+
+//float sinangle2 = 0;		// デバッグ用
+
 // コンストラクタ
 Enemy::Enemy(float set_x, float set_y, int set_type)
 {
@@ -78,6 +89,9 @@ Enemy::Enemy(float set_x, float set_y, int set_type)
 	difference_y = 0.0f;
 
 	enemy_state = EnemyState::kInflatBealloon;			// 敵の状態
+
+	get_location_x = 0.0f;
+	get_location_y = 0.0f;
 }
 
 // デストラクタ
@@ -164,6 +178,9 @@ void Enemy::Update()
 
 	// X座標のワープをした後の座標変更処理
 	AfterWarp();
+
+	get_location_x = location.x;
+	get_location_y = location.y;
 }
 
 // 描画に関することを実装
@@ -659,4 +676,23 @@ void Enemy::SetLevitationFlg(int set_flg)
 int Enemy::GetEnemyDeathFlg()
 {
 	return enemy_death;
+}
+
+
+//シャボン玉スポーン時の敵の状態からの判断するための処理
+bool Enemy::EnemyStateJudgment(void)
+{
+	int ret = false;
+
+	//死亡時とパラシュート時のみtrue
+	if ((enemy_state == EnemyState::kDeath) || (enemy_state == EnemyState::kParachute)) 
+	{
+		if (location.y > 450) 
+		{
+			ret = true;
+		}
+		
+	}
+
+	return ret;
 }
