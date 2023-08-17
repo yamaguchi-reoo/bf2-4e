@@ -24,6 +24,7 @@ private:
 	// 敵の情報
 	float enemy_speed;						// 初速度
 	float acceleration;						// 加速度
+	float bounce_coefficient;				// 反発係数
 	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
 	int power_up_flg;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
 	int enemy_death;						// 敵の生死状態（TRUE:死亡　FALSE:生存）
@@ -32,14 +33,13 @@ private:
 	int levitation_flg;						// 敵の浮上（TRUE:浮上する）
 
 	// 移動するときの計算に使う変数
-	float xc;								// 三平方の定理（斜辺）
-	float yc;								// 三平方の定理（斜辺）
-	float x;								// 計算後move_xに代入用
-	float y;								// 計算後move_yに代入用
+	float abs_x;							// X座標の絶対値
+	float abs_y;							// Y座標の絶対値
+	float distance_x;						// X座標の距離
+	float distance_y;						// Y座標の距離
 
 	// アニメーション用カウント
 	int inflat_bealloon_count;				// 風船を膨らましきるまでのカウント
-	//int flight_count;						// 羽ばたくアニメーション用カウント
 	int animation_count;					// アニメーション用カウント
 	int levitation_count;					// 浮上するカウント
 
@@ -54,11 +54,8 @@ private:
 	float move_x;							// 敵の座標Xの移動量
 	float move_y;							// 敵の座標Yの移動量
 
-	int turn_flg;							// 画像の左右反転状態（TRUE:反転　FALSE:普通に描画）
-	int old_turn_flg;						// 前回の画像の状態を保存
-
-	int ckeck_flg;							// プレイヤーとの座標の差を取得するフラグ
-	int ckeck_count;						// ckeck_flg用カウント
+	int turn_flg;							// 画像の左右反転状態（TRUE:反転　FALSE:反転しない）
+	int old_turn_flg;						// 前回の画像の状態を保持
 
 	float angle;							// パラシュート状態の左右移動用
 	float angle2;							// パラシュート状態の左右移動用
@@ -66,7 +63,7 @@ private:
 	float enemy_start_x;					// パラシュート状態になったx座標
 
 	int avoidance_count;					// 回避時間
-	int avoidance_flg;						// 回避行動のフラグ
+	int avoidance_flg;						// 回避行動のフラグ（TRUE:回避行動開始）
 	float difference_y;						// 回避行動の条件用のプレイヤーと敵の座標の差
 
 public:
@@ -92,7 +89,7 @@ public:
 	// 慣性の処理
 	void Inertia();
 
-	// 風船を膨らませるアニメーション処理
+	// 風船を膨らませる処理
 	void InflatBealloon();
 
 	// 空中で羽ばたくアニメーション処理
@@ -101,28 +98,25 @@ public:
 	// 空中落下アニメーション処理
 	void AirFall();
 
-	// パラシュート状態のアニメーション処理
+	// パラシュート状態の処理
 	void Parachute();
 
 	// 直立状態の処理
 	void Upright();
 
-	// 死亡時のアニメーション処理
+	// 死亡時の処理
 	void Death();
-
-	// プレイヤーとの座標の差を取得するかの判定処理
-	void CkeckPlayerLocation();
 
 	// X座標のワープをした後の座標変更処理
 	void AfterWarp();
 
-	// 敵の跳ね返り（仮）
-	void Bound();
+	// 下方向に跳ね返る
+	void BoundDown();
 
 	// 敵の跳ね返りフラグの設定
 	void SetBoundFlg(int set_flg);
 
-	// 浮上する
+	// 浮上する処理
 	void Levitation(void);
 
 	// 敵の浮上フラグの設定

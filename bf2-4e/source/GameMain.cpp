@@ -166,9 +166,10 @@ AbstractScene* GameMain::Update()
                 // 敵の更新処理
                 enemy[i]->Update();
 
-                // 敵とプレイヤーの当たり判定
+                // 敵がプレイヤーの攻撃を受ける処理
                 if (enemy[i]->HitBealloon(player) == true)
                 {
+                    // 風船部分にヒット
                     if (enemy[i]->enemy_state == EnemyState::kFlight)
                     {
                         enemy[i]->enemy_state = EnemyState::kParachute;
@@ -196,7 +197,7 @@ AbstractScene* GameMain::Update()
                                 {
                                     // 飛んでいるときにステージに着地したとき
                                     // 直ぐに飛び立つ
-                                   // enemy[i]->SetLevitationFlg(1);                                
+                                   enemy[i]->SetLevitationFlg(1);                                
                                 }
                                 else if (enemy[i]->enemy_state == EnemyState::kParachute)
                                 {
@@ -216,12 +217,14 @@ AbstractScene* GameMain::Update()
                     }
                 }
 
+                // 敵の死亡
                 if (enemy[i]->GetEnemyDeathFlg() == 1)
                 {
                     enemy_death++;
                     enemy[i]->SetEnemyDeathFlg(0);
                 }
 
+                // 敵の削除
                 if (enemy[i]->GetEnemyDeleteFlg() == 1)
                 {
                     enemy[i] = nullptr;
@@ -336,7 +339,27 @@ AbstractScene* GameMain::Update()
             else {
                 color = 0xffffff;
                 //プレイヤーがX座標が160以上かつX座標が480未満でY座標が360以上で魚が出現
-               
+                if (player->GetLocationX() >= 160 && player->GetLocationX() <= 480 && player->GetLocationY() >= 390) //&& ++fps > 180)
+                {
+                    //fps加算 
+                    if (++fps > 180)
+                    {
+                        if (fps > 220)
+                        {
+                            fps = 0;
+                        }
+                        fish->FishReversalFlg();
+                        if (fish->HitBox(player) == true)
+                        {
+                            //player->PlayerReset();
+                            //fish->PlayerEat();
+                        }
+                    }
+                }
+                else
+                {
+                    fps = 0;
+                }
             }
             for (int i = 0; i < 3; i++)
             {
@@ -345,6 +368,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
+                        player->PlayerGroundState();
                         //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
@@ -395,7 +419,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        //player->PlayerGroundWalk();
+                        player->PlayerGroundState();
                         color = 0x0ff000;
                         //}
                     }
@@ -445,7 +469,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        //player->PlayerGroundWalk();
+                        player->PlayerGroundState();
                         color = 0x0ff000;
                         //}
                     }
@@ -495,7 +519,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                       //player->PlayerGroundWalk();
+                        player->PlayerGroundState();
                         color = 0x0ff000;
                         //}
                     }
@@ -545,7 +569,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        //player->PlayerGroundWalk();
+                        player->PlayerGroundState();
                         color = 0x0ff000;
                         //}
                     }
@@ -590,6 +614,7 @@ void GameMain::Draw() const
     DrawFormatString(120, 70, 0xffffff, " %d", fps);
     DrawFormatString(120, 90, 0xffffff, " rand = %d", rand);*/
 
+
     //ポーズ画面の描画
     if (pause_flag == TRUE)
     {
@@ -605,18 +630,20 @@ void GameMain::Draw() const
             player->Draw();     //プレイヤー画像の描画処理
         }
 
+        thunder->Draw();        //雷画像の描画処理
+
+        player->Draw();     //プレイヤー画像の描画処理
         fish->Draw();
 
-        // 敵の描画処理
         for (int i = 0; i <= 5; i++)
         {
             if (enemy[i] != nullptr)
             {
+                // 敵の描画処理
                 enemy[i]->Draw();
             }
         }
     }
-
     //player->Draw();        //プレイヤー画像の描画処理
 
     thunder->Draw();        //雷画像の描画処理
