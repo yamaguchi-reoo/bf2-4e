@@ -17,6 +17,7 @@ GameMain::GameMain()
     stageitem = new StageItem();
     thunder = new Thunder();
     fish = new Fish();
+    ui = new UI();
 
     for (int i = 0; i <= 5; i++) {
         bubble[i] = new Bubble(0, 0, false,false);
@@ -117,6 +118,7 @@ GameMain::~GameMain()
     delete thunder;
     delete fish;
     delete[] &bubble;
+    delete ui;
     // 終了処理
 };
 
@@ -149,6 +151,10 @@ AbstractScene* GameMain::Update()
             //シャボン玉とプレイヤーのヒット処理
             if (bubble[i]->HitBox(player) == true)
             {
+                if (bubble[i]->GetGetFlg() == false) 
+                {
+                    ui->AddScore(500);      //500点加算
+                }
                 bubble[i]->ChangeGetFlg();
             }
         }
@@ -332,7 +338,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                       // player->PlayerGroundWalk();
+                        //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
                     }
@@ -353,7 +359,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                      //player->PlayerGroundWalk();
+                        //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
                     }
@@ -395,7 +401,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        //player->PlayerGroundWalk();
+                       //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
                     }
@@ -430,6 +436,15 @@ AbstractScene* GameMain::Update()
 
     // ここで値の更新など、処理)
 
+    ui->Update();
+
+    //object->Update();
+    
+    //player->Move();
+
+    //collision->HitBox(object);
+
+
     // ステージの管理
     if(PadInput::OnButton(XINPUT_BUTTON_Y))
     {
@@ -438,6 +453,7 @@ AbstractScene* GameMain::Update()
             stage = -1;
         }
         ChangeScene();
+        ui->SetStageNum();     //ステージ数表示変更
     }
     return this; // シーン継続
 };
@@ -527,6 +543,7 @@ void GameMain::Draw() const
         bubble[i]->Draw();
     } 
 
+    ui->Draw();
 };
 //ステージの切替
 void GameMain::ChangeScene()
