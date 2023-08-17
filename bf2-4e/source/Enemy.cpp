@@ -29,20 +29,21 @@ Enemy::Enemy(float set_x, float set_y, int set_type)
 	erea.width_rate = 1.0;
 	erea.height_rate = 1.0;
 
-	enemy_speed = 0.1f;
+	enemy_speed = 0.0f;
 	acceleration = 30.0f;						// 加速度
+	bounce_coefficient = 0.8f;
 	enemy_type = set_type;
 	power_up_flg = FALSE;
 	enemy_death = FALSE;
 	enemy_delete = FALSE;
-	bound_flg = 0;							// 今は跳ね返らない状態
-	levitation_flg = 0;						// 浮上しない
+	bound_flg = FALSE;							// 今は跳ね返らない状態
+	levitation_flg = FALSE;						// 浮上しない
 
-	// 移動するときの計算に使う変数
-	xc = 0.0f;
-	yc = 0.0f;
-	x = 0.0f;
-	y = 0.0f;
+	// 移動するときの計算用変数
+	abs_x = 0.0f;
+	abs_y = 0.0f;
+	distance_x = 0.0f;
+	distance_y = 0.0f;
 
 	// アニメーション用カウント
 	inflat_bealloon_count = 0;
@@ -58,7 +59,7 @@ Enemy::Enemy(float set_x, float set_y, int set_type)
 	player_x = 0.0f;
 	player_y = 0.0f;
 
-	// 移動するときに使う変数
+	// 移動量変数
 	move_x = 0.0f;
 	move_y = 0.0f;
 
@@ -103,30 +104,33 @@ void Enemy::Update()
 			InflatBealloon();
 			break;
 		case EnemyState::kFlight:
-			// 空中で羽ばたくアニメーション処理
-			Flight();
-			//AirFall();
-			if (levitation_flg == 1)
+			if (bound_flg == TRUE)
 			{
-				// 敵の浮上
-				Levitation();
-			}
-			if (avoidance_flg == TRUE)
-			{
-				Avoidance();
+				// 空中落下アニメーション処理
+				AirFall();
+				// 敵の跳ね返り（仮）
+				BoundDown();
 			}
 			else
 			{
-				// 敵の上下左右移動処理
-				EnemyMove();
-				//Avoidance();
-				//CkeckPlayerLocation();
-				//AirFall();
-			}
-			if (bound_flg == 1)
-			{
-				// 敵の跳ね返り（仮）
-				Bound();
+				// 空中で羽ばたくアニメーション処理
+				Flight();
+				if (levitation_flg == TRUE)
+				{
+					// 敵の浮上
+					Levitation();
+				}
+
+				else if (avoidance_flg == TRUE)
+				{
+					Avoidance();
+				}
+				else
+				{
+					// 敵の上下左右移動処理
+					EnemyMove();
+					//CkeckPlayerLocation();
+				}
 			}
 			break;
 		case EnemyState::kParachute:
@@ -149,6 +153,13 @@ void Enemy::Update()
 	// X座標のワープをした後の座標変更処理
 	AfterWarp();
 
+	// 天井に当たったら跳ね返る
+	if (location.y - (erea.width / 2 * erea.height_rate) <= 0)
+	{
+		move_y = 1.0f;
+		bound_flg = TRUE;
+	}
+
 	get_location_x = location.x;
 	get_location_y = location.y;
 }
@@ -157,18 +168,20 @@ void Enemy::Update()
 void Enemy::Draw() const
 {
 #if _DEBUG
-	DrawFormatString(0, 130, 0xffffff, "E location.x = %3f, location.y = %3f", location.x, location.y);
-	//DrawFormatString(0, 80, 0xffffff, "E move_x = %3f, move_y = %3f", move_x, move_y);
-	//DrawFormatString(0, 130, 0xffffff, "E x = %3f, y = %3f", x, y);
+	//DrawFormatString(0, 130, 0xffffff, "E location.x = %f, location.y = %f", location.x, location.y);
+	//DrawFormatString(0, 110, 0xffffff, "E move_x = %f, move_y = %f", move_x, move_y);
+	//DrawFormatString(0, 130, 0xffffff, "E 距離 distance_x = %f, distance_y = %f", distance_x, distance_y);
+	//DrawFormatString(0, 150, 0xffffff, "E 向き abs_x = %f, abs_y = %f", abs_x, abs_y);
 	//DrawFormatString(0, 190, 0xff0000, "E now_image = %d", now_image);
 	//DrawFormatString(200, 250, 0xff0000, "E state = %d", enemy_state);
-	//DrawFormatString(20, 150, 0xffffff, "E enemy_speed = %f", enemy_speed);
+	//DrawFormatString(0, 150, 0xffffff, "E enemy_speed = %f", enemy_speed);
 	//DrawFormatString(20, 250, 0xff0000, "E difference_y = %f", difference_y);
 	//DrawFormatString(20, 150, 0xff0000, "E levitation_flg = %d", levitation_flg);
 	//DrawFormatString(20, 200, 0xff0000, "E avoidance_flg = %d", avoidance_flg);
 	//DrawFormatString(20, 200, 0xff0000, "E turn_flg = %d", turn_flg);
 	//DrawFormatString(20, 250, 0xff0000, "E old_turn_flg = %d", old_turn_flg);
 	//DrawFormatString(20, 250, 0xff0000, "E enemy_death = %d", enemy_death);
+	//DrawFormatString(0, 200, 0xff0000, "E bound_flg = %d", bound_flg);
 #endif	//_DEBUG
 
 	if (enemy_type == 0)
@@ -233,21 +246,21 @@ void Enemy::EnemyMove()
 	player_y = Player::get_location_y;
 
 	// プレイヤーと敵の座標の差を求める
-	x = player_x - location.x;
-	y = player_y - location.y;
+	distance_x = player_x - location.x;
+	distance_y = player_y - location.y;
 
-	xc = sqrtf(powf(x, 2));
-	yc = sqrtf(powf(y, 2));
+	// プレイヤーと敵の座標の絶対値を求める
+	abs_x = fabsf(distance_x);
+	abs_y = fabsf(distance_y);
 
-	// x,y座標が同じだと1ピクセルずつ追いかけてくる
-	if (xc != 0 && yc != 0)
+	if (abs_x != 0 && abs_y != 0)
 	{
-		// どの向きに進めばいいのかを-1～1の間で求めている（多分）
-		move_x = x / xc;
-		move_y = y / yc;
+		// 進む方向
+		move_x = distance_x / abs_x;
+		move_y = distance_y / abs_y;
 	}
 
-	if (x >= 0)
+	if (move_x >= 0)
 	{
 		// 左を向く
 		turn_flg = TRUE;
@@ -283,6 +296,8 @@ void Enemy::Avoidance()
 	{
 		// 慣性の処理
 		Inertia();
+
+		// 敵の移動
 		location.x += move_x * enemy_speed;
 	}
 	else
@@ -304,25 +319,30 @@ void Enemy::Inertia()
 		// 敵のタイプによって最高速度が変わる
 		if (enemy_type == 0 && enemy_speed >= 0.5f)
 		{
+			// ピンク
 			enemy_speed = 0.5f;
 		}
 		else if (enemy_type == 1 && enemy_speed >= 0.8f)
 		{
+			// 緑
 			enemy_speed = 0.8f;
 		}
 		else if (enemy_type == 2 && enemy_speed >= 1.0f)
 		{
+			// 赤
 			enemy_speed = 1.0f;
-		}
-		else if (enemy_speed <= 0.0f)
-		{
-			enemy_speed = 0.0f;
 		}
 	}
 
 	// 減速の処理
 	if (old_turn_flg != turn_flg)
 	{
+		if (levitation_flg == TRUE)
+		{
+			// 浮上フラグの設定
+			levitation_flg = FALSE;
+		}
+
 		move_x *= -1.0f;
 		// 加速度の影響を速度に与える
 		enemy_speed -= acceleration / 3600;
@@ -335,7 +355,7 @@ void Enemy::Inertia()
 	}
 }
 
-// 風船を膨らませるアニメーション処理
+// 風船を膨らませる処理
 void Enemy::InflatBealloon()
 {
 	inflat_bealloon_count++;
@@ -345,7 +365,7 @@ void Enemy::InflatBealloon()
 
 	if (inflat_bealloon_count <= 180 && now_image < 7)
 	{
-		// 3秒間風船を膨らませるアニメーション
+		// 風船を膨らませるアニメーション
 		if (now_image != next_image)
 		{
 			now_image = next_image;
@@ -353,7 +373,6 @@ void Enemy::InflatBealloon()
 	}
 	else
 	{
-		levitation_flg = 1;
 		inflat_bealloon_count = 0;
 
 		// 敵の状態遷移
@@ -384,10 +403,9 @@ void Enemy::Flight()
 // 空中落下アニメーション処理
 void Enemy::AirFall()
 {
-	// 画像は10, 11, 12（風船が揺れている3枚）
-
 	animation_count++;
-
+	
+	// 画像は10, 11, 12（風船が揺れている3枚）
 	next_image = (animation_count / 11) + 10;
 
 	if (now_image != next_image)
@@ -401,18 +419,20 @@ void Enemy::AirFall()
 	}
 }
 
-// パラシュート状態のアニメーション処理
+// パラシュート状態の処理
 void Enemy::Parachute()
 {
 	if (enemy_start_x == -100.0f)
 	{
-		// enemy_start_xが使われていなかったら
+		// パラシュート状態になったx座標の保持
 		enemy_start_x = location.x;
+		// 落下速度の設定
+		enemy_speed = 0.5f;
 	}
 
 	animation_count++;
 
-	// 画像は15, 16, 17（2枚）
+	// 画像は15, 16, 17
 	// 15, 16はパラシュートが開く画像
 	// 17は落下時の画像
 	if (animation_count <= 5)
@@ -433,9 +453,11 @@ void Enemy::Parachute()
 
 	// enemu_start_xを中心に左右に揺れる処理
 	location.x = (sinf(angle2) * amplitude) + enemy_start_x;
-	// 落下処理
-	location.y += 0.5f;
 
+	// 落下処理
+	location.y += enemy_speed;
+
+	// 水中に沈んだら死亡
 	if (location.y >= 480)
 	{
 		enemy_death = TRUE;
@@ -448,9 +470,10 @@ void Enemy::Upright()
 {
 	if (enemy_start_x != -100.0f)
 	{
+		// パラシュート状態用の変数の初期値代入
 		angle = 0;
-		animation_count = 0;
 		enemy_start_x = -100.0f;
+		animation_count = 0;
 	}
 
 	// 直立状態の画像
@@ -467,17 +490,18 @@ void Enemy::Upright()
 	if (++animation_count >= 180)
 	{
 		animation_count = 0;
-		// 膨らませきったらパワーアップ
+		// 敵の状態遷移
 		enemy_state = EnemyState::kInflatBealloon;
 	}
 }
 
-// 死亡時のアニメーション処理
+// 死亡時の処理
 void Enemy::Death()
 {
 	// 画像は13, 14（2枚）
 	animation_count++;
 
+	// 死亡時のアニメーション
 	if (animation_count <= 4)
 	{
 		now_image = 13;
@@ -492,7 +516,7 @@ void Enemy::Death()
 	}
 
 	// 敵の落下
-	if (move_y <= 20)
+	if (move_y <= 10)
 	{
 		move_y++;
 		// 少し上に上がる
@@ -503,6 +527,7 @@ void Enemy::Death()
 		location.y++;
 	}
 
+	// 水中に沈んだらゲームメインで削除
 	if (location.y >= 480)
 	{
 		 enemy_delete = TRUE;
@@ -550,27 +575,22 @@ void Enemy::AfterWarp()
 	}
 }
 
-// 敵の跳ね返り
-void Enemy::Bound()
+// 下方向に跳ね返る
+void Enemy::BoundDown()
 {
-	//location.x += move_x * -1.0f;
-	//location.y += move_y * -1.0f;
-
-	location.x += move_x * enemy_speed;
-
-	//move_x *= -1.0f;
+	// 減速
 	// 加速度の影響を速度に与える
-	//enemy_speed -= acceleration / 3600;
+	enemy_speed -= acceleration / 3600;
+	
+	// 敵の移動
+	location.x += move_x * enemy_speed * bounce_coefficient;
+	location.y += move_y * enemy_speed * bounce_coefficient;
 
-	//if (enemy_speed <= 0.0f)
-	//{
-	//	enemy_speed = 0.0f;
-	//	//old_turn_flg = turn_flg;
-	//	bound_flg = 0;
-	//}
-
-	////location.x += move_x * enemy_speed * -1.0f;
-	//location.x += move_x * enemy_speed;
+	if (enemy_speed <= 0.0f)
+	{
+		enemy_speed = 0.0f;
+		bound_flg = FALSE;
+	}
 }
 
 // フラグの設定
@@ -579,7 +599,7 @@ void Enemy::SetBoundFlg(int set_flg)
 	bound_flg = set_flg;
 }
 
-// 敵の浮上
+// 敵の浮上処理
 void Enemy::Levitation(void)
 {
 	// パワーアップ処理
@@ -589,20 +609,33 @@ void Enemy::Levitation(void)
 		enemy_type++;
 
 		// 初速度の設定
-		enemy_speed = 0.1f;
+		enemy_speed = 0.0f;
 
 		power_up_flg = FALSE;
 	}
 
 	levitation_count++;
 
-	if (levitation_count <= 30)
+	if (levitation_count <= 180)
 	{
-		location.y -= enemy_speed;
+		// 天井に当たったら跳ね返る
+		if (location.y - (erea.width / 2 * erea.height_rate) <= 0)
+		{
+			move_y = 1.0f;
+			bound_flg = TRUE;
+			levitation_flg = FALSE;
+		}
+
+		// 慣性の処理
+		Inertia();
+
+		// 敵の移動
+		location.x += move_x * enemy_speed;
+		location.y -= move_y * enemy_speed / 2;
 	}
 	else
 	{
-		levitation_flg = 0;
+		levitation_flg = FALSE;
 		levitation_count = 0;
 	}
 }
