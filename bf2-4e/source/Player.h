@@ -18,17 +18,16 @@ private:
 	/*******************    変数宣言    ********************/
 
 	int player_images[30];		//プレイヤーのイメージ画像
-	//int player_state_image;		//プレイヤーのイメージを格納する変数
 
 	bool ground_flg;			//0:地面にいる状態　１：落下状態
 	int a_button_flg;			//0:Aボタンが押されていない 1:押されてた
+	int a_count;				//Bボタンの処理
 	int fly_cnt;				//浮上時間制御変数
 	int direction;				//プレイヤーの向き
 	float player_gravity;		//プレイヤーにかかる重力
 
 	float move_x;				//プレイヤーの移動量(横)
 	float move_y;				//プレイヤーの移動量(縦)
-	float inertia;				//プレイヤーにかかる慣性力
 	int x_count;				//X座標移動時のカウントダウン用変数
 
 	int now_image;				//現在の画像
@@ -45,11 +44,8 @@ private:
 public:
 	/*******************    関数宣言    ********************/
 
-	/*void Move();*/				//プレイヤーの移動
-	void PlayerFlight();		//プレイヤーの空中状態
 	void PlayerGroundState();	//プレイヤーの地面歩行
 	void HitCeiling();			//プレイヤーの移動範囲
-	/*void PlayerFalling();*/	//プレイヤーにかかる重力
 
 	bool PlayerFlg();			//立っているか判断する
 	void PlayerReversalFlg();	//フラグを反転させる

@@ -333,6 +333,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
+                        player->PlayerGroundState();
                         //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
@@ -354,7 +355,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        //player->PlayerGroundWalk();
+                        player->PlayerGroundState();
                         color = 0x0ff000;
                         //}
                     }
@@ -375,7 +376,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        //player->PlayerGroundWalk();
+                        player->PlayerGroundState();
                         color = 0x0ff000;
                         //}
                     }
@@ -396,7 +397,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                       //player->PlayerGroundWalk();
+                        player->PlayerGroundState();
                         color = 0x0ff000;
                         //}
                     }
@@ -417,7 +418,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        //player->PlayerGroundWalk();
+                        player->PlayerGroundState();
                         color = 0x0ff000;
                         //}
                     }
