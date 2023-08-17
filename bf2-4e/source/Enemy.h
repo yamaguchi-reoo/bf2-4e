@@ -2,9 +2,6 @@
 #include "Player.h"
 #include "BoxCollision.h"
 
-// 敵の最大数
-//#define ENEMY_MAX (6)
-
 // 敵の状態
 enum class EnemyState
 {
@@ -25,27 +22,20 @@ private:
 	int enemy_red_image[18];				// 赤色の敵の画像
 
 	// 敵の情報
-	float enemy_speed;						// 敵のスピード
+	float enemy_speed;						// 初速度
 	float acceleration;						// 加速度
-	int enemy_angle;						// 敵の移動角度
 	int enemy_type;							// 敵の種類（0：桃色　1：緑色　2：赤色）
 	int power_up_flg;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
-	int enemy_life;							// 敵の生死状態（TRUE:生きている　FALSE:死亡）
+	int enemy_death;						// 敵の生死状態（TRUE:死亡　FALSE:生存）
+	int enemy_delete;						// 敵の削除（TRUE:削除）
 	int bound_flg;							// 敵の跳ね返り状態（1:跳ね返る　0:跳ね返らない）
 	int levitation_flg;						// 敵の浮上（TRUE:浮上する）
-
-	int inertia_count;						// 慣性が働くカウント
-	int inertia_flg;						// 慣性フラグ
 
 	// 移動するときの計算に使う変数
 	float xc;								// 三平方の定理（斜辺）
 	float yc;								// 三平方の定理（斜辺）
 	float x;								// 計算後move_xに代入用
 	float y;								// 計算後move_yに代入用
-
-	// 後で消すやつ
-	int fps_count;							// fpsのカウント
-	int second;								// 秒数のカウント
 
 	// アニメーション用カウント
 	int inflat_bealloon_count;				// 風船を膨らましきるまでのカウント
@@ -99,6 +89,9 @@ public:
 	// 敵の回避行動処理
 	void Avoidance();
 
+	// 慣性の処理
+	void Inertia();
+
 	// 風船を膨らませるアニメーション処理
 	void InflatBealloon();
 
@@ -135,5 +128,20 @@ public:
 	// 敵の浮上フラグの設定
 	void SetLevitationFlg(int set_flg);
 
+	// 敵の死亡フラグの取得
+	int GetEnemyDeathFlg();
+
+	// 敵の死亡フラグの設定
+	void SetEnemyDeathFlg(int flg);
+
+	// 敵の削除フラグの取得
+	int GetEnemyDeleteFlg();
+
+	//シャボン玉スポーン時の敵の状態からの判断するための処理
+	bool EnemyStateJudgment(void);
+
+	public:
+		static float get_location_x;		// 敵のX座標参照用の変数
+		static float get_location_y;		// 敵ののY座標参照用の変数
 };
 

@@ -22,21 +22,30 @@ Thunder::Thunder()
 	is_thunder_shoot_ready = false;
 	thunder_shoot_flg = false;
 
+	//雲の座標の初期位置
+	cloud_X = 300;
+	cloud_Y = 70;
+
 	//ボール
-	BallX = 320;
-	BallY = 440 - 5;
+	location.x = (float)cloud_X;
+	location.y = (float)cloud_Y;
+
+	erea.height = 21;
+	erea.width = 21;
 
 	//角度処理
-	BallAngle = 0;
-	MoveX = 0;
-	MoveY = 0;
+	ball_angle = 0.625f;
+	moveX = 0;
+	moveY = 0;
+
+	//ボールフラグ
+	ball_flg = 0;
 
 	//ボールのスピード
-	//Speed = 3;
-}
+	speed = 3;
 
-Thunder::~Thunder()
-{
+	//角度の初期化
+	thunder_angle = 1;
 }
 
 void Thunder::Update()
@@ -104,7 +113,6 @@ void Thunder::Update()
 			}
 		}
 	}
-
 	//雷モドキ
 	if (thunder_effect_shoot_flg == true)
 	{
@@ -118,84 +126,109 @@ void Thunder::Update()
 			{
 				thunder_effect_anime_num = 1;
 			}
+		}	
+		speed = 3;
+		ball_flg = 0;
+		
+
+		switch (thunder_angle)
+		{
+		case 1:
+			ball_angle = 0.625f;
+			ChangeAngle();
+			break;
+
+		default:
+			break;
 		}
-		BallFlg = 2;
-		Speed = 3;
-		BallAngle = 0.625f;
+	}
+
+	// ボールの移動
+	if (ball_flg != 2)
+	{
+		location.x += moveX;
+		location.y += moveY;
+	}
+
+	// 壁・天井での反射
+	if (location.x < 4 || location.x > 640 - erea.width)
+	{
+		// 横の壁
+		if (location.x < 4)
+		{
+			location.x = 4;
+		}
+		else
+		{
+			location.x = 640 - erea.width;
+		}
+		ball_angle = (1 - ball_angle) + 0.5f;
+		if (ball_angle > 1) ball_angle -= 1.0f;
 		ChangeAngle();
 	}
 
-	MoveBall();
+	if (location.y < 4)
+	{
+		location.y = 0;
+		// 上の壁
+		ball_angle = (1 - ball_angle);
+		ChangeAngle();
+	}
+	//if (location.y > 480 + 4)
+	//{
+	//	//ボールをスタート状態にする
+	//	BallFlg = 2;
+	//}
 }
 
+Thunder::~Thunder()
+{
 
+}
 
 void Thunder::ChangeAngle()
 {
 	//角度の変更処理
-	float rad = BallAngle * (float)M_PI * 2;
-	MoveX = (int)(Speed * cosf(rad));
-	MoveY = (int)(Speed * sinf(rad));
+	float rad = ball_angle * (float) M_PI * 2;
+	moveX = speed*(float) cos(rad);
+	moveY = speed*(float) sin(rad);
+}
+
+void Thunder::StartBall()
+{
+	ball_flg = 0;
+
+	//移動量計算
+	speed = 3;
+	ball_angle = 0.625f;
+	ChangeAngle();
+}
+
+int Thunder::R_BallFlg()
+{
+	//ボールフラグ
+	return ball_flg;
 }
 
 void Thunder::MoveBall()
 {
-	// ボールの移動
-	if (BallFlg == 2)
-	{
-		BallX += MoveX;
-		BallY += MoveY;
-	}
-	else
-	{
-		/*BallX = BarX + 30;
-		BallY = BarY - 6;*/
-	}
-
-	// 壁・天井での反射
-	if (BallX < 4 || BallX > 640 - 4)
-	{ 
-		// 横の壁
-		if (BallX < 4)
-		{
-			BallX = 4;
-		}
-		else
-		{
-			BallX = 640 - 4;
-		}
-		BallAngle = (1 - BallAngle) + 0.5f;
-		if (BallAngle > 1) BallAngle -= 1.0f;
-		ChangeAngle();
-	}
-
-	if (BallY < 8)
-	{ 
-		// 上の壁
-		BallAngle = (1 - BallAngle);
-		ChangeAngle();
-	}
-	if (BallY > 480 + 4)
-	{
-		//ボールをスタート状態にする
-		BallFlg = 2;
-	}
+	
 }
 
 void Thunder::Draw() const
 {
-	//雷の描画
-	DrawRotaGraph(480, 100, 1.0f, 0, thunder_cloud_image[cloud_anime_num], TRUE, TRUE);				//雲
+	//雷雲の描画
+	DrawRotaGraph(cloud_X, cloud_Y, 1.0f, 0, thunder_cloud_image[cloud_anime_num], TRUE, TRUE);							//雲
 
 	//稲光の描画
 	if (thunder_shoot_flg == true)
 	{
-		DrawRotaGraph(480, 150, 1.0f, 0, thunder_image[thunder_anime_num], TRUE, TRUE);					//稲光
+		DrawRotaGraphF(480, 150, 1.0f, 0, thunder_image[thunder_anime_num], TRUE, TRUE);								//稲光
 	}
 	
 	//雷モドキの描画
 	if (thunder_effect_shoot_flg == true)
 	{
-		DrawRotaGraph(BallX + MoveX, BallY+ MoveY, 1.0f, 0, thunder_effect_image[thunder_effect_anime_num], TRUE, TRUE);	//雷モドキ
+		DrawRotaGraphF(location.x, location.y, 1.0f, 0, thunder_effect_image[thunder_effect_anime_num], TRUE, TRUE);	//雷モドキ
 	}
 }

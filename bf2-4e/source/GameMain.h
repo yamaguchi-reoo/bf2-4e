@@ -16,14 +16,13 @@ private:
    // Stage* object;
     Player* player;         //プレイヤークラスのオブジェクト化
     Enemy* enemy[6];           // Enemyクラスのオブジェクト化
-    BoxCollision* collision; //Collisionクラスのオブジェクト化 
     StageFloor* stage_floor[10];
 
     StageItem* stageitem;
     Thunder* thunder;       //雷クラスのオブジェクト化
     Fish* fish;
 
-    Bubble* bubble;         //シャボン玉のオブジェクト化
+    Bubble* bubble[6];         //シャボン玉のオブジェクト化
 
     bool pause_flag;     //ポーズのフラグ取り
 
@@ -32,8 +31,8 @@ private:
     bool flg;
     int time;
     int fps;
-
-    //int enemy_max[6] = {2,4,4,4,4,5};           // ステージごとの敵の数
+    int enemy_death;        // 倒した敵の数
+    int wait_time;          // ステージ遷移するまでの待機時間
 
 public:
     // コンストラクタ

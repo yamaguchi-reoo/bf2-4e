@@ -2,7 +2,7 @@
 #include "Bubble.h"
 #include <math.h>
 
-Bubble::Bubble()
+Bubble::Bubble(float posX, float posY, bool drawflg, bool getflg)
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -17,8 +17,8 @@ Bubble::Bubble()
 	now_image = 0;							// 今から表示される画像
 	next_image = 0;							// 次に表示される画像
 
-	location.x = 50;
-	location.y = 70;
+	location.x = 0;
+	location.y = 0;
 	erea.height = 40;
 	erea.width = 40;
 	erea.width_rate = 0;
@@ -28,14 +28,14 @@ Bubble::Bubble()
 	PosX = 0;		// 描画座標X
 	PosY = 0;		// 描画座標Y
 	Radius = 0;		// 半径(描画用)
-	CenterX = 100;	// 中心座標X
-	CenterY = 400;	// 中心座標Y
+	CenterX = posX;	// 中心座標X
+	CenterY = posY;	// 中心座標Y
 	Angle = 0;		// 角度
 	Length = 30;		// 半径の長さ
 
-	GetFlg = false;		////ゲットフラグ(true:Get false:NotGet)
+	GetFlg = getflg;//false;		//ゲットフラグ(true:Get false:NotGet)
 
-	DrawFlg = true;		//画像の描画フラグ(true:描画する false:描画しない)
+	DrawFlg = drawflg;		//画像の描画フラグ(true:描画する false:描画しない)
 }
 
 Bubble::~Bubble()
@@ -45,10 +45,11 @@ Bubble::~Bubble()
 
 void Bubble::Update()
 {
+
 	location.x = PosX - erea.width / 2;
 	location.y = PosY - erea.height / 2;
 
-
+	//ゲット処理
 	if (GetFlg == true) 
 	{
 		if(now_image!=3){
@@ -72,7 +73,7 @@ void Bubble::Draw() const
 	if (DrawFlg == true) 
 	{
 		DrawRotaGraph((int)PosX, (int)PosY, 1, 0, BubbleImage[now_image], TRUE);
-		DrawBox((int)location.x, (int)location.y, (int)location.x + erea.width, (int)location.y + erea.height, 0xffffff, false);
+		DrawBox((int)location.x, (int)location.y, (int)location.x + (int)erea.width, (int)location.y + (int)erea.height, 0xffffff, false);
 	}
 }
 
@@ -102,8 +103,8 @@ void Bubble::MoveBubble(void)
 	float radius = Angle * 3.14f / 180.0f;
 
 	// 三角関数を使用し、円の位置を割り出す。
-	float add_x = cos(radius) * Length;
-	float add_y = sin(radius) * Length;
+	float add_x = (float)cos(radius) * Length;
+	float add_y = (float)sin(radius) * Length;
 
 	// 結果ででた位置を中心位置に加算し、それを描画位置とする
 	PosX = CenterX + add_x;
@@ -117,7 +118,19 @@ void Bubble::MoveBubble(void)
 	PosY = CenterY;
 }
 
+//ゲットフラグ変更
 void Bubble::ChangeGetFlg(void)
 {
 	GetFlg = true;
 }
+
+int Bubble::GetDrawFlg(void)
+{
+	return DrawFlg;
+}
+
+int Bubble::GetGetFlg(void)
+{
+	return GetFlg;
+}
+

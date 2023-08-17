@@ -25,7 +25,7 @@ public:
 	// •`‰æ‚ÉŠÖ‚·‚é‚±‚Æ‚ðŽÀ‘•
 	void  Draw() const;
 
-	void SetImageLocation(int _x, int _y);
+	void SetImageLocation(float _x, float _y);
 
 
 };

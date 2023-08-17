@@ -1,4 +1,4 @@
-#include"StageFloor.h""
+#include"StageFloor.h"
 #include"PadInput.h"
 
 StageFloor::StageFloor(int i,int _stage)
@@ -313,13 +313,13 @@ void StageFloor::Draw()const
 	DrawGraph(image_x, image_y, floor_image01,TRUE);
 	DrawGraph(160, 444, sea_image, TRUE);
 	//DrawBox(location.x, location.y, location.x + erea.width, location.y + erea.height, 0xffffff, FALSE);
-	DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.width * erea.width_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffffff, FALSE);
+	DrawBoxAA(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.width * erea.width_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffffff, FALSE);
 	//DrawBox(location.x - (erea.width / 2), location.y - (erea.height / 2), location.x + (erea.width / 2), location.y + (erea.height / 2), 0xff00ff, FALSE);
 }
-void StageFloor::SetImageLocation(int _x, int _y)
+void StageFloor::SetImageLocation(float _x, float _y)
 {
-	image_x = _x;
-	image_y = _y;
+	image_x = (int)_x;
+	image_y = (int)_y;
 }
 
 
