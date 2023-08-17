@@ -632,7 +632,7 @@ void GameMain::Draw() const
 
         thunder->Draw();        //—‹‰æ‘œ‚Ì•`‰æˆ—
 
-        player->Draw();     //ƒvƒŒƒCƒ„[‰æ‘œ‚Ì•`‰æˆ—
+        //player->Draw();     //ƒvƒŒƒCƒ„[‰æ‘œ‚Ì•`‰æˆ—
         fish->Draw();
 
         for (int i = 0; i <= 5; i++)
