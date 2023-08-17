@@ -8,7 +8,9 @@ private:
 
 	int fish_image [10] ;
 	int fish_animation_count;//フレームレートカウント
-	int fish_flg;		//0..右移動 1..左移動 2..浮上 3..プレイヤー喰らう
+	int fish_eat_animation_count;
+	int fish_flg;//0..右移動 1..左移動 2..浮上 3..プレイヤー喰らう
+	int eat_image;
 
 	int now_image;							// 今から表示される画像
 	//int next_image;
@@ -25,5 +27,9 @@ public:
 	void PlayerEat();
 
 	int FishSpwn();
+	int GetFlg()
+	{
+		return fish_flg;
+	}
 };
 

@@ -134,8 +134,11 @@ AbstractScene* GameMain::Update()
         //ゲームメイン処理を入れる
         stageitem->Update();
 
-        player->Update();
-
+        if (fish->GetFlg() != 3)
+        {
+            player->Update();
+        }
+       
         fish->Update();
 
         thunder->Update();
@@ -290,35 +293,37 @@ AbstractScene* GameMain::Update()
         switch (stage)
         {
         case 0://ステージ1
-            if (player->PlayerFlg() == true)
+            if (player->GetLocationX() >= 140 && player->GetLocationX() <= 500 && player->GetLocationY() >= 280) //&& ++fps > 180)
             {
+                //fps加算 
+                if (++fps > 180)
+                {
+                    if (fps > 210)
+                    {
+                        fps = 0;
+                    }
+                    fish->FishReversalFlg();
+                    if (fish->HitBox(player) == true&&fish->FishSpwn()<100)
+                    {
+                       // player->PlayerReset();
+                        fish->PlayerEat();
+                    }
+                }
+            }
+            else
+            {
+
+                fps = 0;
+            }
+           if (player->PlayerFlg() == true)
+           {
                 player->PlayerReversalFlg();
                 color = 0x0ffff0;
-            }
+           }
             else {
                 color = 0xffffff;
                 //プレイヤーがX座標が160以上かつX座標が480未満でY座標が360以上で魚が出現
-                if (player->GetLocationX() >= 160 && player->GetLocationX() <= 480 && player->GetLocationY() >= 390||fish->FishSpwn()<=20) //&& ++fps > 180)
-                {
-                    //fps加算 
-                    if (++fps > 180)
-                    {
-                        if (fps > 220)
-                        {
-                            fps = 0;
-                        }
-                        fish->FishReversalFlg();
-                        if (fish->HitBox(player) == true)
-                        {
-                            //player->PlayerReset();
-                            //fish->PlayerEat();
-                        }
-                    }
-                }
-                else
-                {
-                    fps = 0;
-                }
+               
             }
             for (int i = 0; i < 3; i++)
             {
@@ -327,7 +332,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        player->PlayerGroundWalk();
+                       // player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
                     }
@@ -348,7 +353,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        player->PlayerGroundWalk();
+                      //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
                     }
@@ -369,7 +374,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        player->PlayerGroundWalk();
+                        //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
                     }
@@ -390,7 +395,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        player->PlayerGroundWalk();
+                        //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
                     }
@@ -411,7 +416,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        player->PlayerGroundWalk();
+                        //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
                     }
@@ -443,6 +448,7 @@ void GameMain::Draw() const
 
     // デバッグ用
     DrawFormatString(120, 50, 0xffffff, " enemy_d = %d", enemy_death);
+    DrawFormatString(120, 70, 0xffffff, " %d", fps);
 
     //ポーズ画面の描画
     if (pause_flag == TRUE)
@@ -455,7 +461,10 @@ void GameMain::Draw() const
     {
         SetFontSize(16);
         DrawFormatString(20, 50, color, "Game Main");
-        player->Draw();     //プレイヤー画像の描画処理
+        if (fish->GetFlg() != 3) {
+            player->Draw();     //プレイヤー画像の描画処理
+        }
+
         fish->Draw();
 
         // 敵の描画処理
@@ -468,7 +477,7 @@ void GameMain::Draw() const
         }
     }
 
-    player->Draw();        //プレイヤー画像の描画処理
+    //player->Draw();        //プレイヤー画像の描画処理
 
     thunder->Draw();        //雷画像の描画処理
    

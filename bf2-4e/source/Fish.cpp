@@ -10,8 +10,8 @@ Fish::Fish()
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_FishAnimation.png", 10, 5, 2, 64, 64, fish_image);
 
 	now_image = 0;
-	location.x = 240;
-	location.y = 383;
+	location.x = 100;
+	location.y = 420;
 
 	erea.width = 64;
 	erea.height = 40;
@@ -19,10 +19,14 @@ Fish::Fish()
 	erea.height_rate = 0.0;
 
 	fish_animation_count = 0;
+	fish_eat_animation_count = 0;
 
-	fish_x = 160;
-	fish_y = 390;
+	fish_x = 240;
+	fish_y = 383;
 	fish_flg = 0;
+
+	eat_image = 0;
+
 }
 
 Fish::~Fish()
@@ -32,30 +36,11 @@ Fish::~Fish()
 
 void Fish::Update()
 {
+	int Rand(10);
 	location.x = Player::get_location_x - 30;
-	//location.y = Player::get_location_y;
-	//‰EˆÚ“®
-	//if (fish_flg == 0)
-	//{
-	//	location.x++;
-	//	if (location.x >= 420)
-	//	{
-	//		fish_flg = 1;
-	//	}
-	//}
-	////¶ˆÚ“®
-	//if (fish_flg == 1)
-	//{
-	//	location.x--;
-	//	if (location.x <= 160)
-	//	{
-	//		fish_flg = 0;
-	//	}
-	//}
 
 	if (fish_flg == 2) 
-	 {
-		
+	{	
 		fish_animation_count++;
 		if (fish_animation_count < 0)
 		{
@@ -88,35 +73,31 @@ void Fish::Update()
 			FishReset();
 		}
 	}
-	/*if (fish_flg == 3)
+	if (fish_flg == 3)
 	{
-		fish_animation_count++;
-		if (fish_animation_count <= 75)
+		fish_eat_animation_count++;
+		if (fish_eat_animation_count < 10)
 		{
-			now_image = fish_image[6];
-			location.y -= 1.0;
+			eat_image = 6;
 		}
-		else if (fish_animation_count <= 80)
+		else if (fish_eat_animation_count < 20)
 		{
-			now_image = fish_image[3];
-			location.y += 0.5;
-
+			eat_image = 3;
 		}
-		else if (fish_animation_count <= 85)
+		else if (fish_eat_animation_count < 30)
 		{
-			now_image = fish_image[4];
-			location.y += 0.5;
+			eat_image = 4;
 		}
-		else if (fish_animation_count <= 90)
+		else if (fish_eat_animation_count < 40)
 		{
-			now_image = fish_image[5];
-			location.y += 0.5;
+			eat_image = 5;
 		}
-		else if (fish_animation_count <= 95)
+		else if (fish_eat_animation_count < 100)
 		{
 			FishReset();
 		}
-	}*/
+	}
+	
 }
 
 void Fish::Draw() const
@@ -124,11 +105,14 @@ void Fish::Draw() const
 	if (fish_flg == 2) {
 		DrawGraph(location.x, location.y, fish_image[now_image], TRUE);
 		//DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.width * erea.width_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffffff, FALSE);
+	}if (fish_flg == 3) {
+		DrawGraph(location.x, location.y, fish_image[eat_image], TRUE);
+		//DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.width * erea.width_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffffff, FALSE);
 	}
 	//DrawFormatString(10, 10, 0xffffff, "%d", fish_animation_count, TRUE);
 	DrawFormatString(100, 20, 0xffffff, "%d",fish_animation_count, TRUE);
 	DrawFormatString(200, 20, 0xffffff, "%f", location.y, TRUE);
-	//DrawBox(location.x, location.y, location.x + erea.width, location.y + erea.height, 0xffffff, FALSE);
+	DrawBox(location.x, location.y, location.x + erea.width, location.y + erea.height, 0xffffff, FALSE);
 	
 
 }
@@ -140,14 +124,15 @@ void Fish::FishReversalFlg()
 void Fish::FishReset()
 {
 	fish_animation_count = 0;
+	fish_eat_animation_count = 0;
 	fish_flg = 0;
-	now_image = 0;
-	location.y = 383;
+	now_image = 10;
+	eat_image = 0;
+	location.y = 420;
 }
 void Fish::PlayerEat()
 {
 	fish_flg = 3;
-	
 }
 int Fish::FishSpwn()
 {
