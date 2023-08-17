@@ -304,12 +304,19 @@ AbstractScene* GameMain::Update()
                 //fps加算 
                 if (++fps > 180)
                 {
+                    if (fps / 60 == 1) {
+                        rand = GetRand(100);
+                        if (rand >= 0 && rand <= 30) {
+                            fish->FishReversalFlg();
+                        }
+                      
+                    }
                     if (fps > 210)
                     {
                         fps = 0;
                     }
-                    fish->FishReversalFlg();
-                    if (fish->HitBox(player) == true&&fish->FishSpwn()<100)
+                    
+                    if (fish->HitBox(player) == true&&fish->GetCount()<100)
                     {
                        // player->PlayerReset();
                         fish->PlayerEat();
@@ -347,6 +354,35 @@ AbstractScene* GameMain::Update()
             }
             break;
         case 1://ステージ2
+            if (player->GetLocationX() >= 140 && player->GetLocationX() <= 500 && player->GetLocationY() >= 280) //&& ++fps > 180)
+            {
+                //fps加算 
+                if (++fps > 180)
+                {
+                    if (fps / 60 == 1) {
+                        rand = GetRand(100);
+                        if (rand >= 0 && rand <= 30) {
+                            fish->FishReversalFlg();
+                        }
+
+                    }
+                    if (fps > 210)
+                    {
+                        fps = 0;
+                    }
+
+                    if (fish->HitBox(player) == true && fish->GetCount() < 100)
+                    {
+                        // player->PlayerReset();
+                        fish->PlayerEat();
+                    }
+                }
+            }
+            else
+            {
+
+                fps = 0;
+            }
             if (player->PlayerFlg() == true)
             {
                 player->PlayerReversalFlg();
@@ -368,6 +404,35 @@ AbstractScene* GameMain::Update()
             }
             break;
         case 2://ステージ3
+            if (player->GetLocationX() >= 140 && player->GetLocationX() <= 500 && player->GetLocationY() >= 280) //&& ++fps > 180)
+            {
+                //fps加算 
+                if (++fps > 180)
+                {
+                    if (fps / 60 == 1) {
+                        rand = GetRand(100);
+                        if (rand >= 0 && rand <= 30) {
+                            fish->FishReversalFlg();
+                        }
+
+                    }
+                    if (fps > 210)
+                    {
+                        fps = 0;
+                    }
+
+                    if (fish->HitBox(player) == true && fish->GetCount() < 100)
+                    {
+                        // player->PlayerReset();
+                        fish->PlayerEat();
+                    }
+                }
+            }
+            else
+            {
+
+                fps = 0;
+            }
             if (player->PlayerFlg() == true)
             {
                 player->PlayerReversalFlg();
@@ -389,6 +454,35 @@ AbstractScene* GameMain::Update()
             }
             break;
         case 3://ステージ4
+            if (player->GetLocationX() >= 140 && player->GetLocationX() <= 500 && player->GetLocationY() >= 280) //&& ++fps > 180)
+            {
+                //fps加算 
+                if (++fps > 180)
+                {
+                    if (fps / 60 == 1) {
+                        rand = GetRand(100);
+                        if (rand >= 0 && rand <= 30) {
+                            fish->FishReversalFlg();
+                        }
+
+                    }
+                    if (fps > 210)
+                    {
+                        fps = 0;
+                    }
+
+                    if (fish->HitBox(player) == true && fish->GetCount() < 100)
+                    {
+                        // player->PlayerReset();
+                        fish->PlayerEat();
+                    }
+                }
+            }
+            else
+            {
+
+                fps = 0;
+            }
             if (player->PlayerFlg() == true)
             {
                 player->PlayerReversalFlg();
@@ -410,6 +504,35 @@ AbstractScene* GameMain::Update()
             }
             break;
         case 4://ステージ5
+            if (player->GetLocationX() >= 140 && player->GetLocationX() <= 500 && player->GetLocationY() >= 280) //&& ++fps > 180)
+            {
+                //fps加算 
+                if (++fps > 180)
+                {
+                    if (fps / 60 == 1) {
+                        rand = GetRand(100);
+                        if (rand >= 0 && rand <= 30) {
+                            fish->FishReversalFlg();
+                        }
+
+                    }
+                    if (fps > 210)
+                    {
+                        fps = 0;
+                    }
+
+                    if (fish->HitBox(player) == true && fish->GetCount() < 100)
+                    {
+                        // player->PlayerReset();
+                        fish->PlayerEat();
+                    }
+                }
+            }
+            else
+            {
+
+                fps = 0;
+            }
             if (player->PlayerFlg() == true)
             {
                 player->PlayerReversalFlg();
@@ -463,8 +586,9 @@ void GameMain::Draw() const
     // やることは描画のみ、絶対に値の更新はしない
 
     // デバッグ用
-    DrawFormatString(120, 50, 0xffffff, " enemy_d = %d", enemy_death);
+   /* DrawFormatString(120, 50, 0xffffff, " enemy_d = %d", enemy_death);
     DrawFormatString(120, 70, 0xffffff, " %d", fps);
+    DrawFormatString(120, 90, 0xffffff, " rand = %d", rand);*/
 
     //ポーズ画面の描画
     if (pause_flag == TRUE)

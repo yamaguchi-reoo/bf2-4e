@@ -29,6 +29,7 @@ private:
     int color;
     int stage;
     bool flg;
+    int rand;
     int time;
     int fps;
     int enemy_death;        // “|‚µ‚½“G‚Ì”

@@ -11,7 +11,7 @@ Fish::Fish()
 
 	now_image = 0;
 	location.x = 100;
-	location.y = 420;
+	location.y = 383;
 
 	erea.width = 64;
 	erea.height = 40;
@@ -36,7 +36,6 @@ Fish::~Fish()
 
 void Fish::Update()
 {
-	int Rand(10);
 	location.x = Player::get_location_x - 30;
 
 	if (fish_flg == 2) 
@@ -112,7 +111,7 @@ void Fish::Draw() const
 	//DrawFormatString(10, 10, 0xffffff, "%d", fish_animation_count, TRUE);
 	DrawFormatString(100, 20, 0xffffff, "%d",fish_animation_count, TRUE);
 	DrawFormatString(200, 20, 0xffffff, "%f", location.y, TRUE);
-	DrawBox(location.x, location.y, location.x + erea.width, location.y + erea.height, 0xffffff, FALSE);
+	//DrawBox(location.x, location.y, location.x + erea.width, location.y + erea.height, 0xffffff, FALSE);
 	
 
 }
@@ -128,13 +127,24 @@ void Fish::FishReset()
 	fish_flg = 0;
 	now_image = 10;
 	eat_image = 0;
-	location.y = 420;
+	location.y = 383;
 }
 void Fish::PlayerEat()
 {
 	fish_flg = 3;
 }
-int Fish::FishSpwn()
+int Fish::GetCount()
 {
 	return fish_animation_count;
+}
+
+int Fish::GetFlg()
+{
+	return fish_flg;
+}
+
+int Fish::FishSpawn()
+{
+	//GetRand(100);
+	//return GetRand(100);
 }

@@ -26,10 +26,8 @@ public:
 	void FishReset();
 	void PlayerEat();
 
-	int FishSpwn();
-	int GetFlg()
-	{
-		return fish_flg;
-	}
+	int GetCount();
+	int GetFlg();
+	int FishSpawn();
 };
 
