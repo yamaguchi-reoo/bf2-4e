@@ -8,8 +8,8 @@
 #include"StageItem.h"
 #include"Thunder.h"
 #include"Fish.h"
-
 #include "Bubble.h"
+#include "UI.h"
 
 class GameMain : public AbstractScene {
 private:
@@ -20,8 +20,8 @@ private:
     StageItem* stageitem;
     Thunder* thunder;       //雷クラスのオブジェクト化
     Fish* fish;
-
-    Bubble* bubble[6];         //シャボン玉のオブジェクト化
+    Bubble* bubble[6];//シャボン玉のオブジェクト化
+    UI* ui;           //UIのオブジェクト化
 
     bool pause_flag;     //ポーズのフラグ取り
 
@@ -49,3 +49,4 @@ public:
     //ステージの切り替え
     void ChangeScene();
 };
+
