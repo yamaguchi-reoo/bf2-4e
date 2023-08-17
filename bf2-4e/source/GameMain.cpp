@@ -164,9 +164,10 @@ AbstractScene* GameMain::Update()
                 // 敵の更新処理
                 enemy[i]->Update();
 
-                // 敵とプレイヤーの当たり判定
+                // 敵がプレイヤーの攻撃を受ける処理
                 if (enemy[i]->HitBealloon(player) == true)
                 {
+                    // 風船部分にヒット
                     if (enemy[i]->enemy_state == EnemyState::kFlight)
                     {
                         enemy[i]->enemy_state = EnemyState::kParachute;
@@ -194,7 +195,7 @@ AbstractScene* GameMain::Update()
                                 {
                                     // 飛んでいるときにステージに着地したとき
                                     // 直ぐに飛び立つ
-                                   // enemy[i]->SetLevitationFlg(1);                                
+                                   enemy[i]->SetLevitationFlg(1);                                
                                 }
                                 else if (enemy[i]->enemy_state == EnemyState::kParachute)
                                 {
@@ -214,12 +215,14 @@ AbstractScene* GameMain::Update()
                     }
                 }
 
+                // 敵の死亡
                 if (enemy[i]->GetEnemyDeathFlg() == 1)
                 {
                     enemy_death++;
                     enemy[i]->SetEnemyDeathFlg(0);
                 }
 
+                // 敵の削除
                 if (enemy[i]->GetEnemyDeleteFlg() == 1)
                 {
                     enemy[i] = nullptr;
@@ -459,9 +462,6 @@ void GameMain::Draw() const
 { 
     // やることは描画のみ、絶対に値の更新はしない
 
-    // デバッグ用
-    DrawFormatString(120, 50, 0xffffff, " enemy_d = %d", enemy_death);
-
     //ポーズ画面の描画
     if (pause_flag == TRUE)
     {
@@ -471,24 +471,20 @@ void GameMain::Draw() const
     }
     else 
     {
-        SetFontSize(16);
-        DrawFormatString(20, 50, color, "Game Main");
+        thunder->Draw();        //雷画像の描画処理
+
         player->Draw();     //プレイヤー画像の描画処理
         fish->Draw();
 
-        // 敵の描画処理
         for (int i = 0; i <= 5; i++)
         {
             if (enemy[i] != nullptr)
             {
+                // 敵の描画処理
                 enemy[i]->Draw();
             }
         }
     }
-
-    player->Draw();        //プレイヤー画像の描画処理
-
-    thunder->Draw();        //雷画像の描画処理
    
     //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0); 
