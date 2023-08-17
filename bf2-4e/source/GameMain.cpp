@@ -625,8 +625,6 @@ void GameMain::Draw() const
     }
     else 
     {
-        SetFontSize(16);
-        DrawFormatString(20, 50, color, "Game Main");
         if (fish->GetFlg() != 3) {
             player->Draw();     //ƒvƒŒƒCƒ„[‰æ‘œ‚Ì•`‰æˆ—
         }

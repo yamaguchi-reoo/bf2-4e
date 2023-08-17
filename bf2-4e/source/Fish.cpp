@@ -142,9 +142,3 @@ int Fish::GetFlg()
 {
 	return fish_flg;
 }
-
-int Fish::FishSpawn()
-{
-	//GetRand(100);
-	//return GetRand(100);
-}
