@@ -5,9 +5,15 @@
 GameMain::GameMain() 
 {
     // 初期化処理
-    //object = new Stage();
     player = new Player();
-    collision = new BoxCollision();
+    for (int i = 0; i <= 5; i++)
+    {
+        enemy[i] = nullptr;
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        stage_floor[i] = nullptr;
+    }
     stageitem = new StageItem();
     thunder = new Thunder();
     fish = new Fish();
@@ -98,13 +104,20 @@ GameMain::GameMain()
 
     //ポーズではない
     pause_flag = FALSE;
+
+    enemy_death = 0;        // 倒した敵の数
+    wait_time = 0;          // ステージ遷移するまでの待機時間
 };
 
 GameMain::~GameMain() 
 {
-    delete stage_floor;
-
-    delete ui;
+    delete player;
+    delete[] &enemy;
+    delete[] &stage_floor;
+    delete stageitem;
+    delete thunder;
+    delete fish;
+    delete[] &bubble;
     // 終了処理
 };
 
@@ -128,7 +141,8 @@ AbstractScene* GameMain::Update()
 
         thunder->Update();
 
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 0; i <= 5; i++)
+        {
             bubble[i]->Update();
             //シャボン玉とプレイヤーのヒット処理
             if (bubble[i]->HitBox(player) == true)
@@ -141,54 +155,51 @@ AbstractScene* GameMain::Update()
             }
         }
 
-        //collision->HitBox(object);
-
-        // ステージごとの敵の更新処理
-        switch (stage)
+        for (int i = 0; i <= 5; i++)
         {
-        case 0:
-            // ステージ1
-            for (int i = 0; i <= 2; i++)
+            if (enemy[i] != nullptr)
             {
+                // 敵の更新処理
                 enemy[i]->Update();
 
-                // 敵同士の当たり判定
-                //for (int j = 0; j <= 2; j++)
-                //{
-                //    if (i != j && enemy[i]->EnemyHitSideBox(enemy[j]) == true)
-                //    {
-                //        enemy[i]->SetBoundFlg(1);
-                //        //enemy[j]->SetBoundFlg(1);
-                //    }
-               // }
+                // 敵とプレイヤーの当たり判定
+                if (enemy[i]->HitBealloon(player) == true)
+                {
+                    if (enemy[i]->enemy_state == EnemyState::kFlight)
+                    {
+                        enemy[i]->enemy_state = EnemyState::kParachute;
+                    }
+                }
+                else if (enemy[i]->EnemyHitBox(player) == true && enemy[i]->enemy_state != EnemyState::kFlight)
+                {
+                    if (enemy[i]->enemy_state != EnemyState::kDeath && enemy[i]->enemy_state != EnemyState::kParachute)
+                    {
+                        enemy[i]->SetEnemyDeathFlg(1);
+                        enemy[i]->enemy_state = EnemyState::kDeath;
+                    }
+                }
 
                 // 敵とステージの当たり判定
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < 10; j++)
                 {
-                    if (stage_floor[j]->EnemyHitBox(enemy[i]) == true)
+                    if (stage_floor[j] != nullptr)
                     {
-                        if (stage_floor[j]->EnemyHitTopBox(enemy[i]) == true)
+                        if (stage_floor[j]->EnemyHitBox(enemy[i]) == true && enemy[i]->enemy_state != EnemyState::kDeath)
                         {
-                            if (enemy[i]->enemy_state == EnemyState::kFlight)
+                            if (stage_floor[j]->EnemyHitTopBox(enemy[i]) == true)
                             {
-                                // 飛んでいるときにステージに着地したとき
-                                // 直ぐに飛び立つ
-                               // enemy[i]->SetLevitationFlg(1);
-                                
-                               // デバッグ用
-                                //enemy[j]->enemy_state = EnemyState::kUpright;
-                            }
-                            else if (enemy[i]->enemy_state == EnemyState::kParachute)
-                            {
-                                // パラシュート状態でステージに着地したとき
-                                // 直立状態になる
-
-                                // 現状->ステージに触れたら直立状態になる
-                                enemy[i]->enemy_state = EnemyState::kUpright;
+                                if (enemy[i]->enemy_state == EnemyState::kFlight)
+                                {
+                                    // 飛んでいるときにステージに着地したとき
+                                    // 直ぐに飛び立つ
+                                   // enemy[i]->SetLevitationFlg(1);                                
+                                }
+                                else if (enemy[i]->enemy_state == EnemyState::kParachute)
+                                {
+                                    enemy[i]->enemy_state = EnemyState::kUpright;
+                                }
                             }
                         }
-                        // ステージに当たった時の敵の跳ね返りを書く
-                        //player->Bounce();
                     }
                 }
 
@@ -199,190 +210,82 @@ AbstractScene* GameMain::Update()
                     {
                         bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y, true, false);
                     }
+                }
+
+                if (enemy[i]->GetEnemyDeathFlg() == 1)
+                {
+                    enemy_death++;
+                    enemy[i]->SetEnemyDeathFlg(0);
+                }
+
+                if (enemy[i]->GetEnemyDeleteFlg() == 1)
+                {
+                    enemy[i] = nullptr;
+                }
+            }
+        }
+
+        // ステージ遷移の条件
+        switch (stage)
+        {
+        case 0:
+            // ステージ1
+            if (enemy_death >= 3)
+            {
+                if (++wait_time >= 10)
+                {
+                    WaitTimer(1000);
+                    // ステージ遷移
+                    ChangeScene();
                 }
             }
             break;
         case 1:
             // ステージ2
-            for (int i = 0; i <= 4; i++)
+            if (enemy_death >= 5)
             {
-                enemy[i]->Update();
-
-                // 敵とステージの当たり判定
-                for (int j = 0; j < 5; j++)
+                if (++wait_time >= 10)
                 {
-                    if (stage_floor[j]->EnemyHitBox(enemy[i]) == true)
-                    {
-                        if (stage_floor[j]->EnemyHitTopBox(enemy[i]) == true)
-                        {
-                            if (enemy[i]->enemy_state == EnemyState::kFlight)
-                            {
-                                // 飛んでいるときにステージに着地したとき
-                                // 直ぐに飛び立つ
-                               // enemy[i]->SetLevitationFlg(1);
-
-                               // デバッグ用
-                                //enemy[j]->enemy_state = EnemyState::kUpright;
-                            }
-                            else if (enemy[i]->enemy_state == EnemyState::kParachute)
-                            {
-                                // パラシュート状態でステージに着地したとき
-                                // 直立状態になる
-
-                                // 現状->ステージに触れたら直立状態になる
-                                enemy[i]->enemy_state = EnemyState::kUpright;
-                            }
-                        }
-                        // ステージに当たった時の敵の跳ね返りを書く
-                        //player->Bounce();
-                    }
-                }
-
-                //シャボン玉スポーン
-                if (enemy[i]->EnemyStateJudgment() == true)
-                {
-                    if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false))
-                    {
-                        bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y, true, false);
-                    }
+                    WaitTimer(1000);
+                    // ステージ遷移
+                    ChangeScene();
                 }
             }
             break;
         case 2:
              // ステージ3
-            for (int i = 0; i <= 4; i++)
+            if (enemy_death >= 5)
             {
-                enemy[i]->Update();
-
-                // 敵とステージの当たり判定
-                for (int j = 0; j < 10; j++)
+                if (++wait_time >= 10)
                 {
-                    if (stage_floor[j]->EnemyHitBox(enemy[i]) == true)
-                    {
-                        if (stage_floor[j]->EnemyHitTopBox(enemy[i]) == true)
-                        {
-                            if (enemy[i]->enemy_state == EnemyState::kFlight)
-                            {
-                                // 飛んでいるときにステージに着地したとき
-                                // 直ぐに飛び立つ
-                               // enemy[i]->SetLevitationFlg(1);
-
-                               // デバッグ用
-                                //enemy[j]->enemy_state = EnemyState::kUpright;
-                            }
-                            else if (enemy[i]->enemy_state == EnemyState::kParachute)
-                            {
-                                // パラシュート状態でステージに着地したとき
-                                // 直立状態になる
-
-                                // 現状->ステージに触れたら直立状態になる
-                                enemy[i]->enemy_state = EnemyState::kUpright;
-                            }
-                        }
-                        // ステージに当たった時の敵の跳ね返りを書く
-                        //player->Bounce();
-                    }
-                }
-
-                //シャボン玉スポーン
-                if (enemy[i]->EnemyStateJudgment() == true)
-                {
-                    if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false))
-                    {
-                        bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y, true, false);
-                    }
+                    WaitTimer(1000);
+                    // ステージ遷移
+                    ChangeScene();
                 }
             }
             break;
         case 3:
             // ステージ4
-            for (int i = 0; i <= 4; i++)
+            if (enemy_death >= 5)
             {
-                enemy[i]->Update();
-
-                // 敵とステージの当たり判定
-                for (int j = 0; j < 7; j++)
+                if (++wait_time >= 10)
                 {
-                    if (stage_floor[j]->EnemyHitBox(enemy[i]) == true)
-                    {
-                        if (stage_floor[j]->EnemyHitTopBox(enemy[i]) == true)
-                        {
-                            if (enemy[i]->enemy_state == EnemyState::kFlight)
-                            {
-                                // 飛んでいるときにステージに着地したとき
-                                // 直ぐに飛び立つ
-                               // enemy[i]->SetLevitationFlg(1);
-
-                               // デバッグ用
-                                //enemy[j]->enemy_state = EnemyState::kUpright;
-                            }
-                            else if (enemy[i]->enemy_state == EnemyState::kParachute)
-                            {
-                                // パラシュート状態でステージに着地したとき
-                                // 直立状態になる
-
-                                // 現状->ステージに触れたら直立状態になる
-                                enemy[i]->enemy_state = EnemyState::kUpright;
-                            }
-                        }
-                        // ステージに当たった時の敵の跳ね返りを書く
-                        //player->Bounce();
-                    }
-                }
-
-                //シャボン玉スポーン
-                if (enemy[i]->EnemyStateJudgment() == true)
-                {
-                    if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false))
-                    {
-                        bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y, true, false);
-                    }
+                    WaitTimer(1000);
+                    // ステージ遷移
+                    ChangeScene();
                 }
             }
             break;
         case 4:
             // ステージ5
-            for (int i = 0; i <= 5; i++)
+            if (enemy_death >= 6)
             {
-                enemy[i]->Update();
-
-                // 敵とステージの当たり判定
-                for (int j = 0; j < 8; j++)
+                if (++wait_time >= 10)
                 {
-                    if (stage_floor[j]->EnemyHitBox(enemy[i]) == true)
-                    {
-                        if (stage_floor[j]->EnemyHitTopBox(enemy[i]) == true)
-                        {
-                            if (enemy[i]->enemy_state == EnemyState::kFlight)
-                            {
-                                // 飛んでいるときにステージに着地したとき
-                                // 直ぐに飛び立つ
-                               // enemy[i]->SetLevitationFlg(1);
-
-                               // デバッグ用
-                                //enemy[j]->enemy_state = EnemyState::kUpright;
-                            }
-                            else if (enemy[i]->enemy_state == EnemyState::kParachute)
-                            {
-                                // パラシュート状態でステージに着地したとき
-                                // 直立状態になる
-
-                                // 現状->ステージに触れたら直立状態になる
-                                enemy[i]->enemy_state = EnemyState::kUpright;
-                            }
-                        }
-                        // ステージに当たった時の敵の跳ね返りを書く
-                        //player->Bounce();
-                    }
-                }
-
-                //シャボン玉スポーン
-                if (enemy[i]->EnemyStateJudgment() == true)
-                {
-                    if ((bubble[i]->GetDrawFlg() == false) && (bubble[i]->GetGetFlg() == false))
-                    {
-                        bubble[i] = new Bubble(enemy[i]->get_location_x, enemy[i]->get_location_y, true, false);
-                    }
+                    WaitTimer(1000);
+                    stage = -1;
+                    // ステージ遷移
+                    ChangeScene();
                 }
             }
             break;
@@ -533,10 +436,10 @@ AbstractScene* GameMain::Update()
 
     //collision->HitBox(object);
 
-    ui->Update();
 
     // ステージの管理
-    if(PadInput::OnButton(XINPUT_BUTTON_Y)) {
+    if(PadInput::OnButton(XINPUT_BUTTON_Y))
+    {
         if (stage == 4)
         {
             stage = -1;
@@ -550,6 +453,9 @@ AbstractScene* GameMain::Update()
 void GameMain::Draw() const 
 { 
     // やることは描画のみ、絶対に値の更新はしない
+
+    // デバッグ用
+    DrawFormatString(120, 50, 0xffffff, " enemy_d = %d", enemy_death);
 
     //ポーズ画面の描画
     if (pause_flag == TRUE)
@@ -565,56 +471,20 @@ void GameMain::Draw() const
         player->Draw();     //プレイヤー画像の描画処理
         fish->Draw();
 
-        // ステージごとの敵の描画処理
-        switch (stage)
+        // 敵の描画処理
+        for (int i = 0; i <= 5; i++)
         {
-        case 0:
-            // ステージ1
-            for (int i = 0; i <= 2; i++)
+            if (enemy[i] != nullptr)
             {
                 enemy[i]->Draw();
             }
-            break;
-        case 1:
-            // ステージ2
-            for (int i = 0; i <= 4; i++)
-            {
-                enemy[i]->Draw();
-            }
-            break;
-        case 2:
-            // ステージ3
-            for (int i = 0; i <= 4; i++)
-            {
-                enemy[i]->Draw();
-            }
-            break;
-        case 3:
-            // ステージ4
-            for (int i = 0; i <= 4; i++)
-            {
-                enemy[i]->Draw();
-            }
-            break;
-        case 4:
-            // ステージ5
-            for (int i = 0; i <= 5; i++)
-            {
-                enemy[i]->Draw();
-            }
-            break;
         }
-
     }
 
     player->Draw();        //プレイヤー画像の描画処理
 
-    //enemy->Draw();         //敵画像の描画処理
-
     thunder->Draw();        //雷画像の描画処理
    
-    //stageitem->Draw();     //ステージアイテムの描画処理
-
     //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0); 
 
@@ -656,7 +526,8 @@ void GameMain::Draw() const
     }  
 
     //シャボン玉の描画処理
-    for (int i = 0; i <= 5; i++) {
+    for (int i = 0; i <= 5; i++)
+    {
         bubble[i]->Draw();
     } 
 
@@ -666,6 +537,23 @@ void GameMain::Draw() const
 void GameMain::ChangeScene()
 {
     stage++;
+    enemy_death = 0;
+    wait_time = 0;
+
+    // プレイヤーをゲーム開始位置へ
+    player = new Player();
+
+    // 敵の配列を空にする
+    for (int i = 0; i <= 5; i++)
+    {
+        enemy[i] = nullptr;
+    }
+
+    // ステージの配列を空にする
+    for (int i = 0; i < 10; i++)
+    {
+        stage_floor[i] = nullptr;
+    }
 
     switch (stage)
     {
