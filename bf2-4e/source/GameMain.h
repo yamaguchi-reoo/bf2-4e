@@ -29,7 +29,6 @@ private:
     int color;
     int stage;
     bool flg;
-    int time;
     int fps;
     int enemy_death;        // 倒した敵の数
     int wait_time;          // ステージ遷移するまでの待機時間

@@ -24,6 +24,7 @@ GameMain::GameMain()
     }
     //bubble = new Bubble();
 
+    fps = 60;
     stage = 0;
     flg = false;
 
