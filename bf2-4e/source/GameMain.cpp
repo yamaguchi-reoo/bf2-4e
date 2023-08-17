@@ -118,6 +118,7 @@ GameMain::~GameMain()
     delete thunder;
     delete fish;
     delete[] &bubble;
+    delete ui;
     // 終了処理
 };
 
@@ -332,7 +333,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        player->PlayerGroundWalk();
+                        //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
                     }
@@ -353,7 +354,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        player->PlayerGroundWalk();
+                        //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
                     }
@@ -374,7 +375,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        player->PlayerGroundWalk();
+                        //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
                     }
@@ -395,7 +396,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        player->PlayerGroundWalk();
+                       //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
                     }
@@ -416,7 +417,7 @@ AbstractScene* GameMain::Update()
                     color = 0xf00fff;
                     if (stage_floor[i]->HitTopBox(player) == true /* && stage_floor[i]->HitBox(player) == true */) {
                         //if (player->adsfg() < 0) {
-                        player->PlayerGroundWalk();
+                        //player->PlayerGroundWalk();
                         color = 0x0ff000;
                         //}
                     }
@@ -429,6 +430,8 @@ AbstractScene* GameMain::Update()
     }
 
     // ここで値の更新など、処理)
+
+    ui->Update();
 
     //object->Update();
     
