@@ -40,7 +40,6 @@ private:
 
 	// アニメーション用カウント
 	int inflat_bealloon_count;				// 風船を膨らましきるまでのカウント
-	//int flight_count;						// 羽ばたくアニメーション用カウント
 	int animation_count;					// アニメーション用カウント
 	int levitation_count;					// 浮上するカウント
 
@@ -55,11 +54,8 @@ private:
 	float move_x;							// 敵の座標Xの移動量
 	float move_y;							// 敵の座標Yの移動量
 
-	int turn_flg;							// 画像の左右反転状態（TRUE:反転　FALSE:普通に描画）
-	int old_turn_flg;						// 前回の画像の状態を保存
-
-	int ckeck_flg;							// プレイヤーとの座標の差を取得するフラグ
-	int ckeck_count;						// ckeck_flg用カウント
+	int turn_flg;							// 画像の左右反転状態（TRUE:反転　FALSE:反転しない）
+	int old_turn_flg;						// 前回の画像の状態を保持
 
 	float angle;							// パラシュート状態の左右移動用
 	float angle2;							// パラシュート状態の左右移動用
@@ -67,7 +63,7 @@ private:
 	float enemy_start_x;					// パラシュート状態になったx座標
 
 	int avoidance_count;					// 回避時間
-	int avoidance_flg;						// 回避行動のフラグ
+	int avoidance_flg;						// 回避行動のフラグ（TRUE:回避行動開始）
 	float difference_y;						// 回避行動の条件用のプレイヤーと敵の座標の差
 
 public:
@@ -110,9 +106,6 @@ public:
 
 	// 死亡時の処理
 	void Death();
-
-	// プレイヤーとの座標の差を取得するかの判定処理
-	void CkeckPlayerLocation();
 
 	// X座標のワープをした後の座標変更処理
 	void AfterWarp();

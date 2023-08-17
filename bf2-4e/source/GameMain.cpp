@@ -150,10 +150,6 @@ AbstractScene* GameMain::Update()
             }
         }
 
-        //if (enemy[4] != nullptr)
-        //{
-        //    enemy[4]->Update();
-        //}
         for (int i = 0; i <= 5; i++)
         {
             if (enemy[i] != nullptr)
@@ -433,14 +429,14 @@ AbstractScene* GameMain::Update()
     // ここで値の更新など、処理)
 
     // ステージの管理
-    if(PadInput::OnButton(XINPUT_BUTTON_Y))
-    {
-        if (stage == 4)
-        {
-            stage = -1;
-        }
-        ChangeScene();
-    }
+    //if(PadInput::OnButton(XINPUT_BUTTON_Y))
+    //{
+    //    if (stage == 4)
+    //    {
+    //        stage = -1;
+    //    }
+    //    ChangeScene();
+    //}
     return this; // シーン継続
 };
 
@@ -457,18 +453,10 @@ void GameMain::Draw() const
     }
     else 
     {
-        SetFontSize(16);
-        DrawFormatString(20, 50, color, "Game Main");
-
         thunder->Draw();        //雷画像の描画処理
 
         player->Draw();     //プレイヤー画像の描画処理
         fish->Draw();
-
-        //if (enemy[4] != nullptr)
-        //{
-        //    enemy[4]->Draw();
-        //}
 
         for (int i = 0; i <= 5; i++)
         {
@@ -479,9 +467,6 @@ void GameMain::Draw() const
             }
         }
     }
-
-    player->Draw();        //プレイヤー画像の描画処理
-
    
     //ポーズでプレイヤーと敵を消す為にALPHA、NOBLENDの中に書け
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0); 

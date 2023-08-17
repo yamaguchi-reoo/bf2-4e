@@ -22,65 +22,60 @@ Enemy::Enemy(float set_x, float set_y, int set_type)
 	LoadDivGraph("Source/Resource/images/Enemy/Enemy_R_Animation.png", 18, 6, 3, 64, 64, enemy_red_image);
 	
 	// 敵の情報（構造体から）
-	location.x = set_x;			// 中心座標X
-	location.y = set_y;			// 中心座標Y
+	location.x = set_x;							// 中心座標X
+	location.y = set_y;							// 中心座標Y
 	erea.width = 45.0;
 	erea.height = 64.0;
 	erea.width_rate = 1.0;
 	erea.height_rate = 1.0;
 
-	enemy_speed = 0.0f;
+	enemy_speed = 0.0f;							// 初速度
 	acceleration = 30.0f;						// 加速度
-	bounce_coefficient = 0.8f;
-	enemy_type = set_type;
-	power_up_flg = FALSE;
-	enemy_death = FALSE;
-	enemy_delete = FALSE;
-	bound_flg = FALSE;							// 今は跳ね返らない状態
-	levitation_flg = FALSE;						// 浮上しない
+	bounce_coefficient = 0.8f;					// 反発係数
+	enemy_type = set_type;						// 敵の種類（0：桃色　1：緑色　2：赤色）
+	power_up_flg = FALSE;						// パワーアップのフラグ（TRUE:パワーアップする　FALSE:パワーアップしない）
+	enemy_death = FALSE;						// 敵の生死状態（TRUE:死亡　FALSE:生存）
+	enemy_delete = FALSE;						// 敵の削除（TRUE:削除）
+	bound_flg = FALSE;							// 敵の跳ね返り状態（TRUE:跳ね返る　FALSE:跳ね返らない）
+	levitation_flg = FALSE;						// 敵の浮上（TRUE:浮上する）
 
 	// 移動するときの計算用変数
-	abs_x = 0.0f;
-	abs_y = 0.0f;
-	distance_x = 0.0f;
-	distance_y = 0.0f;
+	abs_x = 0.0f;								// X座標の絶対値
+	abs_y = 0.0f;								// Y座標の絶対値
+	distance_x = 0.0f;							// X座標の距離
+	distance_y = 0.0f;							// Y座標の距離
 
 	// アニメーション用カウント
-	inflat_bealloon_count = 0;
-	//flight_count = 0;
-	animation_count = 0;
-	levitation_count = 0;
+	inflat_bealloon_count = 0;					// 風船を膨らましきるまでのカウント
+	animation_count = 0;						// アニメーション用カウント
+	levitation_count = 0;						// 浮上するカウント
 
 	// アニメーション用変数
-	now_image = 0;
-	next_image = 0;
+	now_image = 0;								// 今から表示される画像
+	next_image = 0;								// 次に表示される画像
 
 	// 追いかける対象の座標
-	player_x = 0.0f;
-	player_y = 0.0f;
+	player_x = 0.0f;							// プレイヤーのX座標
+	player_y = 0.0f;							// プレイヤーのY座標
 
 	// 移動量変数
-	move_x = 0.0f;
-	move_y = 0.0f;
+	move_x = 1.0f;								// 敵の座標Xの移動量
+	move_y = 1.0f;								// 敵の座標Yの移動量
 
 	// 画像反転用
-	turn_flg = FALSE;				// 反転はしない
-	old_turn_flg = turn_flg;
-
-	// 敵の強さ変更用
-	ckeck_flg = TRUE;				// 座標の差を取得する
-	ckeck_count = 0;
+	turn_flg = FALSE;							// 画像の左右反転状態（TRUE:反転　FALSE:反転しない）
+	old_turn_flg = turn_flg;					// 前回の画像の状態を保持
 
 	// パラシュート用
-	angle = 0.0f;
-	angle2 = 0.0f;
-	amplitude = 50.0f;
-	enemy_start_x = -100.0f;
+	angle = 0.0f;								// パラシュート状態の左右移動用
+	angle2 = 0.0f;								// パラシュート状態の左右移動用
+	amplitude = 50.0f;							// パラシュート状態で下降するときの振れ幅
+	enemy_start_x = -100.0f;					// パラシュート状態になったx座標
 
 	// 回避行動用変数
-	avoidance_count = 0;
-	avoidance_flg = FALSE;						// 回避行動のフラグ
-	difference_y = 0.0f;
+	avoidance_count = 0;						// 回避時間
+	avoidance_flg = FALSE;						// 回避行動のフラグ（TRUE:回避行動開始）
+	difference_y = 0.0f;						// 回避行動の条件用のプレイヤーと敵の座標の差
 
 	enemy_state = EnemyState::kInflatBealloon;			// 敵の状態
 
@@ -226,16 +221,6 @@ void Enemy::Draw() const
 			DrawRotaGraph((int)location.x - 640, (int)location.y, 1, 0, enemy_red_image[now_image], TRUE, turn_flg);
 		}
 	}
-
-	// 敵の当たり判定範囲
-	//DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.height * erea.height_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffff00, FALSE);
-	
-	//DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y - (erea.height / 2 * erea.height_rate), location.x - (erea.width / 2 * erea.width_rate) + erea.width, location.y - (erea.height / 2 * erea.height_rate) + erea.height, 0xffff00, FALSE);
-	//
-	//// 風船部分
-	//DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y - (erea.width / 2 * erea.height_rate), location.x - (erea.width / 2 * erea.height_rate) + erea.width, location.y, 0xff0000, FALSE);
-	//// 体部分
-	//DrawBox(location.x - (erea.width / 2 * erea.width_rate), location.y, location.x - (erea.width / 2 * erea.height_rate) + erea.width, location.y - (erea.height / 2 * erea.height_rate) + erea.height, 0x00ffff, FALSE);
 }
 
 // 敵の上下左右移動処理
@@ -531,34 +516,6 @@ void Enemy::Death()
 	if (location.y >= 480)
 	{
 		 enemy_delete = TRUE;
-	}
-}
-
-// プレイヤーとの座標の差を取得するかの判定処理
-void Enemy::CkeckPlayerLocation()
-{
-	ckeck_count++;
-
-	if (ckeck_flg == FALSE)
-	{
-		if (enemy_type == 0 && ckeck_count >= 300)
-		{
-			// 桃色の敵は5秒ごとに座標の比較
-			ckeck_flg = TRUE;
-			ckeck_count = 0;
-		}
-		else if (enemy_type == 1 && ckeck_count >= 180)
-		{
-			// 緑色の敵は3秒ごとに座標の比較
-			ckeck_flg = TRUE;
-			ckeck_count = 0;
-		}
-		else if(enemy_type == 2 && ckeck_count >= 60)
-		{
-			// 赤色の敵は1秒ごとに座標の比較
-			ckeck_flg = TRUE;
-			ckeck_count = 0;
-		}
 	}
 }
 
