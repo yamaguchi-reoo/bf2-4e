@@ -123,8 +123,6 @@ void UI::Draw() const
 		DrawGraph(355 + 20 * i, 20, num_image[phase_digit[i]], TRUE);
 	}
 
-	DrawFormatString(0, 80, 0xffffff, "%d", top_score);
-
 	//スコアの描画（仮）
 	//DrawFormatString(0, 100, 0xffffff, "Hallo");
 

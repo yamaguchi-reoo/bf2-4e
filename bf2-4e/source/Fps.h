@@ -34,11 +34,11 @@ public:
 		count++;
 		return true;
 	}
-	void Draw() 
-	{
-		//fps•`‰æ
-		DrawFormatString(0, 0, GetColor(255, 255, 255), "%.1f", fps);
-	}
+	//void Draw() 
+	//{
+	//	//fps•`‰æ
+	//	//DrawFormatString(0, 0, GetColor(255, 255, 255), "%.1f", fps);
+	//}
 	void Wait() 
 	{
 		//‚©‚©‚Á‚½ŽžŠÔ

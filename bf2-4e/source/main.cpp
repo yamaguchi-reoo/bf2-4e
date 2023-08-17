@@ -39,7 +39,6 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         // シーンマネジャーでシーンの描画開始
         sceneMng->Draw();
         fps.Update();	//更新
-        fps.Draw();		//描画
         //強制終了
         if (PadInput::OnButton(XINPUT_BUTTON_BACK))
         {
