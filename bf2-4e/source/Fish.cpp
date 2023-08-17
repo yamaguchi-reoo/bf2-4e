@@ -102,15 +102,15 @@ void Fish::Update()
 void Fish::Draw() const
 {
 	if (fish_flg == 2) {
-		DrawGraph(location.x, location.y, fish_image[now_image], TRUE);
+		DrawGraph((int)location.x, (int)location.y, fish_image[now_image], TRUE);
 		//DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.width * erea.width_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffffff, FALSE);
 	}if (fish_flg == 3) {
 		DrawGraph(location.x, location.y, fish_image[eat_image], TRUE);
 		//DrawBox(location.x - (erea.width * erea.width_rate), location.y - (erea.height * erea.height_rate), location.x - (erea.width * erea.width_rate) + erea.width, location.y - (erea.height * erea.height_rate) + erea.height, 0xffffff, FALSE);
 	}
 	//DrawFormatString(10, 10, 0xffffff, "%d", fish_animation_count, TRUE);
-	DrawFormatString(100, 20, 0xffffff, "%d",fish_animation_count, TRUE);
-	DrawFormatString(200, 20, 0xffffff, "%f", location.y, TRUE);
+	/*DrawFormatString(100, 20, 0xffffff, "%d",fish_animation_count, TRUE);
+	DrawFormatString(200, 20, 0xffffff, "%f", location.y, TRUE);*/
 	//DrawBox(location.x, location.y, location.x + erea.width, location.y + erea.height, 0xffffff, FALSE);
 	
 

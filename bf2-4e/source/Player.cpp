@@ -179,13 +179,6 @@ void Player::Draw()const
 	location.x - ((erea.width / 2.f) * erea.width_rate) + erea.width,
 	location.y - ((erea.height / 2.f) * erea.height_rate) + erea.height,
 	0xff00ff, FALSE);
-	/*DrawFormatString(0, 400, 0xffffff, "move_x = %3f, move_y = %3f", move_x, move_y);
-	DrawFormatString(300, 400, 0xffffff, "fly_cnt %d", fly_cnt);
-	DrawFormatString(300, 100, 0xffffff, "anim_count %d", anim_count);
-	DrawFormatString(300, 120, 0xffffff, "anim_flg %d", anim_flg);
-	DrawFormatString(300, 140, 0xffffff, "state_image %d", state_image);
-	DrawFormatString(300, 160, 0xffffff, "ground_flg %d", ground_flg);
-	DrawFormatString(300, 200, 0xffffff, "PlayerState %d", player_state);*/
 }
 
 //Aボタンが押された時のフラグの切り替え
