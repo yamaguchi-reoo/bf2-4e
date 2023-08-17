@@ -21,10 +21,8 @@ private:
     StageItem* stageitem;
     Thunder* thunder;       //雷クラスのオブジェクト化
     Fish* fish;
-
     Bubble* bubble[6];//シャボン玉のオブジェクト化
-
-    UI* ui;
+    UI* ui;           //UIのオブジェクト化
 
     bool pause_flag;     //ポーズのフラグ取り
 
