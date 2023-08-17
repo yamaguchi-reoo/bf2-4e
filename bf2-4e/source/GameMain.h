@@ -13,7 +13,6 @@
 
 class GameMain : public AbstractScene {
 private:
-   // Stage* object;
     Player* player;         //プレイヤークラスのオブジェクト化
     Enemy* enemy[6];           // Enemyクラスのオブジェクト化
     StageFloor* stage_floor[10];

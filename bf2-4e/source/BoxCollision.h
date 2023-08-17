@@ -7,9 +7,6 @@ private:
 	int old_location_top;
 	int old_location_bottom;
 
-	int enemy_old_location_top;
-	int enemy_old_location_bottom;
-
 protected:
 	Location location;
 	Erea erea;
@@ -27,7 +24,6 @@ public:
 
 	bool EnemyHitBox(BoxCollision* bCollider);
 	bool EnemyHitTopBox(BoxCollision* bCollider);
-	bool EnemyRightSideBox(BoxCollision* bCollider);
 
 	// •—‘D•”•ª‚Ì“–‚½‚è”»’è
 	bool HitBealloon(BoxCollision* bCollider);

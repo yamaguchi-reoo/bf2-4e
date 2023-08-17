@@ -58,20 +58,18 @@ bool BoxCollision:: HitTopBox(BoxCollision* bCollider)
 	float enemy_x1 = bCollider->location.x - ((bCollider->erea.width / 2) * bCollider->erea.width_rate);
 	float enemy_y1 = bCollider->location.y - ((bCollider->erea.height / 2) * bCollider->erea.height_rate);
 	float enemy_x2 = enemy_x1 + bCollider->erea.width;
-	float enemy_y2 = enemy_y1 + bCollider->erea.height;
-
-	
+	float enemy_y2 = enemy_y1 + bCollider->erea.height;	
 
 	if ((int)player_y1 <= (int)enemy_y2)
 	{
-		if ((int)old_location_top >= (int)old_location_bottom) {
+		if ((int)old_location_top >= (int)old_location_bottom)
+		{
 			enemy_y2 = player_y1;
 			bCollider->location.y = enemy_y2 - (bCollider->erea.height / 2);
 			ret = true;
 		}	
 	}
 	
-
 	return ret;
 }
 
@@ -96,9 +94,6 @@ bool BoxCollision::EnemyHitBox(BoxCollision* bCollider)
 	{
 		ret = true;
 	}
-
-	//enemy_old_location_top = stage_y1;
-	//enemy_old_location_bottom = enemy_y2;
 
 	return ret;
 }
@@ -126,44 +121,6 @@ bool BoxCollision::EnemyHitTopBox(BoxCollision* bCollider)
 		bCollider->location.y = enemy_y2 - (bCollider->erea.height / 2);
 		ret = true;
 	}
-
-	//if ((int)stage_y1 <= (int)enemy_y2)
-	//{
-	//	if ((int)enemy_old_location_top >= (int)enemy_old_location_bottom) {
-	//		enemy_y2 = stage_y1;
-	//		bCollider->location.y = enemy_y2 - (bCollider->erea.height / 2);
-	//		ret = true;
-	//	}
-	//}
-
-	return ret;
-}
-
-// 敵同士の当たり判定（横）
-// まだ直していない当たり判定は矩形のまま
-// 右側の当たり判定
-bool BoxCollision::EnemyRightSideBox(BoxCollision* bCollider)
-{
-	bool ret = false;	//返り値
-
-	//エネミー１の当たり判定の範囲
-	float enemy1_x1 = location.x - (erea.width / 2 * erea.width_rate);
-	float enemy1_y1 = location.y - (erea.width / 2 * erea.height_rate);
-	float enemy1_x2 = enemy1_x1 + erea.width;
-	float enemy1_y2 = enemy1_y1 + erea.height;
-
-	//エネミー２の当たり判定の範囲
-	float enemy2_x1 = bCollider->location.x - ((bCollider->erea.width / 2) * bCollider->erea.width_rate);
-	float enemy2_y1 = bCollider->location.y - ((bCollider->erea.height / 2) * bCollider->erea.height_rate);
-	float enemy2_x2 = enemy2_x1 + bCollider->erea.width;
-	float enemy2_y2 = enemy2_y1 + bCollider->erea.height;
-
-	//if ((enemy2_x1 < enemy1_x2) && (enemy1_y1 < enemy2_y2) && (enemy2_y1 < enemy1_y2) && (enemy1_x2 < enemy2_x2))
-	//if ((enemy1_x1 < enemy2_x1) && (enemy2_x1 < enemy1_x2) && (enemy1_y1 < enemy2_y1) && (enemy1_y2 < enemy2_y2))
-	{
-		ret = true;
-	}
-
 	return ret;
 }
 
@@ -176,7 +133,6 @@ bool BoxCollision::HitBealloon(BoxCollision* bCollider)
 	float player_x1 = location.x - (erea.width / 2 * erea.width_rate);
 	float player_y1 = location.y - (erea.width / 2 * erea.height_rate);
 	float player_x2 = player_x1 + erea.width;
-	//float player_y2 = player_y1 + erea.height;
 	float player_y2 = location.y;
 
 	//体部分の判定の範囲
