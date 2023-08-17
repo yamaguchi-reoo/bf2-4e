@@ -28,6 +28,5 @@ public:
 
 	int GetCount();
 	int GetFlg();
-	int FishSpawn();
 };
 
