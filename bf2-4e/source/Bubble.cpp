@@ -36,6 +36,8 @@ Bubble::Bubble(float posX, float posY, bool drawflg, bool getflg)
 	GetFlg = getflg;//false;		//ƒQƒbƒgƒtƒ‰ƒO(true:Get false:NotGet)
 
 	DrawFlg = drawflg;		//‰æ‘œ‚Ì•`‰æƒtƒ‰ƒO(true:•`‰æ‚·‚é false:•`‰æ‚µ‚È‚¢)
+
+	scoreimage = LoadGraph("Source/Resource/images/Score/GetScore_500.png");
 }
 
 Bubble::~Bubble()
@@ -55,7 +57,7 @@ void Bubble::Update()
 		if(now_image!=3){
 			now_image = 3;
 		}
-		if (++delete_count >= 50) 
+		if (++delete_count >= 60) 
 		{
 			DrawFlg = false;
 		}
@@ -74,6 +76,11 @@ void Bubble::Draw() const
 	{
 		DrawRotaGraph((int)PosX, (int)PosY, 1, 0, BubbleImage[now_image], TRUE);
 		//DrawBox((int)location.x, (int)location.y, (int)location.x + (int)erea.width, (int)location.y + (int)erea.height, 0xffffff, false);
+
+		if (now_image == 3)
+		{
+			DrawGraph((int)PosX - 15, (int)PosY - 30, scoreimage, TRUE);
+		}
 	}
 }
 

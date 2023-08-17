@@ -25,6 +25,8 @@ private:
 	bool GetFlg;		//ゲットフラグ(true:Get false:NotGet)
 
 	bool DrawFlg;		//画像の描画フラグ(true:描画する false:描画しない)
+
+	int scoreimage;		//スコア画像表示用
 	
 public:
 	//コンストラクタ
