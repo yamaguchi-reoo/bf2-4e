@@ -27,7 +27,7 @@ Player::Player()
 	erea.height = 62.0f;
 	erea.width_rate = 1.0f;
 	erea.height_rate = 1.0f;
-	player_gravity = 0.08f;
+	player_gravity = 0.04f;
 
 	get_location_x = 0.0f;
 	get_location_y = 0.0f;
@@ -37,7 +37,6 @@ Player::Player()
 
 	a_button_flg = 0;
 	fly_cnt = 0;
-	inertia = 0.05f;
 	x_count = 12;
 
 	now_image = 0;
@@ -100,7 +99,7 @@ void Player::Update()
 			//浮上処理が行われていた場合
 			if (0 < fly_cnt)
 			{
-				move_x += 0.9f;
+				move_x += 0.5f;
 			}
 		}
 		//地面にいる場合
@@ -162,7 +161,6 @@ void Player::Update()
 	if (ground_flg == 1)			//プレイヤーが空中状態の時
 	{
 		move_y += player_gravity;	//プレイヤーに重力をかける
-		inertia = 0.05f;			//慣性力を与える。
 	}
 
 	Animation();

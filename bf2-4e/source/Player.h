@@ -28,7 +28,6 @@ private:
 
 	float move_x;				//プレイヤーの移動量(横)
 	float move_y;				//プレイヤーの移動量(縦)
-	float inertia;				//プレイヤーにかかる慣性力
 	int x_count;				//X座標移動時のカウントダウン用変数
 
 	int now_image;				//現在の画像
